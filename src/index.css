@@ -1,0 +1,96 @@
+#Root{
+    height: 100vh;
+    width: 100vw;
+    background: #141719;
+    
+}
+.newForumContext{
+    height: fit-content !important;
+}
+.newForumForm{
+    display: flex  !important;
+    flex-direction: column  !important;
+    height: 100%  !important;
+    justify-content: space-around  !important;
+}
+
+.card-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-text{
+    display: flex;
+    justify-content: center;
+}
+
+.card-title{
+    display: flex;
+    justify-content: start;
+
+}
+
+.card-subtitle{
+    display: flex;
+    justify-content: center;
+}
+a.nav-link{
+    margin-right: 15px;
+}
+.card{
+    word-break:break-all;
+}
+
+.ms-5.me-auto{
+    word-break:break-all;
+}
+
+.list-group-item{
+    border-radius: 8px !important;
+    border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+}
+#subCommentInput, #commentInput{
+    border-right: hidden;
+}
+#button-addon2{
+    border: 1px solid #495057;
+    border-left: hidden;
+    padding-right: 30px;
+  
+}
+/* .input-group{
+    border-radius: 8px;
+} */
+.form-floating{
+    border: hidden;
+    color: gray;
+}
+.card-header{
+    background: #032830;
+
+    color: #6edff6;
+    border: solid 1px #087990;
+}
+.container{
+    background: inherit;
+
+}
+.homeNavBar {
+    display: flex;
+    background: #032830;
+    color: #6edff6;
+    border: solid 1px #087990;
+}
+
+
+
+
+
+.accordion-flush, .accordion-item {
+
+    border: 0;
+    background: hidden;
+
+    border-radius: 0;
+}
