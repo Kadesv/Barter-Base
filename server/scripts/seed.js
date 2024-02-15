@@ -1,6 +1,6 @@
-import { Comment, User, SubComment, Forum } from '../models/index.js';
+import { Category, User, SubCategory, Post, Message, Chat } from '../models/index.js';
 import { db } from '../config/db.js';
-import forumData from './data/forums.json' assert { type: 'json' };
+import postData from './data/forums.json' assert { type: 'json' };
 
 console.log('Syncing database...');
 await db.sync({ force: true });
@@ -10,7 +10,8 @@ console.log('Seeding database...');
 
 const usersToCreate = [];
 for (let i = 1; i <= 10; i++) {
-    const username = `username${i}`;
+    const firstName = `FirstName${i}`;
+    const lastName = `LastName${i}`;
     const email = `user${i}@test.com`;
     usersToCreate.push(User.create({ username: username, email: email, password: 'test' }));
 }
@@ -18,7 +19,7 @@ for (let i = 1; i <= 10; i++) {
 const usersInDB = await Promise.all(usersToCreate);
 
 
-const forumsInDB = await Promise.all(
+const postsInDB = await Promise.all(
     forumData.map((forum) => {
         const { title, context } = forum;
 
@@ -34,17 +35,17 @@ const forumsInDB = await Promise.all(
 
 
 
-const commentInDB = await Promise.all(
-    forumData.map((comment) => {
+const categoryInDB = await Promise.all(
+    postData.map((comment) => {
         const {commentText, userId} = comment;
         const text = commentText ? commentText : 'text';
-        const newComment = Comment.create({
+        const category = Comment.create({
             commentText: text,
             userId: 1,
             forumId: 1
             
         });
-        return newComment;
+        return category;
     }),
 );
 

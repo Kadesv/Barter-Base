@@ -15,10 +15,20 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
+    preferredName: {
+      type: DataTypes.STRING(25),
+      allowNull: true,
+      unique: false,
+    },
+    firstName: {
       type: DataTypes.STRING(25),
       allowNull: false,
-      unique: true,
+      unique: false,
+    },
+    lastName: {
+      type: DataTypes.STRING(25),
+      allowNull: false,
+      unique: false,
     },
     email: {
       type: DataTypes.STRING,

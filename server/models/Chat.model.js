@@ -14,11 +14,7 @@ Chat.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    chatText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    }
   },
   {
     modelName: 'subcategory',
