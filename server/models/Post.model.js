@@ -2,15 +2,15 @@ import { DataTypes, Model } from "sequelize";
 import util from 'util';
 import { db } from "../config/db.js";
 
-export default class Forum extends Model {
+export default class Post extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-Forum.init(
+Post.init(
   {
-    forumId: {
+    postId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -25,7 +25,7 @@ Forum.init(
     },
   },
   {
-    modelName: 'forum',
+    modelName: 'post',
     sequelize: db,
   },
 );

@@ -2,26 +2,26 @@ import { DataTypes, Model } from "sequelize";
 import util from 'util';
 import { db } from "../config/db.js";
 
-export default class Comment extends Model {
+export default class Category extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-Comment.init(
+Category.init(
   {
-    commentId: {
+    categoryId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    commentText: {
+    categoryTitle: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   },
   {
-    modelName: 'comment',
+    modelName: 'category',
     sequelize: db,
   },
 );

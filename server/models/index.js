@@ -1,21 +1,23 @@
-import Forum from "./Forum.model.js";
+import Post from "./Post.model.js";
 import User from "./User.model.js";
-import Comment from "./Comment.model.js";
-import SubComment from "./SubComment.model.js";
+import Message from "./Message.model.js";
+import SubCategory from "./SubCategory.model.js";
+import Chat from "./Chat.model.js";
+import Category from "./Category.model.js";
 
-User.hasMany(Forum, { foreignKey: 'userId' });
-Forum.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Post, { foreignKey: 'userId' });
+Post.belongsTo(User, { foreignKey: 'userId' });
 
-User.hasMany(Comment, { foreignKey: 'userId' });
-Comment.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Message, { foreignKey: 'userId' });
+Message.belongsTo(User, { foreignKey: 'userId' });
 
-User.hasMany(SubComment, { foreignKey: 'userId'});
-SubComment.belongsTo(User, { foreignKey: 'userId'});
+Chat.hasMany(Message, { foreignKey: 'chatId' });
+Message.belongsTo(Chat, { foreignKey: 'chatid' });
 
-Forum.hasMany(Comment, { foreignKey: 'forumId'});
-Comment.belongsTo(Forum, { foreignKey: 'forumId'});
+SubCategory.hasMany(Post, { foreignKey: 'subCategoryId' });
+Post.belongsTo(SubCategory, { foreignKey: 'subCategoryId' });
 
-Comment.hasMany(SubComment, { foreignKey: 'commentId'});
-SubComment.belongsTo(Comment, { foreignKey: 'commentId'});
+Category.hasMany(SubCategory, { foreignKey: 'categoryId' });
+SubCategory.belongsTo(Category, { foreignKey: 'categoryId' });
 
-export { Comment, User, SubComment, Forum };
+export { Chat, User, SubCategory, Post, Message, Category };

@@ -2,26 +2,26 @@ import { DataTypes, Model } from "sequelize";
 import util from 'util';
 import { db } from "../config/db.js";
 
-export default class SubComment extends Model {
+export default class SubCategory extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-SubComment.init(
+SubCategory.init(
   {
-    subCommentId: {
+    subCategoryId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    subCommentText: {
+    subCategoryTitle: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
-    modelName: 'subComment',
+    modelName: 'subcategory',
     sequelize: db,
   },
 );
