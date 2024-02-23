@@ -15,10 +15,15 @@ SubCategory.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    subCategoryTitle: {
+    
+    subCategoryName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
   },
   {
     modelName: 'subcategory',

@@ -2,34 +2,31 @@ import { DataTypes, Model } from "sequelize";
 import util from 'util';
 import { db } from "../config/db.js";
 
-export default class Message extends Model {
+export default class Notification extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-Message.init(
+Notification.init(
   {
-    messageId: {
+    notificationId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    messageText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
-    chatId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    messageId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
+
   },
   {
-    modelName: 'message',
+    modelName: 'notification',
     sequelize: db,
   },
 );
