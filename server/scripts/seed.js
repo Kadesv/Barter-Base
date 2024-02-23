@@ -1,70 +1,82 @@
 import { Category, User, SubCategory, Post, Message, Chat } from '../models/index.js';
 import { db } from '../config/db.js';
-import postData from './data/forums.json' assert { type: 'json' };
-
+import postData from './data/posts.json' assert { type: 'json' };
 console.log('Syncing database...');
 await db.sync({ force: true });
-
 console.log('Seeding database...');
 
+const allCategories = [
+    {
+        categoryName: 'Apperal',
+        subcategories: ['Services', 'Children', 'Men', 'Women', 'Baby']
+    },
+    {
+        categoryName: 'Automotive',
+        subcategories: ['Services', 'Parts', 'Equiptment', 'Rentals']
+    },
+    {
+        categoryName: 'Home',
+        subcategories: ['Services', 'Furniture', 'Outdoors', 'Equiptment', 'Appliances']
+    },
+    {
+        categoryName: 'Entertainment',
+        subcategories: ['Services', 'Books', 'Electronics', 'Equiptment', 'Instruments', 'Events']
+    },
+    {
+        categoryName: 'Sports',
+        subcategories: ['Water', 'Biking', 'Running', 'Winter', 'General']
+    },
+    {
+        categoryName: 'Outdoors',
+        subcategories: ['Services', 'Resources', 'Equiptment']
+    },
+    {
+        categoryName: 'Animals',
+        subcategories: ['Services', 'LiveStock', 'Exotic', 'Pets']
+    },
+];
+const categoriesInDB = await Promise.all(allCategories.map( async category => {
+    const newCategory = await Category.create({
+        categoryName: category.categoryName
+    });
+// console.log(newCategory)
+    const subcategoriesInDB = await Promise.all(category.subcategories.map(async subCategory => {
+        const newSubCategory = await SubCategory.create({
+            subCategoryName: subCategory,
+            categoryId: newCategory.categoryId
+        });
+    
+        return subCategory
+    }))
+    return category;
+}));
 
 const usersToCreate = [];
 for (let i = 1; i <= 10; i++) {
     const firstName = `FirstName${i}`;
     const lastName = `LastName${i}`;
+    const preferredName = `PName${i}`;
     const email = `user${i}@test.com`;
-    usersToCreate.push(User.create({ username: username, email: email, password: 'test' }));
+    usersToCreate.push(User.create({ preferredName: preferredName, firstName: firstName, lastName: lastName, email: email, password: 'test' }));
 }
 
 const usersInDB = await Promise.all(usersToCreate);
-
+// console.log(usersInDB);
 
 const postsInDB = await Promise.all(
-    forumData.map((forum) => {
-        const { title, context } = forum;
-
-        const newForum = Forum.create({
+    postData.map((post) => {
+        const { title, context } = post;
+        const newPost = Post.create({
             title: title,
             context: context,
+            subCategoryId: 1,
             userId: 1
         });
 
-        return newForum;
+        return newPost;
     }),
 );
-
-
-
-const categoryInDB = await Promise.all(
-    postData.map((comment) => {
-        const {commentText, userId} = comment;
-        const text = commentText ? commentText : 'text';
-        const category = Comment.create({
-            commentText: text,
-            userId: 1,
-            forumId: 1
-            
-        });
-        return category;
-    }),
-);
-
-
-const subCommentInDB = await Promise.all(
-    forumData.map((subComment) => {
-    const {subCommentText, userId} = subComment;
-    const text = subCommentText ? subCommentText : 'text';
-        const newSubComment = SubComment.create({
-            subCommentText: text,
-            userId: 1,
-            commentId: 1
-
-        });
-        return newSubComment;
-    }),
-);
-
-
+// console.log(postsInDB);
 
 await db.close();
 console.log('Finished seeding database!');

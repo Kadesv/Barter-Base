@@ -23,6 +23,14 @@ Post.init(
       type: DataTypes.STRING(250),
       allowNull: false,
     },
+    subCategoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   },
   {
     modelName: 'post',
