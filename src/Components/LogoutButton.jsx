@@ -1,7 +1,6 @@
-export default function LogoutButton({ onLogout }) {
+export default function LogoutButton() {
     return (
       <>
-        <button onClick={onLogout}>Log Out</button>
       </>
     );
   }
