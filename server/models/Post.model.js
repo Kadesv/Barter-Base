@@ -29,11 +29,17 @@ Post.init(
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    }
+      allowNull: false,
+    },
+    createdDate: {
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW,
+    },
+    
   },
   {
     modelName: 'post',
     sequelize: db,
+    timestamps: true,    
   },
 );

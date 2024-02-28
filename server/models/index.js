@@ -30,4 +30,4 @@ Category.hasMany(SubCategory, { foreignKey: 'categoryId' });
 SubCategory.belongsTo(Category, { foreignKey: 'categoryId' });
 
 
-export { Chat, User, SubCategory, Post, Message, Category };
+export { Chat, User, SubCategory, Post, Message, Category, Notification };

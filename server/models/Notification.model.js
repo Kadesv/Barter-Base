@@ -22,6 +22,10 @@ Notification.init(
     messageId: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    seenStatus:{
+     type: DataTypes.BOOLEAN,
+     allowNull: false,
     }
 
   },

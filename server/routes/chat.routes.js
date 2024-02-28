@@ -1,22 +1,23 @@
 import { Router } from "express";
 import { loginRequired } from "../middlewares/auth.middleware.js";
-import { User, Comment, SubComment } from '../models/index.js';
-const commentsRouter = Router()
+import { User, Chat, SubComment } from '../models/index.js';
+const chatRouter = Router()
 
 
 
-commentsRouter.post('/new', loginRequired, async (req, res) => {
+chatRouter.post('/new', loginRequired, async (req, res) => {
   const { userId } = req.session;
-  const { forumId, commentText } = req.body;
-  const newComment = await Comment.create(
-    { userId: userId, forumId: forumId, commentText: commentText }
+  const {postId} =req.body;
+  const user2Id = await Post.findByPk(postId).userId;
+  const newChat = await Chat.create(
+    { user1Id: userId, user2Id : user2Id }
   );
-  const user = await User.findByPk(newComment.userId);
 
-  res.json({ success: true, newComment: { ...newComment, user } });
+
+  res.json({ success: true, newChat: { ...newChat, user } });
 });
 
-commentsRouter.post('/newsub', loginRequired, async (req, res) => {
+chatRouter.post('/newsub', loginRequired, async (req, res) => {
   const { userId } = req.session;
   const { commentId, subCommentText } = req.body;
   const newSubComment = await SubComment.create(
