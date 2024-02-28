@@ -1,4 +1,4 @@
-import { Category, User, SubCategory, Post, Message, Chat } from '../models/index.js';
+import { Category, User, SubCategory, Post, Message, Chat, Notification } from '../models/index.js';
 import { db } from '../config/db.js';
 import postData from './data/posts.json' assert { type: 'json' };
 console.log('Syncing database...');
@@ -35,17 +35,17 @@ const allCategories = [
         subcategories: ['Services', 'LiveStock', 'Exotic', 'Pets']
     },
 ];
-const categoriesInDB = await Promise.all(allCategories.map( async category => {
+const categoriesInDB = await Promise.all(allCategories.map(async category => {
     const newCategory = await Category.create({
         categoryName: category.categoryName
     });
-// console.log(newCategory)
+    // console.log(newCategory)
     const subcategoriesInDB = await Promise.all(category.subcategories.map(async subCategory => {
         const newSubCategory = await SubCategory.create({
             subCategoryName: subCategory,
             categoryId: newCategory.categoryId
         });
-    
+
         return subCategory
     }))
     return category;
@@ -77,6 +77,53 @@ const postsInDB = await Promise.all(
     }),
 );
 // console.log(postsInDB);
+
+const chatData = [
+    { user1Id: 1, user2Id: 2 },
+    { user1Id: 3, user2Id: 4 }
+];
+
+const chatsInDB = await Promise.all(
+    chatData.map((chat) => {
+        const { user1Id, user2Id } = chat;
+        const newChat = Chat.create({
+            user1Id: user1Id,
+            user2Id: user2Id
+        });
+
+        return newChat;
+    })
+);
+// console.log(chatsInDB);
+
+
+const messageData = [
+    { messageText: 'text', userId: 2 , chatId:1},
+    { messageText: 'text', userId: 4, chatId:2}
+];
+
+const messagesinDB = await Promise.all(
+    messageData.map(async(message) => {
+        const { messageText, userId, chatId } = message;
+        const chatRoom = await Chat.findByPk(chatId);
+        // console.log(chatRoom)
+        const newMessage = await Message.create({
+            messageText: messageText,
+            userId: userId,
+            chatId: chatId
+        });
+        const toUserId = userId === chatRoom.user1Id ? chatRoom.user2Id : chatRoom.user1Id;
+        // console.log(toUserId);
+        const newNot = await Notification.create({
+            userId: toUserId,
+            messageId: newMessage.messageId,
+            seenStatus: false
+        })
+        // console.log(newNot);
+        return {newMessage, newNot};
+    })
+);
+// console.log(messagesinDB);
 
 await db.close();
 console.log('Finished seeding database!');

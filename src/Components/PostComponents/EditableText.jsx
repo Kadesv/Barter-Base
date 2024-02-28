@@ -1,7 +1,6 @@
-export default function SignPage() {
+export default function EditableText() {
     return (
         <>
         </>
-
     )
 }

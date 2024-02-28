@@ -6,54 +6,48 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 
-import Root from './Root.jsx';
-import ErrorPage from './Pages/ErrorPage.jsx';
-import SignPage from './Pages/SignPage.jsx';
-import BrowseForumsPage from './Pages/BrowseForumsPage.jsx';
-import ForumDetailPage from './Pages/ForumDetailPage.jsx';
-import AccountPage from './Pages/AccountPage.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
 
       {/* Homepage */}
-      <Route index element={<BrowseForumsPage />}
+      <Route index element={<BrowsepostsPage />}
         loader={async () => {
-          const res = await axios.get('/api/forums/browse');
-          return { forums: res.data };
+          const res = await axios.get('/api/posts/browse');
+          return { posts: res.data };
         }} />
 
 
       <Route path='/account' element={<AccountPage />}
         loader={async () => {
-          const res = await axios.get('/api/forums/account');
-          return { forums: res.data };
+          const res = await axios.get('/api/posts/account');
+          return { posts: res.data };
         }} />
 
-      {/* Forum detail pages */}
+      {/* post detail pages */}
       <Route
-        path="forums/:forumId"
-        element={<ForumDetailPage />}
+        path="posts/:postId"
+        element={<postDetailPage />}
         loader={async ({ params }) => {
-          const res = await axios.get(`/api/forums/${params.forumId}`);
-          const { forum, comments } = res.data;
-          return { forum, comments };
+          const res = await axios.get(`/api/posts/${params.postId}`);
+          const { post, comments } = res.data;
+          return { post, comments };
         }}
       />
 
       <Route
-        path="forums/new"
-        element={<ForumDetailPage />}
+        path="posts/new"
+        element={<PostDetailPage />}
         loader={async () => {
-          const res = await axios.get(`/api/forums/new`);
-          return { forums: res.data };
+          const res = await axios.get(`/api/posts/new`);
+          return { posts: res.data };
         }}
       />
 
       <Route
-        path="comments/new"
-        element={<ForumDetailPage />}
+        path="chat/new"
+        element={<postDetailPage />}
         loader={async () => {
           const res = await axios.get(`/api/comments/new`);
           return { comments: res.data };
@@ -62,11 +56,11 @@ const router = createBrowserRouter(
 
       
 <Route
-        path="comments/newsub"
-        element={<ForumDetailPage />}
+        path="chat/newMessage"
+        element={<postDetailPage />}
         loader={async () => {
-          const res = await axios.get(`/api/comments/newsub`);
-          return { comments: res.data };
+          const res = await axios.get(`/api/messages/new`);
+          return { message: res.data };
         }}
       />
 

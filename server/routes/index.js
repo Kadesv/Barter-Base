@@ -1,15 +1,15 @@
 import { Router } from "express";
 
-import forumRouter from "./forum.routes.js";
+import postRouter from "./post.routes.js";
 import authRoutes from "./auth.routes.js";
-import commentsRouter from "./comment.routes.js";
+import chatRouter from "./comment.routes.js";
 
 const router = Router();
 
-router.use('/api/forums', forumRouter);
+router.use('/api/post', postRouter);
 
 router.use('', authRoutes);
 
-router.use('/api/comments', commentsRouter);
+router.use('/api/chat', chatRouter);
 
 export default router;
