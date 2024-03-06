@@ -4,34 +4,34 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export default function Root() {
-  const [signStatus, setSignStatus] = useState(false);
-  const [username, setUsername] = useState('Account');
+  // const [signStatus, setSignStatus] = useState(false);
+  // const [username, setUsername] = useState('Account');
 
-  const handleUserName = (name) => setUsername(name);
+  // const handleUserName = (name) => setUsername(name);
 
-  const setStatusTrue = () => { setSignStatus(true) };
+  // const setStatusTrue = () => { setSignStatus(true) };
 
-  const isSignedIn = async () => {
-    const res = await axios.post('/api/checkss');
-    if (res.data.success) {
-      const {username} = res.data.user;
-      handleUserName(username);
+  // const isSignedIn = async () => {
+  //   const res = await axios.post('/api/checkss');
+  //   if (res.data.success) {
+  //     const {username} = res.data.user;
+  //     handleUserName(username);
 
-      setStatusTrue();
-    }
-  }
-  useEffect(() => {
-    isSignedIn()
-  }, [])
+  //     setStatusTrue();
+  //   }
+  // }
+  // useEffect(() => {
+  //   isSignedIn()
+  // }, [])
 
 
   return (
     <>
-      <HomeNav signStatus={signStatus} setSignStatus={setSignStatus} username={username} setUsername={setUsername} />
+      <HomeNav  />
 
       <main>
         <Outlet
-          context={signStatus} />
+           />
       </main>
 
     </>

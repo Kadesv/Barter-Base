@@ -65,12 +65,13 @@ const usersInDB = await Promise.all(usersToCreate);
 
 const postsInDB = await Promise.all(
     postData.map((post) => {
-        const { title, context } = post;
+        const { title, context,  } = post;
         const newPost = Post.create({
-            title: title,
-            context: context,
+            title: 'title',
+            context: 'context',
             subCategoryId: 1,
-            userId: 1
+            userId: 1,
+            price: 1
         });
 
         return newPost;

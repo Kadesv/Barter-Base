@@ -23,6 +23,7 @@ const router = createBrowserRouter(
       <Route index element={<BrowsePostsPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/browse');
+          console.log(res.data);
           return { posts: res.data };
         }} />
 
@@ -30,7 +31,8 @@ const router = createBrowserRouter(
         <Route path='/favorites'element={<FavoritesPage />}></Route>
         <Route path='/about'element={<AboutPage />}></Route>
         <Route path='/sign'element={<SignPage />}></Route>
-        <Route path='/messages'element={<MessagePage />}></Route>
+        <Route path='/messages'element={<MessagePage />}
+        ></Route>
 
       
 
