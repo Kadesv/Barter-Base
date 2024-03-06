@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import postRouter from "./post.routes.js";
 import authRoutes from "./auth.routes.js";
-import chatRouter from "./comment.routes.js";
+import chatRouter from "./chat.routes.js";
 
 const router = Router();
 

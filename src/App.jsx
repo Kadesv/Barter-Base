@@ -1,3 +1,11 @@
+import Root from './Root.jsx';
+import ErrorPage from './Pages/ErrorPage.jsx';
+import BrowsePostsPage from './Pages/BrowsePostsPage.jsx';
+import MessagePage from './Pages/MessagePage.jsx';
+import AccountPage from './Pages/AccountPage.jsx';
+import SignPage from './Pages/SignPage.jsx';
+import FavoritesPage from './Pages/FavoritesPage .jsx';
+import AboutPage from './Pages/AboutPage.jsx';
 import axios from 'axios';
 import {
   Route,
@@ -12,61 +20,19 @@ const router = createBrowserRouter(
     <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
 
       {/* Homepage */}
-      <Route index element={<BrowsepostsPage />}
+      <Route index element={<BrowsePostsPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/browse');
           return { posts: res.data };
         }} />
 
-
-      <Route path='/account' element={<AccountPage />}
-        loader={async () => {
-          const res = await axios.get('/api/posts/account');
-          return { posts: res.data };
-        }} />
-
-      {/* post detail pages */}
-      <Route
-        path="posts/:postId"
-        element={<postDetailPage />}
-        loader={async ({ params }) => {
-          const res = await axios.get(`/api/posts/${params.postId}`);
-          const { post, comments } = res.data;
-          return { post, comments };
-        }}
-      />
-
-      <Route
-        path="posts/new"
-        element={<PostDetailPage />}
-        loader={async () => {
-          const res = await axios.get(`/api/posts/new`);
-          return { posts: res.data };
-        }}
-      />
-
-      <Route
-        path="chat/new"
-        element={<postDetailPage />}
-        loader={async () => {
-          const res = await axios.get(`/api/comments/new`);
-          return { comments: res.data };
-        }}
-      />
+        <Route path='/account'element={<AccountPage />}></Route>
+        <Route path='/favorites'element={<FavoritesPage />}></Route>
+        <Route path='/about'element={<AboutPage />}></Route>
+        <Route path='/sign'element={<SignPage />}></Route>
+        <Route path='/messages'element={<MessagePage />}></Route>
 
       
-<Route
-        path="chat/newMessage"
-        element={<postDetailPage />}
-        loader={async () => {
-          const res = await axios.get(`/api/messages/new`);
-          return { message: res.data };
-        }}
-      />
-
-
-      {/* Login */}
-      <Route path="/sign" element={<SignPage />} />
 
     </Route>,
   ),
