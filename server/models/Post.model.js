@@ -35,6 +35,10 @@ Post.init(
       type: DataTypes.DATEONLY,
       defaultValue: DataTypes.NOW,
     },
+    price:{
+      type: DataTypes.INTEGER,
+      allowNull:false,
+    }
     
   },
   {

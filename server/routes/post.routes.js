@@ -10,7 +10,7 @@ postRouter.get('/browse', async (req, res) => {
   }));
 });
 
-postRouter.get('/account', loginRequired,async (req, res) => {
+postRouter.get('/account',async (req, res) => {
   const { userId } = req.session;
   res.json(await post.findAll({
     where:{
