@@ -25,12 +25,19 @@ const router = createBrowserRouter(
           const res = await axios.get('/api/posts/browse');
           return { posts: res.data };
         }} />
+      <Route path='/post:id' element={<></>} />
 
-        <Route path='/account'element={<AccountPage />}></Route>
-        <Route path='/favorites'element={<FavoritesPage />}></Route>
-        <Route path='/about'element={<AboutPage />}></Route>
-        <Route path='/sign'element={<SignPage />}></Route>
-        <Route path='/messages'element={<MessagePage />}></Route>
+      <Route path='/account' element={<AccountPage />}
+        loader={async () => {
+          const res = await axios.get('/api/posts/account');
+          return res.data;
+        }}
+          />
+        <Route path='/favorites'element={<FavoritesPage />}/>
+        <Route path='/about'element={<AboutPage />}/>
+        <Route path='/sign'element={<SignPage />}/>
+        <Route path='/messages'element={<MessagePage />}
+        ></Route>
 
       
 
