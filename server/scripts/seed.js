@@ -1,4 +1,4 @@
-import { Category, User, SubCategory, Post, Message, Chat, Notification } from '../models/index.js';
+import { Category, User, SubCategory, Post, Message, Chat, Notification, Favorites } from '../models/index.js';
 import { db } from '../config/db.js';
 import postData from './data/posts.json' assert { type: 'json' };
 console.log('Syncing database...');
@@ -125,6 +125,21 @@ const messagesinDB = await Promise.all(
     })
 );
 // console.log(messagesinDB);
+const favoriteData = [
+    { userId: 1, postId:1},
+    { userId: 1, postId:2},
+];
+const favoritesInDB = await Promise.all(
+    favoriteData.map(async(favorite) =>{
+        const {userId, postId} = favorite;
+        const newFavorite = await Favorites.create({
+            userId: userId,
+            postId: postId
+        })
+return newFavorite;
+    })
+)
+// console.log(favoritesInDB)
 
 await db.close();
 console.log('Finished seeding database!');
