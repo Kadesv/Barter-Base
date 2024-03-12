@@ -37,33 +37,33 @@ res.json({posts, favorites});
 // });
 
 
-// postRouter.post('/new', async (req, res) => {
-//   const { userId } = req.session;
-//   const {title, context} = req.body;
-//   if(title && context && userId){
-//   await Post.create({title, context, userId});
-//   res.json({success: true})}
-//  else{
-//   res.json({success: false})};
-//  }
-// )
+postRouter.post('/new', async (req, res) => {
+  const { userId } = req.session;
+  const {title, context} = req.body;
+  if(title && context && userId){
+  await Post.create({title, context, userId});
+  res.json({success: true})}
+ else{
+  res.json({success: false})};
+ }
+)
 
-// postRouter.put('/save', async (req, res) => {
-//   const { userId } = req.session;
-//   const {title, context, postId} = req.body;
+postRouter.put('/save', async (req, res) => {
+  const { userId } = req.session;
+  const {title, context, postId} = req.body;
 
-//   if(title && context && userId && postId){
-//   await Post.update({title, context},{
-//     where:{
-//       postId
-//     }
-//   })
-//   res.json({success: true})}
-//  else{
-//   res.json({success: false})
-// }
-//  }
-// )
+  if(title && context && userId && postId){
+  await Post.update({title, context},{
+    where:{
+      postId
+    }
+  })
+  res.json({success: true})}
+ else{
+  res.json({success: false})
+}
+ }
+)
 
 // postRouter.delete('/delete/:postId', async (req, res) => {
 // const {postId} = req.params;
