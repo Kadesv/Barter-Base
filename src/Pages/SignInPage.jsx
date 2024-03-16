@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function SignPage() {
-
+export default function SignInPage() {
+    const navigate = useNavigate();
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
 
@@ -10,18 +12,20 @@ export default function SignPage() {
 
         const res = await axios.post('/api/auth', formData);
         if (res.data.success) {
-            const { username } = res.data.user;
-            setUsername(username);
-            handleClose();
-            handleSignStatus();
+            console.log(res.data);
+            navigate('/');
         } else {
             setShow(true);
         }
     };
 
+    const handleCreate = () => {
+        navigate("/signUp")
+    }
+
     return (
-        <main>
-            <form className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 items-center text-center" onSubmit={(e) => {
+        <main className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 items-center text-center">
+            <form onSubmit={(e) => {
                 handleSignIn(e, {
                     email: emailValue,
                     password: passwordValue,
@@ -49,9 +53,8 @@ export default function SignPage() {
                 </label>
 
                 <button className="btn btn-primary flex justify-center my-4" type="submit">Log In</button>
-
-                <button className="btn btn-neutral flex justify-center my-4">Create Account</button>
             </form>
+            <button className="btn btn-neutral flex justify-center my-4" onClick={handleCreate}>Create Account</button>
         </main>
     )
-}
+};
