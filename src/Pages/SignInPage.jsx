@@ -15,7 +15,8 @@ export default function SignInPage() {
             console.log(res.data);
             navigate('/');
         } else {
-            setShow(true);
+            //setShow(true);
+            alert("Email or Password Incorrect");
         }
     };
 
