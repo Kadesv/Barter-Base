@@ -6,7 +6,7 @@ import chatRouter from "./chat.routes.js";
 
 const router = Router();
 
-router.use('/api/post', postRouter);
+router.use('/api/posts', postRouter);
 
 router.use('', authRoutes);
 

@@ -27,11 +27,11 @@ export default function Root() {
 
   return (
     <>
-      <HomeNav signStatus={signStatus} setSignStatus={setSignStatus} username={username} setUsername={setUsername} />
+      <HomeNav  />
 
       <main>
         <Outlet
-          context={signStatus} />
+           />
       </main>
 
     </>
