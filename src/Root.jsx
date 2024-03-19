@@ -1,16 +1,16 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData} from 'react-router-dom';
 import HomeNav from './HomeNav';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export default function Root() {
+  const {categories, subCategories} = useLoaderData();
   const [signStatus, setSignStatus] = useState(false);
   const [username, setUsername] = useState('Account');
 
+
   const handleUserName = (name) => setUsername(name);
-
   const setStatusTrue = () => { setSignStatus(true) };
-
   const isSignedIn = async () => {
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
@@ -25,11 +25,12 @@ export default function Root() {
   }, [])
 
 
+
   return (
     <>
-      <HomeNav  />
+      <HomeNav  className="fixed inset-0 left-0 right-0 top-0 "/>
 
-      <main>
+      <main className='flex justify-end'>
         <Outlet
            />
       </main>
