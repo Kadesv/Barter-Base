@@ -30,6 +30,14 @@ User.init(
       allowNull: false,
       unique: false,
     },
+    // city: {
+    //   type: DataTypes.STRING(25),
+    //   allowNull: true,
+    // },
+    // state: {
+    //   type: DataTypes.STRING(25),
+    //   allowNull: true,
+    // },
     email: {
       type: DataTypes.STRING,
       allowNull: false,

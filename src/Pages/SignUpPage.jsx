@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function SignUpPage() {
 
+    const navigate = useNavigate();
     const [firstNameValue, setFirstNameValue] = useState('');
     const [lastNameValue, setLastNameValue] = useState('');
     const [cityValue, setCityValue] = useState('');
@@ -14,9 +15,12 @@ export default function SignUpPage() {
     const handleSignUp = async (event, formData) => {
         event.preventDefault();
 
-        const res = await axios.post('/api/', formData);
+        const res = await axios.post('/api/signUp', formData);
         if (res.data.sucess) {
+            console.log(res.data)
             navigate('/account')
+        } else {
+            alert("Sorry, something went wrong!")
         }
     };
 

@@ -34,6 +34,24 @@ authRoutes.post('/api/register', async (req, res) => {
   }
 });
 
+// API ROUTE FOR ADDING A USER
+
+authRoutes.post('api/signUp', async (req, res) =>{
+  const checkEmail = await User.findOne({ where: { email: email } });
+  const checkPassword = await User.findOne({ where: { password: password } });
+  const {firstName, lastName, city, state, email, password} = req.body;
+
+  if (checkEmail || checkPassword) {
+    res.json({sucess: false});
+  } else if(firstName && lastName && city && state && email && password){
+    const user = await User.create({firstName, lastName, city, state, email, password})
+    req.session.userId = user.Id;
+    res.json({sucess: true, user});
+  } else {
+    res.json({sucess: false});
+  }
+});
+
 authRoutes.post('/api/checkss' , async (req, res) => {
   const {userId} = req.session
   if(userId){
@@ -46,9 +64,6 @@ authRoutes.post('/api/checkss' , async (req, res) => {
 
   }
 })
-
-
-
 
 authRoutes.post('/api/logout',  (req, res) => {
   req.session.destroy();
