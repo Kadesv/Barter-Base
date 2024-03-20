@@ -16,3 +16,7 @@ app.use(session({ secret: 'ssshhhhh', saveUninitialized: true, resave: false }))
 app.use(router);
 
 ViteExpress.listen(app, port, () => console.log(`Server is listening on http://localhost:${port}`));
+
+
+
+

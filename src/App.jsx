@@ -14,19 +14,34 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
+import PostDetailPage from './Pages/PostDetailPage.jsx';
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+    <Route path="/" element={<Root />} 
+      loader={async () => {
+        const res = await axios.get('/posts/getCategories');
+        return {categories: res.data};
+      }}
+    errorElement={<ErrorPage />}>
 
       {/* Homepage */}
       <Route index element={<BrowsePostsPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/browse');
-          return { posts: res.data };
+          
+          return {posts: res.data} ;
         }} />
-      <Route path='/post:id' element={<></>} />
+      <Route path='posts/:postId' 
+        element={<PostDetailPage/>}
+        loader={async ({ params }) => {
+          const res = await axios.get(`/api/posts/${params.postId}`);
+          // console.log(res.data)
+          return {post: res.data}
+        }}
+     />
+      main
       <Route path='/account' element={<AccountPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/account');
