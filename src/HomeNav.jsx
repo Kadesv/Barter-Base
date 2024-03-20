@@ -1,17 +1,12 @@
 import { useState } from 'react';
-import SignPage from './Pages/SignPage.jsx';
 import NewPostForm from './Components/NewPostForm.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 export default function HomeNav(props) {
   const navigate = useNavigate();
   const { signStatus, setSignStatus, username, setUsername } = props;
   const [showSign, setShowSign] = useState(false);
-
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -37,7 +32,7 @@ export default function HomeNav(props) {
               <li><a href='/account'>Account</a></li>
               <li><a href='/favorites'>Favorites</a></li>
               <li><a href='/about'>About</a></li>
-              <li><a href='/sign'>Sign In</a></li>
+              <li><a href='/signIn'>Sign In</a></li>
 
             </ul>
           </div>

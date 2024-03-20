@@ -3,7 +3,8 @@ import ErrorPage from './Pages/ErrorPage.jsx';
 import BrowsePostsPage from './Pages/BrowsePostsPage.jsx';
 import MessagePage from './Pages/MessagePage.jsx';
 import AccountPage from './Pages/AccountPage.jsx';
-import SignPage from './Pages/SignPage.jsx';
+import SignInPage from './Pages/SignInPage.jsx';
+import SignUpPage from './Pages/SignUpPage.jsx';
 import FavoritesPage from './Pages/FavoritesPage .jsx';
 import AboutPage from './Pages/AboutPage.jsx';
 import axios from 'axios';
@@ -40,7 +41,7 @@ const router = createBrowserRouter(
           return {post: res.data}
         }}
      />
-
+      main
       <Route path='/account' element={<AccountPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/account');
@@ -49,7 +50,8 @@ const router = createBrowserRouter(
           />
         <Route path='/favorites'element={<FavoritesPage />}/>
         <Route path='/about'element={<AboutPage />}/>
-        <Route path='/sign'element={<SignPage />}/>
+        <Route path='/signIn'element={<SignInPage />}></Route>
+        <Route path='/signup'element={<SignUpPage />}></Route>
         <Route path='/messages'element={<MessagePage />}
         ></Route>
 
