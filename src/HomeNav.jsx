@@ -25,7 +25,8 @@ export default function HomeNav(props) {
 
   return (
     <>
-      <div className="navbar bg-base-300">
+    
+      <div className="navbar bg-base-300 sticky top-0 z-10">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -81,6 +82,7 @@ export default function HomeNav(props) {
 
         </div>
       </div>
+  
     </>
   );
 }

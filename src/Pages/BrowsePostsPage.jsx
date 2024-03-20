@@ -44,6 +44,14 @@ export default function BrowsePostsPage() {
     <>
     <div className="grid grid-cols-3 ">
       {postListItems}
+      {postListItems}
+      {postListItems}
+      {postListItems}
+      {postListItems}
+      {postListItems}
+      {postListItems}
+      {postListItems}
+      {postListItems}
       </div>
     </>
   )

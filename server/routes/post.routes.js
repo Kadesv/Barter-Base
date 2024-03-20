@@ -38,9 +38,7 @@ res.json({posts, favorites});
 
 postRouter.get('/:postId', async (req, res) => {
   const { postId } = req.params;
-  const post = await Post.findByPk(postId);
- console.log(postId, post)
-  res.json({post});
+  res.json(await Post.findByPk(postId));
 });
 
 

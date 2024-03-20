@@ -28,7 +28,7 @@ export default function Root() {
 
   return (
     <>
-      <HomeNav  className="fixed inset-0 left-0 right-0 top-0 "/>
+      <HomeNav  className=""/>
 
       <main className='flex justify-end'>
         <Outlet

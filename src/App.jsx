@@ -36,7 +36,7 @@ const router = createBrowserRouter(
         element={<PostDetailPage/>}
         loader={async ({ params }) => {
           const res = await axios.get(`/api/posts/${params.postId}`);
-          console.log(res.data)
+          // console.log(res.data)
           return {post: res.data}
         }}
      />
