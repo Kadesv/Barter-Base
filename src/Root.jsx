@@ -1,18 +1,17 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import HomeNav from './HomeNav';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Root() {
+  const {categories} = useLoaderData();
   const [signStatus, setSignStatus] = useState(false);
   const [username, setUsername] = useState('Account');
   const navigate = useNavigate();
 
   const handleUserName = (name) => setUsername(name);
-
   const setStatusTrue = () => { setSignStatus(true) };
-
   const isSignedIn = async () => {
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
@@ -28,13 +27,15 @@ export default function Root() {
     isSignedIn()
   }, [])
 
+// console.log(categories)
 
   return (
     <>
-      <HomeNav  />
+      <HomeNav  props={categories}className=""/>
 
-      <main>
+      <main className='flex justify-center'>
         <Outlet
+        context={{categories, signStatus}}
            />
       </main>
 

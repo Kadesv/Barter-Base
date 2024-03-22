@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import util from 'util';
 import { db } from "../config/db.js";
+import daisyui from "daisyui";
 
 export default class Post extends Model {
   [util.inspect.custom]() {
@@ -35,10 +36,14 @@ Post.init(
       type: DataTypes.DATEONLY,
       defaultValue: DataTypes.NOW,
     },
+    image: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true
+    },
     price:{
       type: DataTypes.INTEGER,
       allowNull:false,
-    }
+    },
     
   },
   {

@@ -3,7 +3,8 @@ import NewPostForm from './Components/NewPostForm.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function HomeNav(props) {
+export default function HomeNav({props}) {
+  const categories = props;
   const navigate = useNavigate();
   const { signStatus, setSignStatus, username, setUsername } = props;
   const [showSign, setShowSign] = useState(false);
@@ -20,7 +21,8 @@ export default function HomeNav(props) {
 
   return (
     <>
-      <div className="navbar bg-base-300">
+    
+      <div className="navbar bg-base-300 sticky top-0 z-10">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -55,7 +57,7 @@ export default function HomeNav(props) {
               <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
               <div className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                 {/* Sidebar content here */}
-             <NewPostForm/>
+             <NewPostForm props={categories}/>
               </div>
             </div>
           </div>
@@ -76,6 +78,7 @@ export default function HomeNav(props) {
 
         </div>
       </div>
+  
     </>
   );
 }
