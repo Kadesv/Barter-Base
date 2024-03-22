@@ -1,13 +1,14 @@
-import { Outlet, useLoaderData} from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import HomeNav from './HomeNav';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export default function Root() {
-  const {categories, subCategories} = useLoaderData();
+  const {categories} = useLoaderData();
   const [signStatus, setSignStatus] = useState(false);
   const [username, setUsername] = useState('Account');
-
+  // const [categoryList, setCategoryList] = useState(categories)
+  // console.log(categories)
 
   const handleUserName = (name) => setUsername(name);
   const setStatusTrue = () => { setSignStatus(true) };
@@ -24,14 +25,15 @@ export default function Root() {
     isSignedIn()
   }, [])
 
-
+// console.log(categories)
 
   return (
     <>
-      <HomeNav  className=""/>
+      <HomeNav  props={categories}className=""/>
 
-      <main className='flex justify-end'>
+      <main className='flex justify-center'>
         <Outlet
+        context={{categories, signStatus}}
            />
       </main>
 

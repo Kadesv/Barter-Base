@@ -11,11 +11,13 @@ postRouter.get('/browse', async (req, res) => {
 });
 
 postRouter.get('/getCategories', async (req, res) => {
-  res.json ( await Category.findAll({
-    include: {
-      model: SubCategory
-    }
-  }))
+
+ res.json (await Category.findAll({
+  include:{
+    model: SubCategory
+  }
+ }));
+  
 })
 
 postRouter.get('/account',async (req, res) => {
@@ -25,12 +27,17 @@ postRouter.get('/account',async (req, res) => {
       userId: userId
     }
   }));
+  const user = (await User.findByPk({
+    where:{
+      userId: userId
+    }
+  }));
   const favorites = (await Favorites.findAll({
     where:{
       userId: userId
     }
   }));
-res.json({posts, favorites});
+res.json({posts, user, favorites});
 
 });
 

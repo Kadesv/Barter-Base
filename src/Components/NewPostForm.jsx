@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
+// import { useOutletContext } from "react-router-dom";
 
-export default function NewPostForm() {
-
+export default function NewPostForm({ props }) {
+    const categories = props;
+    // const subcategories = categories;
+    // console.log(categories)
+    const [selectedCategory, setSelectedCategory] = useState(null)
     const [postImage, setPostImage] = useState(null);
     const [title, setTitle] = useState('');
     const [context, setContext] = useState('');
     const [price, setPrice] = useState('');
-    const [subCategory, setSubCategory] = useState('');
+    const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (!postImage) {
-            alert();
+            // alert();
         }
         const imgRef = ref(storage, `posts/${postImage.name}_${uuidv4()}`)
 
@@ -39,51 +43,50 @@ export default function NewPostForm() {
     }
 
 
-    const allCategories = [
-        {
-            categoryName: 'Apparel',
-            subcategories: ['Services', 'Children', 'Men', 'Women', 'Baby']
-        },
-        {
-            categoryName: 'Automotive',
-            subcategories: ['Services', 'Parts', 'Equiptment', 'Rentals']
-        },
-        {
-            categoryName: 'Home',
-            subcategories: ['Services', 'Furniture', 'Outdoors', 'Equiptment', 'Appliances']
-        },
-        {
-            categoryName: 'Entertainment',
-            subcategories: ['Services', 'Books', 'Electronics', 'Equiptment', 'Instruments', 'Events']
-        },
-        {
-            categoryName: 'Sports',
-            subcategories: ['Water', 'Biking', 'Running', 'Winter', 'General']
-        },
-        {
-            categoryName: 'Outdoors',
-            subcategories: ['Services', 'Resources', 'Equiptment']
-        },
-        {
-            categoryName: 'Animals',
-            subcategories: ['Services', 'LiveStock', 'Exotic', 'Pets']
-        },
-    ];
+    const catMap = categories.map(({ categoryId, categoryName, }) => {
+        return (
+            
+                <option key={categoryId} value={categoryId}>{categoryName}</option>
+           
+
+        )
+    }
+    );
+
+
+    const subCatMap = () => {
+        if (selectedCategory) {
+            return (
+                categories[selectedCategory - 1].subcategories.map(({subCategoryId, subCategoryName}) => {
+                    return (
+                        <option key={subCategoryId} value={subCategoryId}>{subCategoryName}</option>
+                    )
+                })
+
+            )
+        }
+    }
+
+
+
 
 
 
     return (
         <>
             <form>
-                <select placeholder="Category"onChange={(event) => { setCategory() }}
+                <select onChange={(event) => { setSelectedCategory(event.target.value) }}
                     name="category" id="category">
-                    <option value="1">Apperal</option>
-                    <option value="2">Automotive</option>
-                    <option value="3">Home</option>
-                    <option value="4">Entertainment</option>
-                    <option value="5">Sports</option>
-                    <option value="6">Outdoors</option>
-                    <option value="7">Animals</option>
+                    <option>Category</option>
+                    {catMap}
+                </select>
+
+
+                <select disabled={!selectedCategory}
+                    onChange={(event) => { setSelectedSubCategory(event.target.value) }}
+                    name="subCategory" id="subCategory">
+                    <option>Sub Category</option>
+                    {subCatMap ()}
                 </select>
 
 
@@ -104,7 +107,6 @@ export default function NewPostForm() {
                     value={context}
                     onChange={(event) => { setContext(event.target.value) }}
                 />
-
                 <input
                     placeholder="image"
                     multiple type="file"
