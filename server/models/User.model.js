@@ -15,11 +15,11 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    preferredName: {
-      type: DataTypes.STRING(25),
-      allowNull: true,
-      unique: false,
-    },
+    // preferredName: {
+    //   type: DataTypes.STRING(25),
+    //   allowNull: true,
+    //   unique: false,
+    // },
     firstName: {
       type: DataTypes.STRING(25),
       allowNull: false,

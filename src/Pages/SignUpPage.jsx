@@ -17,10 +17,10 @@ export default function SignUpPage() {
 
         const res = await axios.post('/api/signUp', formData);
         if (res.data.sucess) {
-            console.log(res.data)
-            navigate('/account')
+            console.log(res.data);
+            navigate('/account');
         } else {
-            alert("Sorry, something went wrong!")
+            alert(res.data.message);
         }
     };
 

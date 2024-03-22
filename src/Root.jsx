@@ -2,10 +2,12 @@ import { Outlet } from 'react-router-dom';
 import HomeNav from './HomeNav';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Root() {
   const [signStatus, setSignStatus] = useState(false);
   const [username, setUsername] = useState('Account');
+  const navigate = useNavigate();
 
   const handleUserName = (name) => setUsername(name);
 
@@ -18,6 +20,8 @@ export default function Root() {
       handleUserName(username);
 
       setStatusTrue();
+    } else {
+      navigate('/signIn')
     }
   }
   useEffect(() => {

@@ -12,17 +12,17 @@ postRouter.get('/browse', async (req, res) => {
 
 postRouter.get('/account',async (req, res) => {
   const { userId } = req.session;
-  const posts = (await Post.findAll({
-    where:{
-      userId: userId
-    }
-  }));
-  const favorites = (await Favorites.findAll({
-    where:{
-      userId: userId
-    }
-  }));
-res.json({posts, favorites});
+//   const posts = (await Post.findAll({
+//     where:{
+//       userId: userId
+//     }
+//   }));
+//   const favorites = (await Favorites.findAll({
+//     where:{
+//       userId: userId
+//     }
+//   }));
+// res.json({posts, favorites});
 
 });
 
