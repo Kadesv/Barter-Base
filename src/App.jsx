@@ -21,7 +21,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} 
       loader={async () => {
-        const res = await axios.get('/posts/getCategories');
+        const res = await axios.get('/api/posts/getCategories');
         return {categories: res.data};
       }}
     errorElement={<ErrorPage />}>
@@ -41,7 +41,7 @@ const router = createBrowserRouter(
           return {post: res.data}
         }}
      />
-      main
+      
       <Route path='/account' element={<AccountPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/account');
