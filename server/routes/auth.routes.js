@@ -38,6 +38,7 @@ authRoutes.post('/api/checkss' , async (req, res) => {
   const {userId} = req.session
   if(userId){
   const user = await User.findOne({ where: { userId: userId } });
+  // console.log(user)
     
     res.json({ success: true, user });
   }

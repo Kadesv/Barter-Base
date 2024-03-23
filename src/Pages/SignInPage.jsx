@@ -14,9 +14,7 @@ export default function SignInPage() {
         if (res.data.success) {
             console.log(res.data);
             navigate('/');
-        } else {
-            setShow(true);
-        }
+        } 
     };
 
     const handleCreate = () => {
