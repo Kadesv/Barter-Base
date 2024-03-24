@@ -33,7 +33,7 @@ export default function HomeNav({props}) {
               <li><a href='/account'>Account</a></li>
               <li><a href='/favorites'>Favorites</a></li>
               <li><a href='/about'>About</a></li>
-              <li><a href='/signIn'>Sign In</a></li>
+              {/* <li><a href='/signIn'>Sign In</a></li> */}
 
             </ul>
           </div>

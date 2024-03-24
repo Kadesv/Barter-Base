@@ -12,11 +12,12 @@ export default function SignInPage() {
 
         const res = await axios.post('/api/auth', formData);
         if (res.data.success) {
+            console.log("logged in");
             console.log(res.data);
-            navigate('/');
+            navigate('/account');
         } else {
             //setShow(true);
-            alert("Email or Password Incorrect");
+            alert("Email or password is incorrect.");
         }
     };
 
@@ -26,6 +27,7 @@ export default function SignInPage() {
 
     return (
         <main className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 items-center text-center">
+        <>
             <form onSubmit={(e) => {
                 handleSignIn(e, {
                     email: emailValue,
@@ -56,6 +58,10 @@ export default function SignInPage() {
                 <button className="btn btn-primary flex justify-center my-4" type="submit">Log In</button>
             </form>
             <button className="btn btn-neutral flex justify-center my-4" onClick={handleCreate}>Create Account</button>
+            </>
         </main>
+
+    
+    
     )
 };

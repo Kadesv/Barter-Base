@@ -8,12 +8,12 @@ authRoutes.post('/api/auth', async (req, res) => {
   const user = await User.findOne({ where: { email: email } });
 
   // if (user && user.password === password) {
-  if (user.password === password) {
+  if (user && user.password === password) {
     req.session.userId = user.userId;
     res.json({ success: true, user });
     console.log(user.firstName);
   } else {
-    res.json({ success: false });
+    res.json({ success: false});
   }
 });
 
@@ -45,7 +45,7 @@ authRoutes.post('/api/signUp', async (req, res) => {
   const message = "";
 
   if (checkEmail) {
-    res.json({ sucess: false, message: "A user with that email already exists." });
+    res.json({ sucess: false, message: "It looks like you already have an account with that email." });
   } else if (firstName && lastName && city && state && email && password) {
     const user = await User.create({ firstName, lastName, city, state, email, password })
     req.session.userId = user.Id;
@@ -59,9 +59,11 @@ authRoutes.post('/api/checkss', async (req, res) => {
   const { userId } = req.session
   if (userId) {
     const user = await User.findOne({ where: { userId: userId } });
+    console.log(`the api found${user}`)
     res.json({ success: true, user });
   }
   else {
+    console.log("the api couldn't find a user")
     res.json({ success: false });
   }
 })
