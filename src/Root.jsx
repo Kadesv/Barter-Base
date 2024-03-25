@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 export default function Root() {
   const {categories} = useLoaderData();
   const [signStatus, setSignStatus] = useState(false);
-  const [pName, setPName] = useState('Account');
+  const [pName, setPName] = useState('');
 
   const handlePName = (name) => setPName(name);
   const setStatusTrue = () => { setSignStatus(true) };

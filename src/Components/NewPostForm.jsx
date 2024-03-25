@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL, } from 'firebase/storage';
-
+import storage from "../services/firebase.config";
 import { v4 as uuidv4 } from 'uuid';
 
 export default function NewPostForm({ categories, signStatus }) {
@@ -82,7 +82,7 @@ export default function NewPostForm({ categories, signStatus }) {
 
                 <div
 
-                className=" flex card w-full bg-neutral text-neutral-content z-10 fixed top-0">
+                className=" flex card w-full bg-neutral rounded-none text-neutral-content z-10 fixed bottom-0">
                 <div className="card-body items-center text-center">
                     <h2 className="card-title">You must be signed in to do this.</h2>
                     <div className="card-actions justify-end">
@@ -98,37 +98,39 @@ export default function NewPostForm({ categories, signStatus }) {
 
     return (
         <>
-            {noSignAlert()}
 
             <h1>New Post</h1>
-            <form onSubmit={(e) => {
+            <form className="grid"
+            onSubmit={(e) => {
                 handleSubmit(e)
 
             }}>
                 {/*category select */}
 
                 <select
-                    className="select select-bordered w-full max-w-xs"
+                    className="select m-2 select-bordered w-full max-w-xs"
                     onChange={(event) => { setSelectedCategory(event.target.value) }}
-                    name="category" id="category">
-                    <option disabled defaultValue={null}>Category</option>
+                    name="category" id="category"
+                    defaultValue={''}>
+                    <option disabled value={''} hidden>Category</option>
                     {catMap}
                 </select>
 
                 {/*subCategory select */}
 
                 <select
-                    className="select select-bordered w-full max-w-xs"
+                    className="select m-2 select-bordered w-full max-w-xs"
                     disabled={!selectedCategory}
                     onChange={(event) => { setSelectedSubCategory(event.target.value) }}
-                    name="subCategory" id="subCategory">
-                    <option disabled defaultValue={null}>Sub Category</option>
+                    name="subCategory" id="subCategory"
+                    defaultValue={''}>
+                    <option disabled value={''} hidden >Sub Category</option>
                     {subCatMap()}
                 </select>
                 {/* title input */}
                 <div>
                     <input
-                        className="input input-bordered w-full max-w-xs"
+                        className="input m-2 input-bordered w-full max-w-xs"
                         placeholder="Title"
                         value={title}
                         onChange={(event) => { setTitle(event.target.value) }}
@@ -137,7 +139,7 @@ export default function NewPostForm({ categories, signStatus }) {
                 {/* price input */}
                 <div>
                     <input
-                        className="input input-bordered w-full max-w-xs"
+                        className="input m-2 input-bordered w-full max-w-xs"
                         placeholder="Price"
                         value={price}
                         onChange={(event) => { setPrice(event.target.value) }}
@@ -146,7 +148,7 @@ export default function NewPostForm({ categories, signStatus }) {
                 {/*detail input */}
                 <div>
                     <input
-                        className="textarea textarea-bordered w-full max-w-xs"
+                        className="textarea m-2 textarea-bordered w-full max-w-xs"
                         placeholder="Details"
                         value={context}
                         onChange={(event) => { setContext(event.target.value) }}
@@ -155,7 +157,7 @@ export default function NewPostForm({ categories, signStatus }) {
                 {/*image input */}
 
                 <input
-                    className="file-input file-input-bordered w-full max-w-xs"
+                    className="file-input m-2 file-input-bordered w-full max-w-xs"
                     placeholder="image"
                     multiple type="file"
                     accept=".png, .jpg, .heic"
@@ -163,12 +165,13 @@ export default function NewPostForm({ categories, signStatus }) {
                         setPostImage(event.target.files)
                     }}
                 />
-                <button type="submit">
+                <button className='btn btn-neutral'type="submit">
                     submit
                 </button>
 
             </form>
-
+            {noSignAlert()}
+                
         </>
     )
 }
