@@ -2,6 +2,13 @@ import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL, } from 'firebase/storage';
 import storage from "../services/firebase.config";
 import { v4 as uuidv4 } from 'uuid';
+import CurrencyInput from "react-currency-input-field";
+
+
+const currencyFormat = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD"
+});
 
 export default function NewPostForm({ categories, signStatus }) {
     const [selectedCategory, setSelectedCategory] = useState(null)
@@ -11,9 +18,22 @@ export default function NewPostForm({ categories, signStatus }) {
     const [price, setPrice] = useState('');
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 
+    const keyPressHandler = (event) => {
+        const { key } = event;
+        setPrice((prevValue) =>
+            key !== "Backspace"
+                ? !Number.isNaN(parseInt(key)) || key === "," || key === "."
+                    ? prevValue + key
+                    : prevValue
+                : prevValue.substring(0, prevValue.length - 1)
+        );
+
+    };
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-            console.log()
+        console.log()
         if (!postImage) {
             console.log('add an image')
         }
@@ -74,21 +94,21 @@ export default function NewPostForm({ categories, signStatus }) {
         return (
             signStatus ?
                 <>
-                
+
 
                 </>
                 :
                 <>
 
-                <div
+                    <div
 
-                className=" flex card w-full bg-neutral rounded-none text-neutral-content z-10 fixed bottom-0">
-                <div className="card-body items-center text-center">
-                    <h2 className="card-title">You must be signed in to do this.</h2>
-                    <div className="card-actions justify-end">
+                        className=" flex card w-full bg-neutral rounded-none text-neutral-content z-10 fixed bottom-0">
+                        <div className="card-body items-center text-center">
+                            <h2 className="card-title">You must be signed in to do this.</h2>
+                            <div className="card-actions justify-end">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
                 </>
 
@@ -101,10 +121,10 @@ export default function NewPostForm({ categories, signStatus }) {
 
             <h1>New Post</h1>
             <form className="grid"
-            onSubmit={(e) => {
-                handleSubmit(e)
+                onSubmit={(e) => {
+                    handleSubmit(e)
 
-            }}>
+                }}>
                 {/*category select */}
 
                 <select
@@ -137,12 +157,16 @@ export default function NewPostForm({ categories, signStatus }) {
                     />
                 </div>
                 {/* price input */}
-                <div>
-                    <input
-                        className="input m-2 input-bordered w-full max-w-xs"
-                        placeholder="Price"
+                <div className="priceInput">
+
+                    <CurrencyInput
                         value={price}
-                        onChange={(event) => { setPrice(event.target.value) }}
+                        placeholder={currencyFormat.format("")}
+                        className="input m-2  input-bordered w-full max-w-xs"
+                        onValueChange={(price) => setPrice(price)}
+                        intlConfig={{ locale: "en-US", currency: 'USD' }}
+                        allowDecimals={true}
+                        allowNegativeValue={false}
                     />
                 </div>
                 {/*detail input */}
@@ -165,13 +189,13 @@ export default function NewPostForm({ categories, signStatus }) {
                         setPostImage(event.target.files)
                     }}
                 />
-                <button className='btn btn-neutral'type="submit">
+                <button className='btn btn-neutral' type="submit">
                     submit
                 </button>
 
             </form>
             {noSignAlert()}
-                
+
         </>
     )
 }

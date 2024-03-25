@@ -11,7 +11,6 @@ export default function Root() {
   const handlePName = (name) => setPName(name);
   const setStatusTrue = () => { setSignStatus(true) };
   const isSignedIn = async () => {
-    console.log('hit')
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
       const {preferredName} = res.data.user;
