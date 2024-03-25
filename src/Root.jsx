@@ -8,20 +8,21 @@ export default function Root() {
   const [signStatus, setSignStatus] = useState(false);
   const [pName, setPName] = useState('Account');
 
-  const handlepName = (name) => setPName(name);
+  const handlePName = (name) => setPName(name);
   const setStatusTrue = () => { setSignStatus(true) };
   const isSignedIn = async () => {
+    console.log('hit')
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
       const {preferredName} = res.data.user;
-      handlepName(preferredName);
+      handlePName(preferredName);
 
       setStatusTrue();
     }
   }
   useEffect(() => {
     isSignedIn()
-  }, [])
+  },[])
 
 
   return (
@@ -30,7 +31,7 @@ export default function Root() {
 
       <main className='flex justify-center'>
         <Outlet
-        context={{categories, signStatus}}
+        context={{categories, signStatus, setSignStatus, setPName, signStatus, setSignStatus}}
            />
       </main>
 

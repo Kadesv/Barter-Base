@@ -53,9 +53,9 @@ export default function HomeNav({ props }) {
               </svg>
               </label>
             </div>
-            <div className="drawer-side">
+            <div className="drawer-side ">
               <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-              <div className={ !signStatus ? 'bg-base-200 pointer-events-none menu p-4 w-80 min-h-full text-base-content': "menu bg-base-200 p-4 w-80 min-h-full text-base-content"}>
+              <div className={ !signStatus ? 'bg-base-200 pointer-events-none menu  p-4 w-80 min-h-full flex items-center text-base-content': "menu  flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content"}>
                 {/* Sidebar content here */}
                 <NewPostForm categories={categories} signStatus={signStatus} />
               </div>

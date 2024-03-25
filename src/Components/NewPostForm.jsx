@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, } from 'firebase/storage';
+
 import { v4 as uuidv4 } from 'uuid';
 
 export default function NewPostForm({ categories, signStatus }) {
-    console.log(categories, signStatus)
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [postImage, setPostImage] = useState(null);
     const [title, setTitle] = useState('');
@@ -13,7 +13,7 @@ export default function NewPostForm({ categories, signStatus }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+            console.log()
         if (!postImage) {
             console.log('add an image')
         }
@@ -111,7 +111,7 @@ export default function NewPostForm({ categories, signStatus }) {
                     className="select select-bordered w-full max-w-xs"
                     onChange={(event) => { setSelectedCategory(event.target.value) }}
                     name="category" id="category">
-                    <option disabled selected>Category</option>
+                    <option disabled defaultValue={null}>Category</option>
                     {catMap}
                 </select>
 
@@ -122,7 +122,7 @@ export default function NewPostForm({ categories, signStatus }) {
                     disabled={!selectedCategory}
                     onChange={(event) => { setSelectedSubCategory(event.target.value) }}
                     name="subCategory" id="subCategory">
-                    <option disabled selected>Sub Category</option>
+                    <option disabled defaultValue={null}>Sub Category</option>
                     {subCatMap()}
                 </select>
                 {/* title input */}
