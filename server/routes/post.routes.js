@@ -49,16 +49,18 @@ postRouter.get('/:postId', async (req, res) => {
 });
 
 postRouter.post('/create', async (req, res) => {
-  const { userId } = req.session;
+console.log('hit')
 
-  const { title, context, price, image} = req.body;
-  console.log(req.body)
+  const { userId } = req.session;
+  const { title, context, price, image, selectedSubCategory} = req.body;
+  console.log(title, context, price, image)
   const newPost = await Post.create({
     title: title,
     price: price,
     context: context,
-    image: [image],
-    userId: userId
+    image: image,
+    userId: userId,
+    subCategoryId: selectedSubCategory
   })
   if(newPost){
     res.json({success: true})

@@ -16,6 +16,7 @@ export default function NewPostForm({ categories, signStatus }) {
     const [context, setContext] = useState('');
     const [price, setPrice] = useState('');
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+    const [urlArr, setUrlArr] =useState([])
 
 
     const handleSubmit = (e) => {
@@ -27,16 +28,17 @@ export default function NewPostForm({ categories, signStatus }) {
 
         uploadBytes(imgRef, postImage).then((snapshot) => {
             getDownloadURL(imgRef).then(async (url) => {
-                console.log(price, title, context, selectedSubCategory, url);
                 const dbObject = {
                     price: price,
                     title: title,
                     context: context,
                     selectedSubCategory: selectedSubCategory,
-                    image: url,
+                    image: [url],
 
                 }
+                // console.log(dbObject)
                 const res = await axios.post('/api/posts/create', dbObject);
+                console.log(res.data)
                 if (res.data.success) {
                     console.log('success')
                 }
