@@ -6,34 +6,31 @@ import { useState, useEffect } from 'react';
 export default function Root() {
   const {categories} = useLoaderData();
   const [signStatus, setSignStatus] = useState(false);
-  const [username, setUsername] = useState('Account');
-  // const [categoryList, setCategoryList] = useState(categories)
-  // console.log(categories)
+  const [pName, setPName] = useState('');
 
-  const handleUserName = (name) => setUsername(name);
+  const handlePName = (name) => setPName(name);
   const setStatusTrue = () => { setSignStatus(true) };
   const isSignedIn = async () => {
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
-      const {username} = res.data.user;
-      handleUserName(username);
+      const {preferredName} = res.data.user;
+      handlePName(preferredName);
 
       setStatusTrue();
     }
   }
   useEffect(() => {
     isSignedIn()
-  }, [])
+  },[])
 
-// console.log(categories)
 
   return (
     <>
-      <HomeNav  props={categories}className=""/>
+      <HomeNav  props={{ setSignStatus, setPName, categories, signStatus, pName}} className=""/>
 
       <main className='flex justify-center'>
         <Outlet
-        context={{categories, signStatus}}
+        context={{categories, signStatus, setSignStatus, setPName, signStatus, setSignStatus}}
            />
       </main>
 

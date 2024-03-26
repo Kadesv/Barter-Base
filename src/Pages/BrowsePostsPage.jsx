@@ -41,6 +41,17 @@ export default function BrowsePostsPage() {
     </div>
   )
   );
+  const filterComponent = () => {
+    return(
+      filterOpen ?
+      <>
+      <div className="drawer"> filterComponent</div>
+      </>
+      :
+      <>
+      </>
+    )
+  }
 
   return (
     <>
