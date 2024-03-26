@@ -30,7 +30,7 @@ export default function Root() {
 
       <main className='flex justify-center'>
         <Outlet
-        context={{categories, signStatus, setSignStatus, setPName, signStatus, setSignStatus}}
+        context={{categories, signStatus, setSignStatus, setPName}}
            />
       </main>
 

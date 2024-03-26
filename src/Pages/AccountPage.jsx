@@ -8,7 +8,7 @@ export default function AccountPage() {
   const navigate = useNavigate();
 
   const { signStatus } = useOutletContext();
-  console.log(`account page status ${signStatus}`);
+  //console.log(`account page status ${signStatus}`);
   //const {posts, favorites} = useLoaderData();
   useEffect(() => {
     if (!signStatus) {
@@ -17,9 +17,18 @@ export default function AccountPage() {
   }, [])
 
   const { setSignStatus } = useOutletContext();
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await setSignStatus(false);
+    //console.log("logged out", signStatus);
+    navigate('/');
+  }
+
+  const handleDelete = () => {
     setSignStatus(false);
-    console.log("logged out", signStatus);
+    const res = axios.delete(`/api/user/${userId}`).then(() => {
+      console.log("account deleted")
+      navigate('/')
+    })
 
   }
 
