@@ -45,9 +45,9 @@ export default function NewPostForm({ props }) {
 
     const catMap = categories.map(({ categoryId, categoryName, }) => {
         return (
-            
-                <option key={categoryId} value={categoryId}>{categoryName}</option>
-           
+
+            <option key={categoryId} value={categoryId}>{categoryName}</option>
+
 
         )
     }
@@ -57,7 +57,7 @@ export default function NewPostForm({ props }) {
     const subCatMap = () => {
         if (selectedCategory) {
             return (
-                categories[selectedCategory - 1].subcategories.map(({subCategoryId, subCategoryName}) => {
+                categories[selectedCategory - 1].subcategories.map(({ subCategoryId, subCategoryName }) => {
                     return (
                         <option key={subCategoryId} value={subCategoryId}>{subCategoryName}</option>
                     )
@@ -86,7 +86,7 @@ export default function NewPostForm({ props }) {
                     onChange={(event) => { setSelectedSubCategory(event.target.value) }}
                     name="subCategory" id="subCategory">
                     <option>Sub Category</option>
-                    {subCatMap ()}
+                    {subCatMap()}
                 </select>
 
 

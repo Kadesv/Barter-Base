@@ -57,7 +57,7 @@ export default function HomeNav({props}) {
               <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
               <div className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                 {/* Sidebar content here */}
-             <NewPostForm props={categories}/>
+             {/* <NewPostForm props={categories}/> */}
               </div>
             </div>
           </div>

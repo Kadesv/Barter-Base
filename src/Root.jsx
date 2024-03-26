@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export default function Root() {
   const {categories} = useLoaderData();
-  const [signStatus, setSignStatus] = useState(); //false
+  const [signStatus, setSignStatus] = useState(false);
   const [pName, setPName] = useState('Account');
 
   const handlepName = (name) => setPName(name);
@@ -29,7 +29,7 @@ export default function Root() {
 
       <main className='flex justify-center'>
         <Outlet
-        context={{categories, signStatus}}
+        context={{categories, signStatus, setSignStatus}}
            />
       </main>
 
