@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL, } from 'firebase/storage';
-import storage from "../services/firebase.config";
 import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
+import storage from "../services/firebase.config";
 import CurrencyInput from "react-currency-input-field";
-
-
 const currencyFormat = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
@@ -18,22 +17,9 @@ export default function NewPostForm({ categories, signStatus }) {
     const [price, setPrice] = useState('');
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 
-    const keyPressHandler = (event) => {
-        const { key } = event;
-        setPrice((prevValue) =>
-            key !== "Backspace"
-                ? !Number.isNaN(parseInt(key)) || key === "," || key === "."
-                    ? prevValue + key
-                    : prevValue
-                : prevValue.substring(0, prevValue.length - 1)
-        );
-
-    };
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log()
         if (!postImage) {
             console.log('add an image')
         }
@@ -41,10 +27,12 @@ export default function NewPostForm({ categories, signStatus }) {
 
         uploadBytes(imgRef, postImage).then((snapshot) => {
             getDownloadURL(imgRef).then(async (url) => {
+                console.log(price, title, context, selectedSubCategory, url);
                 const dbObject = {
-                    title: title.current.value,
-                    context: context.current.value,
-                    selectedSubCategory: selectedSubCategory.current.value,
+                    price: price,
+                    title: title,
+                    context: context,
+                    selectedSubCategory: selectedSubCategory,
                     image: url,
 
                 }
@@ -57,9 +45,7 @@ export default function NewPostForm({ categories, signStatus }) {
                 }
             })
         })
-    }
-
-
+    };
     const catMap = categories.map(({ categoryId, categoryName, }) => {
         return (
 
@@ -69,8 +55,6 @@ export default function NewPostForm({ categories, signStatus }) {
         )
     }
     );
-
-
     const subCatMap = () => {
         if (selectedCategory) {
             return (
@@ -82,14 +66,7 @@ export default function NewPostForm({ categories, signStatus }) {
 
             )
         }
-    }
-
-    // onSubmit={(e) => {
-    //     handleFormCreation(e, {
-    //         title: titleValue,
-    //         context: contextValue,
-    //     })
-    // }}>
+    };
     const noSignAlert = () => {
         return (
             signStatus ?
@@ -113,7 +90,7 @@ export default function NewPostForm({ categories, signStatus }) {
                 </>
 
         )
-    }
+    };
 
 
     return (
@@ -125,21 +102,16 @@ export default function NewPostForm({ categories, signStatus }) {
                     handleSubmit(e)
 
                 }}>
-                {/*category select */}
-
-                <select
-                    className="select m-2 select-bordered w-full max-w-xs"
+                <select className=" categorySelect
+                 select m-2 select-bordered w-full max-w-xs"
                     onChange={(event) => { setSelectedCategory(event.target.value) }}
                     name="category" id="category"
                     defaultValue={''}>
                     <option disabled value={''} hidden>Category</option>
                     {catMap}
                 </select>
-
-                {/*subCategory select */}
-
-                <select
-                    className="select m-2 select-bordered w-full max-w-xs"
+                <select className=" subCategorySelect 
+                select m-2 select-bordered w-full max-w-xs"
                     disabled={!selectedCategory}
                     onChange={(event) => { setSelectedSubCategory(event.target.value) }}
                     name="subCategory" id="subCategory"
@@ -147,8 +119,7 @@ export default function NewPostForm({ categories, signStatus }) {
                     <option disabled value={''} hidden >Sub Category</option>
                     {subCatMap()}
                 </select>
-                {/* title input */}
-                <div>
+                <div className="titleInput">
                     <input
                         className="input m-2 input-bordered w-full max-w-xs"
                         placeholder="Title"
@@ -156,7 +127,6 @@ export default function NewPostForm({ categories, signStatus }) {
                         onChange={(event) => { setTitle(event.target.value) }}
                     />
                 </div>
-                {/* price input */}
                 <div className="priceInput">
 
                     <CurrencyInput
@@ -169,8 +139,7 @@ export default function NewPostForm({ categories, signStatus }) {
                         allowNegativeValue={false}
                     />
                 </div>
-                {/*detail input */}
-                <div>
+                <div className="detailInput">
                     <input
                         className="textarea m-2 textarea-bordered w-full max-w-xs"
                         placeholder="Details"
@@ -178,21 +147,21 @@ export default function NewPostForm({ categories, signStatus }) {
                         onChange={(event) => { setContext(event.target.value) }}
                     />
                 </div>
-                {/*image input */}
-
-                <input
-                    className="file-input m-2 file-input-bordered w-full max-w-xs"
-                    placeholder="image"
-                    multiple type="file"
-                    accept=".png, .jpg, .heic"
-                    onChange={(event) => {
-                        setPostImage(event.target.files)
-                    }}
-                />
-                <button className='btn btn-neutral' type="submit">
+                <div className="imageInput">
+                    <input
+                        className="file-input m-2 file-input-bordered w-full max-w-xs"
+                        placeholder="image"
+                        multiple type="file"
+                        accept=".png, .jpg, .heic"
+                        onChange={(event) => {
+                            setPostImage(event.target.files[0])
+                        }}
+                    />
+                </div>
+                <button className='submitButton
+                btn btn-neutral' type="submit">
                     submit
                 </button>
-
             </form>
             {noSignAlert()}
 

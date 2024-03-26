@@ -8,7 +8,7 @@ export default function BrowsePostsPage() {
   const handleNewPost = async (event, formData) => {
     event.preventDefault();
 
-    const res = await axios.post('/api/post/new', formData);
+    const res = await axios.post('/api/posts/new', formData);
 
     if (res.data.success) {
       handleClose();
@@ -28,12 +28,9 @@ export default function BrowsePostsPage() {
           <img src={`${image}`} alt="image" className="rounded-xl" />
         </figure>
         <div className="card-body flex   ">
-          <h2 className="card-title">${price} {title} </h2>
-
+          <h2 className="card-title">{title}</h2>
           <div className="card-actions">
-          {postId}
             <a className="btn btn-primary" href={`/posts/${postId}`}>Read more</a>
-            <p>{createdDate}</p>
 
           </div>
         </div>

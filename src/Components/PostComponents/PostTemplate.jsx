@@ -1,4 +1,4 @@
-export default function ForumTemplate() {
+export default function PostTemplate() {
     return (
         <>
         </>

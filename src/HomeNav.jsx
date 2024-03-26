@@ -18,7 +18,18 @@ export default function HomeNav({ props }) {
       navigate('/');
     }
   };
-
+const accountLink = () => {
+  return(
+    signStatus ?
+    <>
+    <a href='/account'>Account</a>
+    </>
+    :
+    <>
+    <a href='/login'>Account</a>
+    </>
+  )
+}
   return (
     <>
 
@@ -32,7 +43,7 @@ export default function HomeNav({ props }) {
 
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><a href='/'>Homepage</a></li>
-              <li><a href='/account'>Account</a></li>
+              <li><accountLink/></li>
               <li><a href='/favorites'>Favorites</a></li>
               {/* <li><a href='/about'>About</a></li> */}
               <li><LogoutButton handleLogOut={(e) => handleLogout(e)} signStatus={signStatus} /></li>
