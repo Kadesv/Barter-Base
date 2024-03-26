@@ -16,8 +16,10 @@ export default function SignInPage() {
         if (res.data.success) {
             setSignStatus(true);
             setPName(res.data.user.preferredName)
-            navigate('/');
-        } 
+            navigate('/account');
+        } else {
+            alert("Email or Password is Incorrect")
+        }
     };
 
     const handleCreate = () => {
