@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function SignUpPage() {
-
     const navigate = useNavigate();
     const [firstNameValue, setFirstNameValue] = useState('');
     const [lastNameValue, setLastNameValue] = useState('');
@@ -13,19 +12,18 @@ export default function SignUpPage() {
     const [passwordValue, setPasswordValue] = useState('');
 
     const handleSignUp = async (event, formData) => {
-        event.preventDefault();
+        event.preventDefault()
 
-        const res = await axios.post('/api/signUp', formData);
+        const res = await axios.post('/api/signUp', formData)
         if (res.data.sucess) {
-            console.log(res.data);
-            navigate('/account');
+            navigate('/account')
         } else {
-            alert(res.data.message);
+            alert(res.data.message)
         }
     };
 
     return (
-        <main className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 items-center text-center">
+        <div className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 items-center text-center">
             <form onSubmit={(e) => {
                 handleSignUp(e, {
                     firstName: firstNameValue,
@@ -92,6 +90,6 @@ export default function SignUpPage() {
                 </label>
                 <button className="btn btn-primary flex justify-center my-4" type="submit">Sign Up</button>
             </form>
-        </main>
-    )
+        </div>
+    );
 };

@@ -1,48 +1,32 @@
-import { useLoaderData } from "react-router-dom"
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useOutletContext } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function AccountPage() {
-  const navigate = useNavigate();
+  const [user, setUser] = useState({ email: '', firstName: '', lastName: '', userId: '' })
 
-  const { signStatus } = useOutletContext();
-  //console.log(`account page status ${signStatus}`);
-  //const {posts, favorites} = useLoaderData();
   useEffect(() => {
-    if (!signStatus) {
-      navigate('/signIn')
-    }
+    const showUserInfo = async () => {
+      const res = await axios.post('/api/checkss');
+      if (res.data.success) {
+        const user = res.data.user;
+        setUser(user);
+      }
+    };
+    showUserInfo();
   }, [])
-
-  const { setSignStatus } = useOutletContext();
-  const handleSignOut = async () => {
-    await setSignStatus(false);
-    //console.log("logged out", signStatus);
-    navigate('/');
-  }
-
-  const handleDelete = () => {
-    setSignStatus(false);
-    const res = axios.delete(`/api/user/${userId}`).then(() => {
-      console.log("account deleted")
-      navigate('/')
-    })
-
-  }
 
   return (
     <>
-      <div className="justify-center items-center h-screen gap-3 items-center text-center">
-        <div>
-          <h1>User Information</h1>
-        </div>
-        <div>
+      <div className='w-full'>
+        <section className='text-xl'>
+          <h1>{user.firstName} {user.lastName}</h1>
+        </section>
+        <section>
           <h1>My Listings</h1>
-        </div>
-        <button className="btn btn-primary flex justify-center my-4" onClick={handleSignOut}>Sign Out</button>
-        <button className="btn btn-neutral flex justify-center my-4">Delete Account</button>
+        </section>
+        <section>
+          <h1>Favorite Listings</h1>
+        </section>
       </div>
     </>
   )
