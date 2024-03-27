@@ -49,11 +49,8 @@ postRouter.get('/:postId', async (req, res) => {
 });
 
 postRouter.post('/create', async (req, res) => {
-console.log('hit')
-
   const { userId } = req.session;
   const { title, context, price, image, selectedSubCategory} = req.body;
-  console.log(title, context, price, image)
   const newPost = await Post.create({
     title: title,
     price: price,
