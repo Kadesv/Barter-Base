@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export default function Root() {
   const { categories } = useLoaderData();
-  const [signStatus, setSignStatus] = useState();
+  const [signStatus, setSignStatus] = useState(false);
   const [pName, setPName] = useState('');
 
   const handlePName = (name) => setPName(name);
