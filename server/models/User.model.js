@@ -15,11 +15,11 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    // preferredName: {
-    //   type: DataTypes.STRING(25),
-    //   allowNull: true,
-    //   unique: false,
-    // },
+    preferredName: {
+      type: DataTypes.STRING(25),
+      allowNull: true,
+      unique: false,
+    },
     firstName: {
       type: DataTypes.STRING(25),
       allowNull: false,
@@ -39,15 +39,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // city: {
-    //   type: DataTypes.STRING(25),
-    //   allowNull: true,
-    // },
-    // state: {
-    //   type: DataTypes.STRING(25),
-    //   allowNull: true,
-    // },
-  },
+
   {
     modelName: 'user',
     sequelize: db,
