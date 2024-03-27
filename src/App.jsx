@@ -43,10 +43,10 @@ const router = createBrowserRouter(
      />
       
       <Route path='/account' element={<AccountPage />}
-        loader={async () => {
-          const res = await axios.get('/api/posts/account');
-          return res.data;
-        }}
+        // loader={async () => {
+        //   const res = await axios.get('/api/posts/account');
+        //   return res.data;
+        // }}
           />
         <Route path='/favorites'element={<FavoritesPage />}/>
         <Route path='/about'element={<AboutPage />}/>
