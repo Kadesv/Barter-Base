@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export default function Root() {
-  const {categories} = useLoaderData();
+  const { categories } = useLoaderData();
   const [signStatus, setSignStatus] = useState(false);
   const [pName, setPName] = useState('');
 
@@ -13,28 +13,24 @@ export default function Root() {
   const isSignedIn = async () => {
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
-      const {preferredName} = res.data.user;
+      const { preferredName } = res.data.user;
       handlePName(preferredName);
-
       setStatusTrue();
     }
-  }
+  };
   useEffect(() => {
     isSignedIn()
-  },[])
-
+  }, []);
 
   return (
     <>
-      <HomeNav  props={{ setSignStatus, setPName, categories, signStatus, pName}} className=""/>
+      <HomeNav props={{ setSignStatus, setPName, categories, signStatus, pName }} className="" />
 
       <main className='flex justify-center'>
         <Outlet
-        context={{categories, signStatus, setSignStatus, setPName, signStatus, setSignStatus}}
-           />
+          context={{ categories, signStatus, setSignStatus, setPName }}
+        />
       </main>
-
     </>
   );
-}
-
+};
