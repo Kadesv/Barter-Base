@@ -48,17 +48,23 @@ postRouter.get('/:postId', async (req, res) => {
   res.json(await Post.findByPk(postId));
 });
 
-
-postRouter.post('/new', async (req, res) => {
+postRouter.post('/create', async (req, res) => {
   const { userId } = req.session;
-  const {title, context} = req.body;
-  if(title && context && userId){
-  await Post.create({title, context, userId});
-  res.json({success: true})}
- else{
-  res.json({success: false})};
- }
-)
+  const { title, context, price, image, selectedSubCategory} = req.body;
+  const newPost = await Post.create({
+    title: title,
+    price: price,
+    context: context,
+    image: image,
+    userId: userId,
+    subCategoryId: selectedSubCategory
+  })
+  if(newPost){
+    res.json({success: true})
+  }
+  else{
+  res.json({success: false});}
+});
 
 postRouter.put('/save', async (req, res) => {
   const { userId } = req.session;
