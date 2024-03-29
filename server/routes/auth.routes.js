@@ -38,15 +38,15 @@ authRoutes.post('/api/register', async (req, res) => {
 // ADDING A USER
 
 authRoutes.post('/api/signUp', async (req, res) => {
-  const { firstName, lastName, city, state, email, password } = req.body;
+  const { firstName, lastName, preferredName, city, state, email, password } = req.body;
   const checkEmail = await User.findOne({ where: { email: email } });
   const checkPassword = await User.findOne({ where: { password: password } });
   const message = "";
 
   if (checkEmail) {
     res.json({ sucess: false, message: "It looks like you already have an account with that email." });
-  } else if (firstName && lastName && city && state && email && password) {
-    const user = await User.create({ firstName, lastName, city, state, email, password })
+  } else if (firstName && lastName && preferredName && city && state && email && password) {
+    const user = await User.create({ firstName, lastName, preferredName, city, state, email, password })
     req.session.userId = user.Id;
     res.json({ sucess: true, user });
   } else {
