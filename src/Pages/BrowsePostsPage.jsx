@@ -1,4 +1,4 @@
-  import { useLoaderData, useOutletContext } from "react-router-dom"
+import { useLoaderData, useOutletContext } from "react-router-dom"
 export default function BrowsePostsPage() {
   const {posts} = useLoaderData();
 

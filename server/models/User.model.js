@@ -44,5 +44,4 @@ User.init(
     modelName: 'user',
     sequelize: db,
   },
-);
-
+); 
