@@ -40,7 +40,7 @@ User.init(
       allowNull: false,
     },
   },
-  {
+    {
     modelName: 'user',
     sequelize: db,
   },
