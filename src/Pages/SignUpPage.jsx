@@ -4,7 +4,6 @@ import axios from "axios";
 
 export default function SignUpPage() {
     const navigate = useNavigate();
-    // const { signStatus, setSignStatus } = useOutletContext();
     const [firstNameValue, setFirstNameValue] = useState('');
     const [lastNameValue, setLastNameValue] = useState('');
     const [preferredNameValue, setPreferredNameValue] = useState('');
@@ -15,7 +14,6 @@ export default function SignUpPage() {
 
     const handleSignUp = async (event, formData) => {
         event.preventDefault();
-        // setSignStatus(true)
 
         const res = await axios.post('/api/signUp', formData)
         if (res.data.sucess) {
