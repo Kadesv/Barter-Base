@@ -39,10 +39,9 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-
+  },
   {
     modelName: 'user',
     sequelize: db,
   },
-);
-
+); 
