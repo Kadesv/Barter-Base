@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { Post, User, Favorites, Category, SubCategory} from '../models/index.js';
+import { Post, User, Favorites, Category, SubCategory } from '../models/index.js';
 const postRouter = Router();
 
 postRouter.get('/browse', async (req, res) => {
-  res.json( await Post.findAll({
-    include:{
+  res.json(await Post.findAll({
+    include: {
       model: User
     }
   }));
@@ -12,33 +12,37 @@ postRouter.get('/browse', async (req, res) => {
 
 postRouter.get('/getCategories', async (req, res) => {
 
- res.json (await Category.findAll({
-  include:{
-    model: SubCategory
-  }
- }));
-  
+  res.json(await Category.findAll({
+    include: {
+      model: SubCategory
+    }
+  }));
+
 })
 
-postRouter.get('/account',async (req, res) => {
+postRouter.get('/account', async (req, res) => {
+  console.log('sup from the api')
   const { userId } = req.session;
+  console.log(`user ID is: ${userId}`);
   const posts = (await Post.findAll({
-    where:{
+    where: {
       userId: userId
     }
   }));
-  const user = (await User.findByPk({
-    where:{
-      userId: userId
-    }
-  }));
-  const favorites = (await Favorites.findAll({
-    where:{
-      userId: userId
-    }
-  }));
-res.json({posts, user, favorites});
+  const user = (await User.findByPk(userId));
 
+  // {
+  //   where:{
+  //     userId: userId
+  //   }
+  // }
+
+  const favorites = (await Favorites.findAll({
+    where: {
+      userId: userId
+    }
+  }));
+  res.json({ success: true, posts, user, favorites });
 });
 
 
@@ -50,7 +54,7 @@ postRouter.get('/:postId', async (req, res) => {
 
 postRouter.post('/create', async (req, res) => {
   const { userId } = req.session;
-  const { title, context, price, image, selectedSubCategory} = req.body;
+  const { title, context, price, image, selectedSubCategory } = req.body;
   const newPost = await Post.create({
     title: title,
     price: price,
@@ -59,28 +63,30 @@ postRouter.post('/create', async (req, res) => {
     userId: userId,
     subCategoryId: selectedSubCategory
   })
-  if(newPost){
-    res.json({success: true})
+  if (newPost) {
+    res.json({ success: true })
   }
-  else{
-  res.json({success: false});}
+  else {
+    res.json({ success: false });
+  }
 });
 
 postRouter.put('/save', async (req, res) => {
   const { userId } = req.session;
-  const {title, context, postId} = req.body;
+  const { title, context, postId } = req.body;
 
-  if(title && context && userId && postId){
-  await Post.update({title, context},{
-    where:{
-      postId
-    }
-  })
-  res.json({success: true})}
- else{
-  res.json({success: false})
+  if (title && context && userId && postId) {
+    await Post.update({ title, context }, {
+      where: {
+        postId
+      }
+    })
+    res.json({ success: true })
+  }
+  else {
+    res.json({ success: false })
+  }
 }
- }
 )
 
 // postRouter.delete('/delete/:postId', async (req, res) => {
