@@ -5,13 +5,20 @@ const chatRouter = Router()
 
 
 
-// chatRouter.post('/new', loginRequired, async (req, res) => {
-//   const { userId } = req.session;
-//   const {postId} =req.body;
-//   const user2Id = await Post.findByPk(postId).userId;
-//   const newChat = await Chat.create(
-//     { user1Id: userId, user2Id : user2Id }
-//   );
+chatRouter.post('/new', loginRequired, async (req, res) => {
+  const { userId } = req.session;
+  const {message, chatObj} =req.body;
+console.log(chatObj,message)
+  const newChat = await Chat.create(
+    { user1Id: userId, user2Id : user2Id }
+)
+
+
+
+
+
+
+});
 
 
 //   res.json({ success: true, newChat: { ...newChat, user } });

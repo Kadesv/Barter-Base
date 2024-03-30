@@ -10,7 +10,7 @@ const currencyFormat = new Intl.NumberFormat("en-US", {
     currency: "USD"
 });
 
-export default function NewPostForm({ categories, signStatus, setShowDrawer }) {
+export default function NewPostForm({ categories, signStatus, setShowPost }) {
     const navigate = useNavigate()
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [postImages, setPostImages] = useState(null);
@@ -46,7 +46,7 @@ export default function NewPostForm({ categories, signStatus, setShowDrawer }) {
         const res = await axios.post('/api/posts/create', dbObject);
         urlArr = [];
         if (res.data.success) {
-            setShowDrawer(false);
+            setShowPost(false);
             setSelectedSubCategory(null)
             setSelectedCategory(null)
             setPostImages([]);
