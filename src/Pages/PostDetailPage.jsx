@@ -7,23 +7,42 @@ export default function PostDetailPage() {
 
   return (
     <>
-      <div className="grid">
-        <div className="card  w-96 bg-base-100 shadow-xl">
-          <figure className="px-10 pt-10">
-            <div className="w-64 carousel rounded-box">
-              <div className="carousel-item w-full">
-                <ImageMap images={image} />
+
+
+      <div className="hero min-h-screen bg-base-200">
+        <div className="hero-content flex-col lg:flex-row-reverse">
+          <div className="text-center items-center lg:text-left">
+
+            <div className="text-center lg:text-left">
+              <h1 className="text-5xl font-bold">{title}</h1>
+              <p className="py-6">{context}</p>
+            </div>
+
+            <div className="collapse bg-base-200">
+              <input type="checkbox" />
+              <div className="collapse-title text-xl font-medium">
+                Message Seller
               </div>
+              <form className="collapse-content">
+                <input className="input" placeholder="Type Here..." />
+                <button className="btn">Send</button>
+              </form>
             </div>
-          </figure>
-          <div className="card-body flex   ">
-            <h2 className="card-title"> {title} </h2>
-            <div className="card-actions">
-              <a className="btn btn-primary">Message</a>
-            </div>
+          </div>
+          <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+            <form className="card-body">
+              <figure className="px-10 p-10">
+                <div className="w-full carousel rounded-box">
+                  <div className="carousel-item w-full">
+                    <ImageMap images={image} />
+                  </div>
+                </div>
+              </figure>
+            </form>
           </div>
         </div>
       </div>
+
     </>
   )
 }

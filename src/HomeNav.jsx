@@ -26,30 +26,21 @@ export default function HomeNav({ props }) {
     if(showPost === false){
     setShowPost(true)
     setShowChat(false)
-      console.log('hit Post false')
     } else if( showPost === true){
+    setShowDrawer(false)
     setShowPost(false)
-
-      console.log('hit Post true')
-
     }
   }
-
-
   const onChatClick = () => {
     setShowDrawer(true)
     if(showChat === false){
       setShowChat(true)
       setShowPost(false)
-        console.log('hit Chat false')
       } else if( showChat === true){
+        setShowDrawer(false)
       setShowChat(false)
-        console.log('hit Chat true')
-      }
-      
-
+      } 
   }
-
   const AccountLink = () => {
     return (
       signStatus ?
@@ -67,7 +58,7 @@ export default function HomeNav({ props }) {
     <>
       <nav className="navbar bg-base-300 sticky top-0 z-10">
         <section className="navbar-start">
-          <section className="dropdown">
+          <article className="dropdown">
             <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
             </button>
@@ -81,13 +72,13 @@ export default function HomeNav({ props }) {
               <li><LogoutButton handleLogOut={(e) => handleLogout(e)} signStatus={signStatus} /></li>
 
             </ul>
-          </section>
+          </article>
         </section>
         <button className="navbar-center">
-          <a href='/' className="btn btn-ghost text-xl">LSK</a>
+          <a href='/' className="btn btn-ghost text-4xl">LSK</a>
         </button>
         <section className="navbar-end">
-          <section style={{height:'60px', width:'60px'}} className="drawer z-10 drawer-end ">
+          <section style={{height:'60px', width:'60px'}} className="drawer z-10 drawer-end fixed right-0">
             <input id="my-drawer-2" readOnly type="checkbox" className="drawer-toggle" checked={!!showDrawer} />
             <section className="drawer-content flex justify-end">
               {/* Page content here */}
