@@ -28,6 +28,11 @@ Post.init(
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    categoryId: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

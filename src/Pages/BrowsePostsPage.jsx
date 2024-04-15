@@ -34,7 +34,7 @@ export default function BrowsePostsPage() {
     })
     console.log(res.data);
   }
-
+const noImageFound = 'https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2Fdownload%20(1).jpg?alt=media&token=20dbf847-ca45-4cd9-9014-0416c5b26e39'
 
   // const handleNewChat=async(event,{user})=>{
   //   event.preventDefault();
@@ -46,18 +46,21 @@ export default function BrowsePostsPage() {
   //   }
   //   const res = await axios.post(`/api/chat/new`, chatObj)
   // }
-  const postListItems = posts.map(({ image, user, postId, subCategoryId, title, context, favorites, createdDate, price }) =>
+  const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, favorites, createdDate, price }) =>
 
   (
     <div key={postId} className="">
       <div className="card bg-base-100 shadow-xl m-1">
         <figure >
-          <img src={`${image}`} alt="image" className=" h-full w-full rounded-xl" />
+          <img src={image} alt="image" className=" h-full w-full rounded-xl" />
         </figure>
         <div className="card-body flex ">
           <div>
-            {/* <div className="badge badge-xs">{categories[categoryId - 1].categoryName}</div> */}
-            {/* <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div> */}
+
+          {/* {console.log( categories[categoryId - 1].categoryName )} */}
+
+            <div className="badge badge-xs">{categories[categoryId - 1].categoryName}</div>
+            <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div>
           </div>
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">

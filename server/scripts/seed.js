@@ -65,16 +65,21 @@ const usersInDB = await Promise.all(usersToCreate);
 
 const postsInDB = await Promise.all(
     postData.map((post) => {
-        const image = ["https://picsum.photos/300"];
         const { title, context,  } = post;
+        const imageId = Math.floor(Math.random()* 500)+1
+        const image = [`https://picsum.photos/id/${imageId}/200/300`];
+        const postPrice = Math.floor(Math.random() * 500 )
+        const cat = Math.floor(Math.random()* allCategories.length) 
+        const subCat = Math.floor(Math.random()* allCategories[cat].subcategories.length) + 1;
+        console.log(cat + 1, allCategories[cat], allCategories[cat].subcategories[subCat - 1], subCat)
         const newPost = Post.create({
             title: 'title',
             context: 'context',
-            subCategoryId: 1,
+            subCategoryId: subCat,
+            categoryId: cat + 1 ,
             userId: 1,
             price: 1,
             image: image
-
         });
 
         return newPost;
