@@ -30,14 +30,13 @@ const router = createBrowserRouter(
       <Route index element={<BrowsePostsPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/browse');
-          
-          return {posts: res.data} ;
+          const {userFavorites, posts} = res.data
+          return {posts, userFavorites} ;
         }} />
       <Route path='posts/:postId' 
         element={<PostDetailPage/>}
         loader={async ({ params }) => {
           const res = await axios.get(`/api/posts/${params.postId}`);
-          // console.log(res.data)
           return {post: res.data}
         }}
      />

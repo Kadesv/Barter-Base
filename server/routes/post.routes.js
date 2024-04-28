@@ -3,12 +3,27 @@ import { Post, User, Favorites, Category, SubCategory } from '../models/index.js
 const postRouter = Router();
 
 postRouter.get('/browse', async (req, res) => {
-  res.json(await Post.findAll({
+  const { userId } = req.session;
+
+  const posts = await Post.findAll({
     include: {
       model: User
     }
-  }));
-});
+  })
+  console.log(userId)
+  if (userId) {
+    const userFavorites = await Favorites.findAll({
+      where: {
+        userId: userId
+      }
+    })
+
+  res.json({ posts, userFavorites })
+
+  } else{
+  res.json({ posts })
+}});
+
 
 postRouter.get('/getCategories', async (req, res) => {
 
@@ -21,9 +36,7 @@ postRouter.get('/getCategories', async (req, res) => {
 })
 
 postRouter.get('/account', async (req, res) => {
-  console.log('sup from the api')
   const { userId } = req.session;
-  console.log(`user ID is: ${userId}`);
   const posts = (await Post.findAll({
     where: {
       userId: userId
@@ -88,6 +101,10 @@ postRouter.put('/save', async (req, res) => {
   }
 }
 )
+postRouter.post('/favoriting/:postId', async (req, res) => {
+  const { postId } = req.body;
+  console.log(postId);
+})
 
 // postRouter.delete('/delete/:postId', async (req, res) => {
 // const {postId} = req.params;
