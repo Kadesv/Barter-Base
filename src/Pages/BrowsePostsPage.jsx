@@ -1,16 +1,16 @@
 import { useLoaderData, useOutletContext } from "react-router-dom"
 import ImageMap from "../Components/ImageMap";
 import axios from "axios";
-import {useState} from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function BrowsePostsPage() {
-  const { posts } = useLoaderData();
-// console.log(posts)
-  const { categories, signStatus,  } = useOutletContext();
+  const { posts, userFavorites } = useLoaderData();
+  const [filterOpen, setFilterOpen] = useState(false);
+  const { categories, signStatus, } = useOutletContext();
   const [message, setMessage] = useState('');
 
-  // console.log(categories);
+  console.log(userFavorites);
 
   const handleNewPost = async (event, formData) => {
     event.preventDefault();
@@ -21,12 +21,13 @@ export default function BrowsePostsPage() {
       handleClose();
       navigate('/');
     }
-    else {
-      console.log('bad news')
-    }
+    handleClose();
+    console.log('bad news')
+
   };
-  
-  const handleFavoriting = async({postId}) => {
+
+  const handleFavoriting = async ({ postId }) => {
+    console.log(postId)
     const res = await axios.get('/api/posts/favoriting/:postId', {
       params: {
         postId: postId
@@ -34,7 +35,7 @@ export default function BrowsePostsPage() {
     })
     console.log(res.data);
   }
-const noImageFound = 'https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2Fdownload%20(1).jpg?alt=media&token=20dbf847-ca45-4cd9-9014-0416c5b26e39'
+  const noImageFound = 'https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2Fdownload%20(1).jpg?alt=media&token=20dbf847-ca45-4cd9-9014-0416c5b26e39'
 
   // const handleNewChat=async(event,{user})=>{
   //   event.preventDefault();
@@ -46,21 +47,37 @@ const noImageFound = 'https://firebasestorage.googleapis.com/v0/b/mytradingproje
   //   }
   //   const res = await axios.post(`/api/chat/new`, chatObj)
   // }
-  const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, favorites, createdDate, price }) =>
+  console.log(userFavorites)
 
+const checkFavorites = (postId) =>{
+  const findFav = userFavorites.find((favorite) => favorite.postId === postId);
+  if(findFav){
+    return true
+  }
+  return false
+
+  }
+
+
+  const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, favorites, createdDate, price }) =>
   (
+    
     <div key={postId} className="">
+     
       <div className="card bg-base-100 shadow-xl m-1">
         <figure >
-          <img src={image} alt="image" className=" h-full w-full rounded-xl" />
+          <img src={image[0]} alt="IMAGE NOT FOUND"className=" h-full w-full rounded-xl" style={{backgroundImage:`url(${noImageFound})`}} />
         </figure>
         <div className="card-body flex ">
           <div>
 
-          {/* {console.log( categories[categoryId - 1].categoryName )} */}
+            <div className="tooltip tooltip-top" data-tip="Category">
+              <div title="Category" className="badge badge-info badge-xs">{categories[categoryId - 1].categoryName}</div>
+            </div>
+            <div className="tooltip tooltip-top" data-tip="Sub-Category">
 
-            <div className="badge badge-xs">{categories[categoryId - 1].categoryName}</div>
-            <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div>
+              <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div>
+            </div>
           </div>
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">
@@ -75,34 +92,35 @@ const noImageFound = 'https://firebasestorage.googleapis.com/v0/b/mytradingproje
                   </div>
 
                   <div className="collapse bg-base-200">
-                    <input id={uuidv4()} type="checkbox" />
+                    <input id={'dropDownInput' + postId} type="checkbox" />
                     <div className="collapse-title ">
                       Message Seller
                     </div>
-                    <form id={uuidv4()} onSubmit={(event)=>{handleNewChat(event,{user, message})}}className="collapse-content">
-                      <input id={uuidv4()} onChange={(e)=>(setMessage(e.target.value))}className="input" placeholder="Type Here..." />
+                    <form id={'messageForm' + postId} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
+                      <input id={'messageInput' + postId} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder="Type Here..." />
                       <button className="btn btn-ghost">Send</button>
                     </form>
                   </div>
                 </div>
-
+                {/* popup images */}
                 <div className=" shadow-2xl bg-base-100">
                   <figure className=" carousel rounded-box">
-                    <div className="carousel-item ">
-                      <ImageMap images={image} />
-                    </div>
+                    <img src={image} className=" carousel-item h-full w-full rounded-xl" />
+
                   </figure>
                 </div>
               </div>
-              <form id={uuidv4()} method="dialog" className="modal-backdrop">
+              <form id={'closeForm' + postId} method="dialog" className="modal-backdrop">
                 <button>close</button>
               </form>
             </dialog>
+
             <div className="form-control">
               <div className="w-full flex ">
                 <input
+                  defaultChecked={checkFavorites(postId)}
                   disabled={!signStatus}
-                  // onClick={() => handleFavoriting({ postId})}
+                  onClick={() => handleFavoriting({ postId})}
                   id={'favoriteCheckbox' + postId}
                   // defaultChecked={}
                   className="
@@ -145,6 +163,7 @@ const noImageFound = 'https://firebasestorage.googleapis.com/v0/b/mytradingproje
   return (
     <>
       <div className="grid  p-bottom-10 lg:grid-cols-3 gap-x-20   sm:grid-cols-1">
+        {filterComponent()}
         {postListItems}
 
       </div>

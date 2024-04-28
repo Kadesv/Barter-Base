@@ -15,7 +15,7 @@ export default function SignInPage() {
         if (res.data.success) {
             setSignStatus(true)
             setPName(res.data.user.preferredName)
-            navigate('/account')
+            navigate('/')
         } else {
             alert("Email or Password is Incorrect")
         }
