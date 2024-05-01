@@ -1,4 +1,4 @@
-import { useLoaderData, useOutletContext } from "react-router-dom"
+import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
 import ImageMap from "../Components/ImageMap";
 import axios from "axios";
 import { useState } from 'react';
@@ -9,8 +9,7 @@ export default function BrowsePostsPage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const { categories, signStatus, } = useOutletContext();
   const [message, setMessage] = useState('');
-
-  console.log(userFavorites);
+  const navigate = useNavigate();
 
   const handleNewPost = async (event, formData) => {
     event.preventDefault();
@@ -26,17 +25,26 @@ export default function BrowsePostsPage() {
 
   };
 
-  const handleFavoriting = async ({ postId }) => {
-    console.log(postId)
-    const res = await axios.get('/api/posts/favoriting/:postId', {
-      params: {
-        postId: postId
-      }
-    })
-    console.log(res.data);
+  const handleFavoriting = async (defaultChecked,{ postId }) => {
+    if(!signStatus){
+      navigate('/signIn')
+      alert('You must be signed in to do this.')
+    }
+    else if(!defaultChecked){
+    const res = await axios.post(`/api/posts/favoriting/:${postId}`)
+    console.log(res.data)
+    return
   }
-  const noImageFound = 'https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2Fdownload%20(1).jpg?alt=media&token=20dbf847-ca45-4cd9-9014-0416c5b26e39'
+    else{
+      const res = await axios.delete(`/api/posts/favorite/delete/:${postId}`)
+      console.log(res)
+      return
+    }
+  }
 
+
+
+  
   // const handleNewChat=async(event,{user})=>{
   //   event.preventDefault();
   //   console.log(user.userId, message)
@@ -47,26 +55,19 @@ export default function BrowsePostsPage() {
   //   }
   //   const res = await axios.post(`/api/chat/new`, chatObj)
   // }
-  console.log(userFavorites)
+  // console.log(userFavorites)
 
-const checkFavorites = (postId) =>{
-  const findFav = userFavorites.find((favorite) => favorite.postId === postId);
-  if(findFav){
-    return true
-  }
-  return false
-
-  }
+  const checkFavorites = (postId) => userFavorites.find((favorite) => favorite.postId === postId) ? true : false;
 
 
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, favorites, createdDate, price }) =>
   (
-    
+
     <div key={postId} className="">
-     
+
       <div className="card bg-base-100 shadow-xl m-1">
         <figure >
-          <img src={image[0]} alt="IMAGE NOT FOUND"className=" h-full w-full rounded-xl" style={{backgroundImage:`url(${noImageFound})`}} />
+          <img src={image[0]} alt="IMAGE NOT FOUND" className=" h-full w-full rounded-xl" />
         </figure>
         <div className="card-body flex ">
           <div>
@@ -75,7 +76,6 @@ const checkFavorites = (postId) =>{
               <div title="Category" className="badge badge-info badge-xs">{categories[categoryId - 1].categoryName}</div>
             </div>
             <div className="tooltip tooltip-top" data-tip="Sub-Category">
-
               <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div>
             </div>
           </div>
@@ -118,11 +118,10 @@ const checkFavorites = (postId) =>{
             <div className="form-control">
               <div className="w-full flex ">
                 <input
-                  defaultChecked={checkFavorites(postId)}
-                  disabled={!signStatus}
-                  onClick={() => handleFavoriting({ postId})}
+                  defaultChecked={signStatus ? checkFavorites(postId): false}
+                  
+                  onClick={() => handleFavoriting(signStatus ? checkFavorites(postId): false,{ postId })}
                   id={'favoriteCheckbox' + postId}
-                  // defaultChecked={}
                   className="
                   relative peer shrink-0
                   appearance-none w-6 h-6   

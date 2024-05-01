@@ -18,11 +18,12 @@ postRouter.get('/browse', async (req, res) => {
       }
     })
 
-  res.json({ posts, userFavorites })
+    res.json({ posts, userFavorites })
 
-  } else{
-  res.json({ posts })
-}});
+  } else {
+    res.json({ posts })
+  }
+});
 
 
 postRouter.get('/getCategories', async (req, res) => {
@@ -102,18 +103,40 @@ postRouter.put('/save', async (req, res) => {
 }
 )
 postRouter.post('/favoriting/:postId', async (req, res) => {
-  const { postId } = req.body;
-  console.log(postId);
+  const { userId } = req.session
+  const { postId } = req.params;
+  const newFavorite = await Favorites.create({
+    where: {
+      postId: postId,
+      userId: userId
+    }
+  })
+  if(newFavorite){
+    res.json({ success: true})
+  }
+  res.json({ success: false })
 })
 
-// postRouter.delete('/delete/:postId', async (req, res) => {
-// const {postId} = req.params;
-// await Post.destroy({
-//   where:{
-//     postId
-//   }
-// })
-//   res.json({ success: true });
-// });
+postRouter.delete('/favorite/delete/:postId', async (req, res) => {
+  const { userId } = req.session
+  const { postId } = req.params;
+  await Favorites.destroy({
+    where: {
+      postId: postId,
+      userId: userId
+    }
+  })
+  res.json({ success: true });
+});
+
+postRouter.delete('/delete/:postId', async (req, res) => {
+const {postId} = req.params;
+await Post.destroy({
+  where:{
+    postId
+  }
+})
+  res.json({ success: true });
+});
 
 export default postRouter;
