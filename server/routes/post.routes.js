@@ -10,7 +10,6 @@ postRouter.get('/browse', async (req, res) => {
       model: User
     }
   })
-  console.log(userId)
   if (userId) {
     const userFavorites = await Favorites.findAll({
       where: {
@@ -45,21 +44,13 @@ postRouter.get('/account', async (req, res) => {
   }));
   const user = (await User.findByPk(userId));
 
-  // {
-  //   where:{
-  //     userId: userId
-  //   }
-  // }
-
   const favorites = (await Favorites.findAll({
     where: {
-      userId: userId
+      userId
     }
   }));
   res.json({ success: true, posts, user, favorites });
 });
-
-
 
 postRouter.get('/:postId', async (req, res) => {
   const { postId } = req.params;
@@ -103,23 +94,25 @@ postRouter.put('/save', async (req, res) => {
 }
 )
 postRouter.post('/favoriting/:postId', async (req, res) => {
-  const { userId } = req.session
+  const { userId } = req.session;
   const { postId } = req.params;
-  const newFavorite = await Favorites.create({
-    where: {
-      postId: postId,
-      userId: userId
-    }
-  })
-  if(newFavorite){
-    res.json({ success: true})
+  if(userId && postId){
+   await Favorites.create({
+      where: {
+        postId: postId,
+        userId: userId
+      }
+    })
+    res.json({ success: true });
+  } else{
+    res.json({ success : false })
   }
-  res.json({ success: false })
 })
 
 postRouter.delete('/favorite/delete/:postId', async (req, res) => {
   const { userId } = req.session
   const { postId } = req.params;
+if(userId && postId){
   await Favorites.destroy({
     where: {
       postId: postId,
@@ -127,6 +120,9 @@ postRouter.delete('/favorite/delete/:postId', async (req, res) => {
     }
   })
   res.json({ success: true });
+} else{
+  res.json({ success : false })
+}
 });
 
 postRouter.delete('/delete/:postId', async (req, res) => {
