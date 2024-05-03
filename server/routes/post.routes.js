@@ -103,12 +103,10 @@ postRouter.post('/favoriting/toggle/:postId', async (req, res) => {
     }
   })
   if(!checkFavorite){
-    console.log('hit')
   const newFavorite = await Favorites.create({
         postId: postId,
         userId: userId
     })
-    console.log('after hit')
     console.log(newFavorite);
     res.json({ success: true });
   } else{
