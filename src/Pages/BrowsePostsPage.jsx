@@ -25,22 +25,14 @@ export default function BrowsePostsPage() {
 
   };
 
-  const handleFavoriting = async (event ,defaultChecked,{ postId }) => {
-    event.preventDefault();
+  const handleFavoriting = async ({ postId }) => {
     if(!signStatus){
       navigate('/signIn')
       alert('You must be signed in to do this.')
     }
-    else if(!defaultChecked){
-    const res = await axios.post(`/api/posts/favoriting/${postId}`)
-    console.log(res)
-    
-  }
-    else{
-      const res = await axios.delete(`/api/posts/favorite/delete/${postId}`)
-      console.log(res)
-      
-    }
+   else{
+   await axios.post(`/api/posts/favoriting/toggle/${postId}`)
+   }
   }
 
 
@@ -120,7 +112,7 @@ export default function BrowsePostsPage() {
               <div className="w-full flex ">
                 <input
                   defaultChecked={signStatus ? checkFavorites(postId): false}
-                  onClick={(event) => handleFavoriting(event, signStatus ? checkFavorites(postId): false,{ postId })}
+                  onClick={() => handleFavoriting({ postId })}
                   id={'favoriteCheckbox' + postId}
                   className="
                   relative peer shrink-0

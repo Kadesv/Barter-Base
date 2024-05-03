@@ -93,23 +93,35 @@ postRouter.put('/save', async (req, res) => {
   }
 }
 )
-postRouter.post('/favoriting/:postId', async (req, res) => {
+postRouter.post('/favoriting/toggle/:postId', async (req, res) => {
   const { userId } = req.session;
   const { postId } = req.params;
-  if(userId && postId){
-   await Favorites.create({
-      where: {
+  const checkFavorite = await Favorites.findOne({
+    where:{
+      userId,
+      postId
+    }
+  })
+  if(!checkFavorite){
+    console.log('hit')
+  const newFavorite = await Favorites.create({
         postId: postId,
         userId: userId
-      }
     })
+    console.log('after hit')
+    console.log(newFavorite);
     res.json({ success: true });
   } else{
-    res.json({ success : false })
+    await Favorites.destroy({
+      where:{
+        postId,
+        userId
+      }
+    })
   }
 })
 
-postRouter.delete('/favorite/delete/:postId', async (req, res) => {
+postRouter.delete('/favorite/delete/postId', async (req, res) => {
   const { userId } = req.session
   const { postId } = req.params;
 if(userId && postId){
