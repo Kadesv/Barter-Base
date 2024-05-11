@@ -71,7 +71,7 @@ const postsInDB = await Promise.all(
         const postPrice = Math.floor(Math.random() * 500 )
         const cat = Math.floor(Math.random()* allCategories.length) 
         const subCat = Math.floor(Math.random()* allCategories[cat].subcategories.length) + 1;
-        console.log(cat + 1, allCategories[cat], allCategories[cat].subcategories[subCat - 1], subCat)
+        // console.log(cat + 1, allCategories[cat], allCategories[cat].subcategories[subCat - 1], subCat)
         const newPost = Post.create({
             title: 'title',
             context: 'context',
@@ -136,6 +136,9 @@ const messagesinDB = await Promise.all(
 const favoriteData = [
     { userId: 1, postId:1},
     { userId: 1, postId:2},
+    { userId: 1, postId:3},
+    { userId: 1, postId:4},
+    { userId: 1, postId:5},
 ];
 const favoritesInDB = await Promise.all(
     favoriteData.map(async(favorite) =>{

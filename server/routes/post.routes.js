@@ -16,7 +16,6 @@ postRouter.get('/browse', async (req, res) => {
         userId: userId
       }
     })
-
     res.json({ posts, userFavorites })
 
   } else {
@@ -93,47 +92,42 @@ postRouter.put('/save', async (req, res) => {
   }
 }
 )
-postRouter.post('/favoriting/toggle/:postId', async (req, res) => {
+postRouter.post('/favorite/:postId', async (req, res) => {
   const { userId } = req.session;
   const { postId } = req.params;
+  const parsedPostId = JSON.parse(postId);
   const checkFavorite = await Favorites.findOne({
     where:{
-      userId,
-      postId
+      userId: userId,
+      postId: parsedPostId
     }
   })
-  if(!checkFavorite){
-  const newFavorite = await Favorites.create({
-        postId: postId,
+  console.log(checkFavorite)
+  if(checkFavorite === null){
+    console.log('create hit')
+
+   const newFavorite = await Favorites.create({
+        postId: parsedPostId,
         userId: userId
     })
-    console.log(newFavorite);
-    res.json({ success: true });
+    console.log(newFavorite)
   } else{
+    console.log('destroy hit')
     await Favorites.destroy({
       where:{
-        postId,
-        userId
+        postId: parsedPostId,
+        userId: userId
       }
+      
     })
+    
   }
+ res.json(await Favorites.findAll({
+    userId
+  }))
+
 })
 
-postRouter.delete('/favorite/delete/postId', async (req, res) => {
-  const { userId } = req.session
-  const { postId } = req.params;
-if(userId && postId){
-  await Favorites.destroy({
-    where: {
-      postId: postId,
-      userId: userId
-    }
-  })
-  res.json({ success: true });
-} else{
-  res.json({ success : false })
-}
-});
 
 postRouter.delete('/delete/:postId', async (req, res) => {
 const {postId} = req.params;

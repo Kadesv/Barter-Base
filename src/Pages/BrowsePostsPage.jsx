@@ -1,5 +1,6 @@
 import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
 import ImageMap from "../Components/ImageMap";
+import LikeButton from "../Components/LikeButton";
 import axios from "axios";
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,34 +11,19 @@ export default function BrowsePostsPage() {
   const { categories, signStatus, } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+const [favorites, setFavorites] = useState(userFavorites);
 
-  const handleNewPost = async (event, formData) => {
-    event.preventDefault();
-
-    const res = await axios.post('/api/posts/new', formData);
-
-    if (res.data.success) {
-      handleClose();
-      navigate('/');
-    }
-    handleClose();
-    console.log('bad news')
-
-  };
-
-  const handleFavoriting = async ({ postId }) => {
-    if(!signStatus){
+  const handleFavorite = async ({ postId }) => {
+    if (!signStatus) {
       navigate('/signIn')
-      alert('You must be signed in to do this.')
     }
-   else{
-   await axios.post(`/api/posts/favoriting/toggle/${postId}`)
-   }
+    else {
+    await axios.post(`/api/posts/favorite/${postId}`).then((res)=> setFavorites(res.data));
+
+    }
+    console.log(favorites)
   }
 
-
-
-  
   // const handleNewChat=async(event,{user})=>{
   //   event.preventDefault();
   //   console.log(user.userId, message)
@@ -48,16 +34,12 @@ export default function BrowsePostsPage() {
   //   }
   //   const res = await axios.post(`/api/chat/new`, chatObj)
   // }
-  // console.log(userFavorites)
 
-  const checkFavorites = (postId) => userFavorites.find((favorite) => favorite.postId === postId) ? true : false;
-
-
-  const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, favorites, createdDate, price }) =>
+  const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
 
     <div key={postId} className="">
-
+      {postId}
       <div className="card bg-base-100 shadow-xl m-1">
         <figure >
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" h-full w-full rounded-xl" />
@@ -110,27 +92,7 @@ export default function BrowsePostsPage() {
 
             <div className="form-control">
               <div className="w-full flex ">
-                <input
-                  defaultChecked={signStatus ? checkFavorites(postId): false}
-                  onClick={() => handleFavoriting({ postId })}
-                  id={'favoriteCheckbox' + postId}
-                  className="
-                  relative peer shrink-0
-                  appearance-none w-6 h-6   
-                  mt-1 bg-transparent
-                "
-                  type="checkbox"
-                />
-                <svg
-                  className="absolute pointer-events-none border-transparent fill-current  peer-checked:!fill-warning mt-1 w-6 h-6"
-                  xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24" strokeWidth={1.5} stroke="" >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                </svg>
-                {/* <div className="badge badge-xs">{favorites.length}</div> */}
-
-
-                <label htmlFor={'favoriteCheckbox' + postId}>
-                </label>
+            <LikeButton signStatus={signStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite}/>
               </div>
             </div>
           </div>
@@ -161,5 +123,3 @@ export default function BrowsePostsPage() {
     </>
   )
 }
-
-{/* <a className="btn btn-primary" href={`/posts/${postId}`}>Read more</a> */ }
