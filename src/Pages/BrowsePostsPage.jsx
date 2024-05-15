@@ -2,7 +2,7 @@ import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
 import ImageMap from "../Components/ImageMap";
 import LikeButton from "../Components/LikeButton";
 import axios from "axios";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function BrowsePostsPage() {
@@ -11,17 +11,27 @@ export default function BrowsePostsPage() {
   const { categories, signStatus, } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-const [favorites, setFavorites] = useState(userFavorites);
+  const [favorites, setFavorites] = useState(userFavorites);
+
+  const getFavorites = async () => {
+    if (signStatus) {
+      const res = await axios.get('/api/posts/getFavorites');
+      setFavorites(res.data)
+    }
+  };
+
+  useEffect(() => {
+    getFavorites()
+  }, []);
 
   const handleFavorite = async ({ postId }) => {
     if (!signStatus) {
       navigate('/signIn')
     }
     else {
-    await axios.post(`/api/posts/favorite/${postId}`).then((res)=> setFavorites(res.data));
-
+      await axios.post(`/api/posts/favorite/${postId}`);
+      getFavorites();
     }
-    console.log(favorites)
   }
 
   // const handleNewChat=async(event,{user})=>{
@@ -39,7 +49,6 @@ const [favorites, setFavorites] = useState(userFavorites);
   (
 
     <div key={postId} className="">
-      {postId}
       <div className="card bg-base-100 shadow-xl m-1">
         <figure >
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" h-full w-full rounded-xl" />
@@ -92,7 +101,7 @@ const [favorites, setFavorites] = useState(userFavorites);
 
             <div className="form-control">
               <div className="w-full flex ">
-            <LikeButton signStatus={signStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite}/>
+                <LikeButton signStatus={signStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
               </div>
             </div>
           </div>
