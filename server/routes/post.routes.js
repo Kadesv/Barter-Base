@@ -35,12 +35,19 @@ postRouter.get('/getCategories', async (req, res) => {
 })
 postRouter.get('/getFavorites', async (req, res) => {
   const { userId } = req.session
-  res.json(await Favorites.findAll({
+  if(userId){
+res.json( await Favorites.findAll({
     where: {
       userId: userId
+    },
+    include:{
+      model: Post
     }
-  }));
+  }))}
 
+  else{
+    res.json({message: 'no user'})
+  }
 })
 
 postRouter.get('/account', async (req, res) => {
@@ -112,18 +119,28 @@ postRouter.post('/favorite/:postId', async (req, res) => {
     }
   })
   if (checkFavorite === null) {
-    res.json(await Favorites.create({
+  await Favorites.create({
       postId: parsedPostId,
       userId: userId
+    })
+    res.json(await Favorites.findAll({
+      where:{
+        userId: userId
+      }
     }))
+
   } else {
-    res.json(await Favorites.destroy({
+   await Favorites.destroy({
       where: {
         postId: parsedPostId,
         userId: userId
       }
     })
-    )
+    res.json(await Favorites.findAll({
+      where:{
+        userId: userId
+      }
+    }))
   }
 })
 

@@ -7,9 +7,21 @@ export default function Root() {
   const { categories } = useLoaderData();
   const [signStatus, setSignStatus] = useState(false);
   const [pName, setPName] = useState('');
+  const [favorites, setFavorites] = useState([])
 
   const handlePName = (name) => setPName(name);
   const setStatusTrue = () => { setSignStatus(true) };
+
+  const getFavorites = async () => {
+  const res = await axios.get('/api/posts/getFavorites')
+
+  if(!res.data.message){
+    const userFavorites = res.data;
+    setFavorites(userFavorites)
+    console.log(userFavorites)
+  }
+
+  };
   const isSignedIn = async () => {
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
@@ -19,16 +31,17 @@ export default function Root() {
     }
   };
   useEffect(() => {
-    isSignedIn()
+    isSignedIn();
+    getFavorites();
   }, []);
 
   return (
     <>
-      <HomeNav props={{ setSignStatus, setPName, categories, signStatus, pName }} className="" />
+      <HomeNav props={{ setSignStatus, setPName, categories, signStatus, pName, favorites }} className="" />
 
       <main className='flex justify-center'>
         <Outlet
-          context={{ categories, signStatus, setSignStatus, setPName }}
+          context={{ categories, signStatus, setSignStatus, setPName, favorites }}
         />
       </main>
     </>

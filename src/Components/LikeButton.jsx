@@ -1,7 +1,6 @@
 export default function LikeButton({ signStatus, postId, favorites, handleFavorite }) {
 
   if (signStatus) {
-    // console.log(favorites.find((favorite) => favorite.postId === postId)? true: false, postId)
     return (
       favorites.find((favorite) => favorite.postId === postId) ?
         <button className="btn btn-ghost" onClick={() => handleFavorite({ postId })}>

@@ -8,29 +8,17 @@ import { v4 as uuidv4 } from 'uuid';
 export default function BrowsePostsPage() {
   const { posts, userFavorites } = useLoaderData();
   const [filterOpen, setFilterOpen] = useState(false);
-  const { categories, signStatus, } = useOutletContext();
+  const { categories, signStatus } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState(userFavorites);
-
-  const getFavorites = async () => {
-    if (signStatus) {
-      const res = await axios.get('/api/posts/getFavorites');
-      setFavorites(res.data)
-    }
-  };
-
-  useEffect(() => {
-    getFavorites()
-  }, []);
 
   const handleFavorite = async ({ postId }) => {
     if (!signStatus) {
       navigate('/signIn')
     }
     else {
-      await axios.post(`/api/posts/favorite/${postId}`);
-      getFavorites();
+      await axios.post(`/api/posts/favorite/${postId}`).then((res)=> setFavorites(res.data));
     }
   }
 
