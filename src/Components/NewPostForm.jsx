@@ -18,7 +18,6 @@ export default function NewPostForm({ categories, signStatus, setShowPost }) {
     const [context, setContext] = useState('');
     const [price, setPrice] = useState('');
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-
     let urlArr = [];
 
     const handleSubmit = async (e) => {
@@ -40,6 +39,7 @@ export default function NewPostForm({ categories, signStatus, setShowPost }) {
             price: price,
             title: title,
             context: context,
+            selectedCategory: selectedCategory,
             selectedSubCategory: selectedSubCategory,
             image: urlArr,
         }
@@ -53,11 +53,7 @@ export default function NewPostForm({ categories, signStatus, setShowPost }) {
             setTitle('')
             setPrice('')
             setContext('');
-
-
-
             navigate('/');
-
         }
         else {
             alert('Something went wrong!')
@@ -66,13 +62,11 @@ export default function NewPostForm({ categories, signStatus, setShowPost }) {
 
     const catMap = categories.map(({ categoryId, categoryName, }) => {
         return (
-
             <option key={categoryId} value={categoryId}>{categoryName}</option>
-
-
         )
     }
     );
+
     const subCatMap = () => {
         if (selectedCategory) {
             return (
@@ -84,30 +78,6 @@ export default function NewPostForm({ categories, signStatus, setShowPost }) {
 
             )
         }
-    };
-    const noSignAlert = () => {
-        return (
-            signStatus ?
-                <>
-
-
-                </>
-                :
-                <>
-
-                    <div
-
-                        className=" flex card w-full bg-neutral rounded-none text-neutral-content z-10 fixed bottom-0">
-                        <div className="card-body items-center text-center">
-                            <h2 className="card-title">You must be signed in to do this.</h2>
-                            <div className="card-actions justify-end">
-                            </div>
-                        </div>
-                    </div>
-
-                </>
-
-        )
     };
 
     return (
@@ -180,8 +150,6 @@ export default function NewPostForm({ categories, signStatus, setShowPost }) {
                     submit
                 </button>
             </form>
-            {noSignAlert()}
-
         </>
     )
 }

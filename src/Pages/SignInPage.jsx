@@ -3,7 +3,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 
 export default function SignInPage() {
-    const { pName, setPName, signStatus, setSignStatus } = useOutletContext();
+    const { pName, setPName, setSignStatus, setFavorites } = useOutletContext();
     const navigate = useNavigate();
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
@@ -13,6 +13,7 @@ export default function SignInPage() {
 
         const res = await axios.post('/api/auth', formData)
         if (res.data.success) {
+            setFavorites(res.data.favorites)
             setSignStatus(true)
             setPName(res.data.user.preferredName)
             navigate('/')

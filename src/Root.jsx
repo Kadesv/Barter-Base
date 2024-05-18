@@ -9,6 +9,8 @@ export default function Root() {
   const [pName, setPName] = useState('');
   const [favorites, setFavorites] = useState([])
 
+
+
   const handlePName = (name) => setPName(name);
   const setStatusTrue = () => { setSignStatus(true) };
 
@@ -18,7 +20,7 @@ export default function Root() {
   if(!res.data.message){
     const userFavorites = res.data;
     setFavorites(userFavorites)
-    console.log(userFavorites)
+    // console.log(userFavorites)
   }
 
   };
@@ -37,11 +39,11 @@ export default function Root() {
 
   return (
     <>
-      <HomeNav props={{ setSignStatus, setPName, categories, signStatus, pName, favorites }} className="" />
+      <HomeNav props={{ setSignStatus, setPName, categories, signStatus, pName, favorites, setFavorites }} className="" />
 
       <main className='flex justify-center'>
         <Outlet
-          context={{ categories, signStatus, setSignStatus, setPName, favorites }}
+          context={{ categories, signStatus, setSignStatus, setPName, favorites, setFavorites }}
         />
       </main>
     </>

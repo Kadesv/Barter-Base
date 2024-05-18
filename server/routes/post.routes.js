@@ -73,13 +73,15 @@ postRouter.get('/:postId', async (req, res) => {
 
 postRouter.post('/create', async (req, res) => {
   const { userId } = req.session;
-  const { title, context, price, image, selectedSubCategory } = req.body;
+  const { title, context, price, image, selectedCategory, selectedSubCategory } = req.body;
+  if(title && context && price && image && selectedCategory && selectedSubCategory){
   const newPost = await Post.create({
     title: title,
     price: price,
     context: context,
     image: image,
     userId: userId,
+    categoryId: selectedCategory,
     subCategoryId: selectedSubCategory
   })
   if (newPost) {
@@ -88,6 +90,9 @@ postRouter.post('/create', async (req, res) => {
   else {
     res.json({ success: false });
   }
+}else {
+  res.json({ success: false });
+}
 });
 
 postRouter.put('/save', async (req, res) => {

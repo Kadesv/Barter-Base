@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import NewPostForm from './Components/NewPostForm.jsx';
 import ChatRoomList from './Components/ChatRoomList.jsx';
+import NoSignAlert from './Components/NoSignAlert.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from './Components/LogoutButton.jsx';
@@ -8,7 +9,7 @@ import FavoritesComponent from './Components/FavoritesComponent.jsx';
 
 export default function HomeNav({ props }) {
   const navigate = useNavigate();
-  const { signStatus, setSignStatus, pName, setPName, categories, favorites } = props;
+  const { signStatus, setSignStatus, pName, setPName, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
   const [showPost, setShowPost] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -18,7 +19,8 @@ export default function HomeNav({ props }) {
     const res = await axios.post('/api/logout');
     if (res.data.success) {
       setSignStatus(false);
-      setPName('')
+      setFavorites([]);
+      setPName('');
       navigate('/');
     }
   };
@@ -84,6 +86,30 @@ export default function HomeNav({ props }) {
         </>
     )
   }
+  const noSignAlert = () => {
+    return (
+      signStatus ?
+        <>
+
+
+        </>
+        :
+        <>
+
+          <div
+
+            className=" flex card w-full bg-neutral rounded-none text-neutral-content z-10 fixed bottom-0">
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">You must be signed in to do this.</h2>
+              <div className="card-actions justify-end">
+              </div>
+            </div>
+          </div>
+
+        </>
+
+    )
+  };
   return (
     <>
       <nav className="navbar bg-base-300 sticky top-0 z-10">
@@ -141,8 +167,9 @@ export default function HomeNav({ props }) {
                   <button onClick={() => { onNewPostClick() }} className='btn'>New Post</button>
                   <button onClick={() => { onChatClick() }} className='btn'>Chats</button>
                 </div>
+                {noSignAlert()}
                 {showFavorites ?
-                  <FavoritesComponent favorites={favorites}/>
+                  <FavoritesComponent signStatus={signStatus} setFavorites={setFavorites} favorites={favorites} categories={categories} />
                   : null
                 }
                 {showPost ?
@@ -153,6 +180,12 @@ export default function HomeNav({ props }) {
                   <ChatRoomList />
                   : null
                 }
+                {!signStatus ?
+                <NoSignAlert/>
+                 :
+                 null
+                }
+
               </section>
             </section>
           </section>

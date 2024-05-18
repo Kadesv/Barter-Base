@@ -54,8 +54,8 @@ export default function BrowsePostsPage() {
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">
 
-            <button className="btn" onClick={() => document.getElementById('my_modal_5').showModal()}>Read More</button>
-            <dialog id="my_modal_5" className="modal w-auto ">
+            <button className="btn" onClick={() => document.getElementById(`model-popup${postId}`).showModal()}>Read More</button>
+            <dialog id={`model-popup${postId}`} className="modal w-auto ">
               <div className=" modal-box hero-content flex-col-reverse ">
                 <div className="text-center items-center lg:text-left">
                   <div className="text-center lg:text-left">
@@ -77,8 +77,7 @@ export default function BrowsePostsPage() {
                 {/* popup images */}
                 <div className=" shadow-2xl bg-base-100">
                   <figure className=" carousel rounded-box">
-                    <img src={image} className=" carousel-item h-full w-full rounded-xl" />
-
+                    <ImageMap images={image}/>
                   </figure>
                 </div>
               </div>

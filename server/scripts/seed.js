@@ -77,7 +77,7 @@ const postsInDB = await Promise.all(
             context: 'context',
             subCategoryId: subCat,
             categoryId: cat + 1 ,
-            userId: 1,
+            userId: 3,
             price: 1,
             image: image
         });
