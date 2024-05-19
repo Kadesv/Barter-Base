@@ -2,19 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import LikeButton from "./LikeButton";
 import ImageMap from "./ImageMap";
-import { useNavigate } from "react-router-dom";
 
 export default function FavoritesComponent({ signStatus, favorites, setFavorites, categories }) {
 
-  const navigate = useNavigate();
   const handleFavorite = async ({ postId }) => {
-    if (!signStatus) {
-      navigate('/signIn')
-    }
-    else {
-      await axios.post(`/api/posts/favorite/${postId}`).then((res) => setFavorites(res.data));
-    }
-  }
+    const i = favorites.findIndex((favorite)=> favorite.postId === postId);
+    const favCopy = [...favorites]
+    favCopy.splice(i,1)
+    setFavorites(favCopy)
+      await axios.post(`/api/posts/favorite/${postId}`);
+}
 
 
   const favMap = favorites.map(({ post: { image, context, title }, postId }) => {
@@ -75,7 +72,6 @@ export default function FavoritesComponent({ signStatus, favorites, setFavorites
   })
 
   return (
-    signStatus ?
     <>
       <div className='w-full'>
         <section>
@@ -86,17 +82,5 @@ export default function FavoritesComponent({ signStatus, favorites, setFavorites
         </section>
       </div>
     </>
-
-    :
-
-    <>
-    <div className='w-full'>
-      <section>
-        <h1 className="flex justify-center">Favorites</h1>
-        <div className="">
-        </div>
-      </section>
-    </div>
-  </>
   )
 }
