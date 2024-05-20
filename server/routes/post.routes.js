@@ -131,6 +131,9 @@ postRouter.post('/favorite/:postId', async (req, res) => {
     res.json(await Favorites.findAll({
       where:{
         userId: userId
+      },
+      include:{
+        model: Post
       }
     }))
 
@@ -144,6 +147,9 @@ postRouter.post('/favorite/:postId', async (req, res) => {
     res.json(await Favorites.findAll({
       where:{
         userId: userId
+      },
+      include:{
+        model: Post
       }
     }))
   }

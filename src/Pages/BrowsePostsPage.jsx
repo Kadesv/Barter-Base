@@ -2,23 +2,26 @@ import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
 import ImageMap from "../Components/ImageMap";
 import LikeButton from "../Components/LikeButton";
 import axios from "axios";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function BrowsePostsPage() {
-  const { posts, userFavorites } = useLoaderData();
+  const { posts } = useLoaderData();
   const [filterOpen, setFilterOpen] = useState(false);
-  const { categories, signStatus } = useOutletContext();
+  const { categories, signStatus, favorites, setFavorites } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const [favorites, setFavorites] = useState(userFavorites);
 
   const handleFavorite = async ({ postId }) => {
     if (!signStatus) {
       navigate('/signIn')
     }
     else {
-      await axios.post(`/api/posts/favorite/${postId}`).then((res)=> setFavorites(res.data));
+      return(
+      await axios.post(`/api/posts/favorite/${postId}`).then((res)=> setFavorites(res.data))
+)
+console.log(favorites)
+
     }
   }
 
