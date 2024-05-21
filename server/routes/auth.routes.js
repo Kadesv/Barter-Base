@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { User } from "../models/index.js";
+import { User, Favorites, Post } from "../models/index.js";
 
 const authRoutes = Router();
 
@@ -8,8 +8,17 @@ authRoutes.post('/api/auth', async (req, res) => {
   const user = await User.findOne({ where: { email: email } });
 
   if (user && user.password === password) {
+    
     req.session.userId = user.userId;
-    res.json({ success: true, user });
+    const favorites = await Favorites.findAll({
+      where:{
+        userId: user.userId
+      },
+      include:{
+        model: Post
+      }
+    })
+    res.json({ success: true, user, favorites });
     // console.log(user.firstName);
   } else {
     res.json({ success: false});
@@ -58,9 +67,18 @@ authRoutes.post('/api/checkss', async (req, res) => {
   const { userId } = req.session
   if (userId) {
     const user = await User.findOne({ where: { userId: userId } });
-    // console.log(`the api found${user}`)
-    res.json({ success: true, user });
-  }
+  
+  const favorites =  await Favorites.findAll({
+    where: {
+      userId: userId
+    },
+    include:{
+      model: Post
+    }
+  })
+  res.json({ success: true, user, favorites });
+
+}
   else {
     // console.log("the api couldn't find a user")
     res.json({ success: false });

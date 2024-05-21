@@ -23,7 +23,7 @@
     "npm": "^10.2.5",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-bootstrap": "^2.10.0",
     "react-currency-input-field": "^3.8.0",
     "react-dom": "^18.2.0",

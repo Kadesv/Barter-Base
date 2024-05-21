@@ -16,7 +16,6 @@ postRouter.get('/browse', async (req, res) => {
         userId: userId
       }
     })
-
     res.json({ posts, userFavorites })
 
   } else {
@@ -34,6 +33,22 @@ postRouter.get('/getCategories', async (req, res) => {
   }));
 
 })
+postRouter.get('/getFavorites', async (req, res) => {
+  const { userId } = req.session
+  if(userId){
+res.json( await Favorites.findAll({
+    where: {
+      userId: userId
+    },
+    include:{
+      model: Post
+    }
+  }))}
+
+  else{
+    res.json({message: 'no user'})
+  }
+})
 
 postRouter.get('/account', async (req, res) => {
   const { userId } = req.session;
@@ -43,7 +58,6 @@ postRouter.get('/account', async (req, res) => {
     }
   }));
   const user = (await User.findByPk(userId));
-
   const favorites = (await Favorites.findAll({
     where: {
       userId
@@ -59,13 +73,15 @@ postRouter.get('/:postId', async (req, res) => {
 
 postRouter.post('/create', async (req, res) => {
   const { userId } = req.session;
-  const { title, context, price, image, selectedSubCategory } = req.body;
+  const { title, context, price, image, selectedCategory, selectedSubCategory } = req.body;
+  if(title && context && price && image && selectedCategory && selectedSubCategory){
   const newPost = await Post.create({
     title: title,
     price: price,
     context: context,
     image: image,
     userId: userId,
+    categoryId: selectedCategory,
     subCategoryId: selectedSubCategory
   })
   if (newPost) {
@@ -74,6 +90,9 @@ postRouter.post('/create', async (req, res) => {
   else {
     res.json({ success: false });
   }
+}else {
+  res.json({ success: false });
+}
 });
 
 postRouter.put('/save', async (req, res) => {
@@ -93,55 +112,57 @@ postRouter.put('/save', async (req, res) => {
   }
 }
 )
-postRouter.post('/favoriting/toggle/:postId', async (req, res) => {
+
+postRouter.post('/favorite/:postId', async (req, res) => {
   const { userId } = req.session;
   const { postId } = req.params;
+  const parsedPostId = JSON.parse(postId);
   const checkFavorite = await Favorites.findOne({
-    where:{
-      userId,
+    where: {
+      userId: userId,
+      postId: parsedPostId
+    }
+  })
+  if (checkFavorite === null) {
+  await Favorites.create({
+      postId: parsedPostId,
+      userId: userId
+    })
+    res.json(await Favorites.findAll({
+      where:{
+        userId: userId
+      },
+      include:{
+        model: Post
+      }
+    }))
+
+  } else {
+   await Favorites.destroy({
+      where: {
+        postId: parsedPostId,
+        userId: userId
+      }
+    })
+    res.json(await Favorites.findAll({
+      where:{
+        userId: userId
+      },
+      include:{
+        model: Post
+      }
+    }))
+  }
+})
+
+
+postRouter.delete('/delete/:postId', async (req, res) => {
+  const { postId } = req.params;
+  await Post.destroy({
+    where: {
       postId
     }
   })
-  if(!checkFavorite){
-  const newFavorite = await Favorites.create({
-        postId: postId,
-        userId: userId
-    })
-    console.log(newFavorite);
-    res.json({ success: true });
-  } else{
-    await Favorites.destroy({
-      where:{
-        postId,
-        userId
-      }
-    })
-  }
-})
-
-postRouter.delete('/favorite/delete/postId', async (req, res) => {
-  const { userId } = req.session
-  const { postId } = req.params;
-if(userId && postId){
-  await Favorites.destroy({
-    where: {
-      postId: postId,
-      userId: userId
-    }
-  })
-  res.json({ success: true });
-} else{
-  res.json({ success : false })
-}
-});
-
-postRouter.delete('/delete/:postId', async (req, res) => {
-const {postId} = req.params;
-await Post.destroy({
-  where:{
-    postId
-  }
-})
   res.json({ success: true });
 });
 

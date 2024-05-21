@@ -1,12 +1,12 @@
-export default function LogoutButton({ signStatus, handleLogOut }) {
+export default function LogoutButton({ authStatus, handleLogOut }) {
   return (
-    !signStatus ?
+    !authStatus ?
       <>
-        <a href='/signIn'>Sign In</a>
+        <a href='/signIn'>Login</a>
       </>
       :
       <>
-        <button as="a"onClick={handleLogOut}>Sign Out</button>
+        <button as="a"onClick={handleLogOut}>Logout</button>
       </>
   );
 }
