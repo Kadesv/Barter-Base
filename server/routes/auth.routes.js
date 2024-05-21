@@ -67,9 +67,18 @@ authRoutes.post('/api/checkss', async (req, res) => {
   const { userId } = req.session
   if (userId) {
     const user = await User.findOne({ where: { userId: userId } });
-    // console.log(`the api found${user}`)
-    res.json({ success: true, user });
-  }
+  
+  const favorites =  await Favorites.findAll({
+    where: {
+      userId: userId
+    },
+    include:{
+      model: Post
+    }
+  })
+  res.json({ success: true, user, favorites });
+
+}
   else {
     // console.log("the api couldn't find a user")
     res.json({ success: false });

@@ -1,6 +1,6 @@
-export default function LikeButton({ signStatus, postId, favorites, handleFavorite }) {
+export default function LikeButton({ authStatus, postId, favorites, handleFavorite }) {
 
-  if (signStatus) {
+  if (authStatus) {
     return (
       favorites.find((favorite) => favorite.postId === postId) ?
         <button className="btn btn-ghost" onClick={() => handleFavorite({ postId })}>

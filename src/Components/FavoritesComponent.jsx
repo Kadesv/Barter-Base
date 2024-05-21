@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import LikeButton from "./LikeButton";
 import ImageMap from "./ImageMap";
 
-export default function FavoritesComponent({ signStatus, favorites, setFavorites, categories }) {
+export default function FavoritesComponent({ authStatus, favorites, setFavorites, categories }) {
 
   const handleFavorite = async ({ postId }) => {
     const i = favorites.findIndex((favorite)=> favorite.postId === postId);
@@ -61,7 +61,7 @@ export default function FavoritesComponent({ signStatus, favorites, setFavorites
 
               <div className="form-control ">
                 <div className="w-full  ">
-                  <LikeButton signStatus={signStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
+                  <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
                 </div>
               </div>
             </div>

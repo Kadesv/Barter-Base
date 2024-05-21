@@ -1,6 +1,6 @@
-export default function LogoutButton({ signStatus, handleLogOut }) {
+export default function LogoutButton({ authStatus, handleLogOut }) {
   return (
-    !signStatus ?
+    !authStatus ?
       <>
         <a href='/signIn'>Login</a>
       </>

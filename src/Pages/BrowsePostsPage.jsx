@@ -8,20 +8,18 @@ import { v4 as uuidv4 } from 'uuid';
 export default function BrowsePostsPage() {
   const { posts } = useLoaderData();
   const [filterOpen, setFilterOpen] = useState(false);
-  const { categories, signStatus, favorites, setFavorites } = useOutletContext();
+  const { categories, authStatus, favorites, setFavorites } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   const handleFavorite = async ({ postId }) => {
-    if (!signStatus) {
+    if (!authStatus) {
       navigate('/signIn')
     }
     else {
-      return(
-      await axios.post(`/api/posts/favorite/${postId}`).then((res)=> setFavorites(res.data))
-)
-console.log(favorites)
-
+      return (
+        await axios.post(`/api/posts/favorite/${postId}`).then((res) => setFavorites(res.data))
+      )
     }
   }
 
@@ -80,7 +78,7 @@ console.log(favorites)
                 {/* popup images */}
                 <div className=" shadow-2xl bg-base-100">
                   <figure className=" carousel rounded-box">
-                    <ImageMap images={image}/>
+                    <ImageMap images={image} />
                   </figure>
                 </div>
               </div>
@@ -91,7 +89,7 @@ console.log(favorites)
 
             <div className="form-control">
               <div className="w-full flex ">
-                <LikeButton signStatus={signStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
+                <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
               </div>
             </div>
           </div>

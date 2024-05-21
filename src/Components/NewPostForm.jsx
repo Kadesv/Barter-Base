@@ -10,7 +10,7 @@ const currencyFormat = new Intl.NumberFormat("en-US", {
     currency: "USD"
 });
 
-export default function NewPostForm({ categories, signStatus, setShowPost }) {
+export default function NewPostForm({ categories, setShowPost }) {
     const navigate = useNavigate()
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [postImages, setPostImages] = useState(null);

@@ -9,7 +9,7 @@ import FavoritesComponent from './Components/FavoritesComponent.jsx';
 
 export default function HomeNav({ props }) {
   const navigate = useNavigate();
-  const { signStatus, setSignStatus, pName, setPName, categories, favorites, setFavorites } = props;
+  const { authStatus, setAuthStatus, pName, setPName, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
   const [showPost, setShowPost] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -18,7 +18,7 @@ export default function HomeNav({ props }) {
     e.preventDefault();
     const res = await axios.post('/api/logout');
     if (res.data.success) {
-      setSignStatus(false);
+      setAuthStatus(false);
       setFavorites([]);
       setPName('');
       navigate('/');
@@ -75,7 +75,7 @@ export default function HomeNav({ props }) {
   }
   const AccountLink = () => {
     return (
-      signStatus ?
+      authStatus ?
         <>
           <a href='/account'>Account</a>
         </>
@@ -88,7 +88,7 @@ export default function HomeNav({ props }) {
   }
   const noSignAlert = () => {
     return (
-      signStatus ?
+      authStatus ?
         <>
 
 
@@ -118,7 +118,7 @@ export default function HomeNav({ props }) {
             <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
             </button>
-            <LogoutButton handleLogOut={(e) => handleLogout(e)} signStatus={signStatus} />
+            <LogoutButton handleLogOut={(e) => handleLogout(e)} authStatus={authStatus} />
 
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><a href='/'>Homepage</a></li>
@@ -159,7 +159,7 @@ export default function HomeNav({ props }) {
 
             <section className="drawer-side ">
               <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => { closeAllClick() }} className="drawer-overlay"></label>
-              <section className={!signStatus ? 'bg-base-200 pointer-events-none menu  p-4 w-80 min-h-full flex items-center text-base-content' : "menu  flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content"}>
+              <section className={!authStatus ? 'bg-base-200 pointer-events-none menu  p-4 w-80 min-h-full flex items-center text-base-content' : "menu  flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content"}>
                 {/* Sidebar content here */}
                 <div>
                   <button onClick={() => { onFavoriteClick() }} className='btn'>Favorites</button>
@@ -168,18 +168,18 @@ export default function HomeNav({ props }) {
                 </div>
                 {noSignAlert()}
                 {showFavorites ?
-                  <FavoritesComponent signStatus={signStatus} setFavorites={setFavorites} favorites={favorites} categories={categories} />
+                  <FavoritesComponent authStatus={authStatus} setFavorites={setFavorites} favorites={favorites} categories={categories} />
                   : null
                 }
                 {showPost ?
-                  <NewPostForm categories={categories} signStatus={signStatus} setShowPost={setShowPost} />
+                  <NewPostForm categories={categories} authStatus={authStatus} setShowPost={setShowPost} />
                   : null
                 }
                 {showChat ?
                   <ChatRoomList />
                   : null
                 }
-                {!signStatus ?
+                {!authStatus ?
                 <NoSignAlert/>
                  :
                  null
