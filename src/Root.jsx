@@ -8,12 +8,14 @@ export default function Root() {
   const [authStatus, setAuthStatus] = useState(false);
   const [userId, setUserId] = useState('');
   const [favorites, setFavorites] = useState([])
+  const [chatRooms, setChatRooms] = useState([])
   
   const getUserInfo = async () => {
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
       const { userId } = res.data.user;
       setFavorites(res.data.favorites)
+      
       setUserId(userId);
       setAuthStatus(true);
     }

@@ -24,18 +24,25 @@ authRoutes.post('/api/auth', async (req, res) => {
     res.json({ success: false});
   }
 });
-
+// new user
 authRoutes.post('/api/register', async (req, res) => {
-  const { email, password, username } = req.body;
+  const { email, password, firstName, lastName, preferredName, city, state, zipCode } = req.body;
   const checkEmail = await User.findOne({ where: { email: email } });
-  const checkUsername = await User.findOne({ where: { username: username } });
-
-  if (checkEmail || checkUsername) {
+  if (checkEmail !== null) {
     res.json({ success: false });
   }
-  else if (email && password && username) {
-    const user = await User.create({ username, email, password })
-    req.session.userId = user.Id;
+  else if (email && password && firstName && lastName && preferredName && city && state && zipCode) {
+    const user = await User.create({ 
+      email: email,
+      password: password, 
+      firstName: firstName, 
+      lastName: lastName, 
+      preferredName: preferredName, 
+      city: city, 
+      state: state, 
+      zipCode: zipCode })
+      console.log(user);
+    req.session.userId = user.userId;
     res.json({ success: true, user })
   }
   else {
@@ -44,24 +51,6 @@ authRoutes.post('/api/register', async (req, res) => {
   }
 });
 
-// ADDING A USER
-
-authRoutes.post('/api/signUp', async (req, res) => {
-  const { firstName, lastName, preferredName, city, state, email, password } = req.body;
-  const checkEmail = await User.findOne({ where: { email: email } });
-  const checkPassword = await User.findOne({ where: { password: password } });
-  const message = "";
-
-  if (checkEmail) {
-    res.json({ sucess: false, message: "It looks like you already have an account with that email." });
-  } else if (firstName && lastName && preferredName && city && state && email && password) {
-    const user = await User.create({ firstName, lastName, preferredName, city, state, email, password })
-    req.session.userId = user.Id;
-    res.json({ sucess: true, user });
-  } else {
-    res.json({ sucess: false, message: "Sorry, it looks like something went wrong." });
-  }
-});
 
 authRoutes.post('/api/checkss', async (req, res) => {
   const { userId } = req.session
