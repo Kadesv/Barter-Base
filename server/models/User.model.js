@@ -20,6 +20,18 @@ User.init(
       allowNull: true,
       unique: false,
     },
+    city: {
+      type: DataTypes.STRING(25),
+      allowNull: true,
+    },
+    state: {
+      type: DataTypes.STRING(25),
+      allowNull: true,
+    },
+    zipCode:{
+      type: DataTypes.INTEGER(5),
+      allowNull: true,
+    },
     firstName: {
       type: DataTypes.STRING(25),
       allowNull: false,

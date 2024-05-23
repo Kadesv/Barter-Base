@@ -89,7 +89,10 @@ const postsInDB = await Promise.all(
 
 const chatData = [
     { user1Id: 1, user2Id: 2 },
-    { user1Id: 3, user2Id: 4 }
+    { user1Id: 3, user2Id: 4 },
+    { user1Id: 1, user2Id: 5 },
+    { user1Id: 6, user2Id: 1 },
+    
 ];
 
 const chatsInDB = await Promise.all(
