@@ -15,7 +15,7 @@ export default function Root() {
     if (res.data.success) {
       const { userId } = res.data.user;
       setFavorites(res.data.favorites)
-      
+      setChatRooms(res.data.rooms)
       setUserId(userId);
       setAuthStatus(true);
     }
@@ -26,11 +26,11 @@ export default function Root() {
 
   return (
     <>
-      <HomeNav props={{ setAuthStatus, setUserId, categories, authStatus, userId, favorites, setFavorites }} className="" />
+      <HomeNav props={{ setAuthStatus, setUserId, categories, chatRooms, setChatRooms, authStatus, userId, favorites, chatRooms, setChatRooms, setFavorites }} className="" />
 
       <main className='flex justify-center'>
         <Outlet
-          context={{ categories, authStatus, setAuthStatus, setUserId, favorites, setFavorites }}
+          context={{ categories, authStatus, setAuthStatus, setUserId, favorites, chatRooms, setChatRooms, setFavorites }}
         />
       </main>
     </>

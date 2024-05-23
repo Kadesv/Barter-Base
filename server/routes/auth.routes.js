@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { User, Favorites, Post } from "../models/index.js";
-
+import { User, Favorites, Post, Chat, Message } from "../models/index.js";
+import { Op } from 'sequelize';
 const authRoutes = Router();
 
 authRoutes.post('/api/auth', async (req, res) => {
@@ -8,20 +8,27 @@ authRoutes.post('/api/auth', async (req, res) => {
   const user = await User.findOne({ where: { email: email } });
 
   if (user && user.password === password) {
-    
+
     req.session.userId = user.userId;
     const favorites = await Favorites.findAll({
-      where:{
+      where: {
         userId: user.userId
       },
-      include:{
+      include: {
         model: Post
       }
     })
-    res.json({ success: true, user, favorites });
-    // console.log(user.firstName);
+    const rooms = await Chat.findAll({
+      where: {
+        [Op.or]: [{ user1Id: user.userId }, { user2Id: user.userId }],
+      },
+      include: {
+        model: Message,
+      }
+    })
+    res.json({ success: true, user, favorites, rooms});
   } else {
-    res.json({ success: false});
+    res.json({ success: false });
   }
 });
 // new user
@@ -32,16 +39,17 @@ authRoutes.post('/api/register', async (req, res) => {
     res.json({ success: false });
   }
   else if (email && password && firstName && lastName && preferredName && city && state && zipCode) {
-    const user = await User.create({ 
+    const user = await User.create({
       email: email,
-      password: password, 
-      firstName: firstName, 
-      lastName: lastName, 
-      preferredName: preferredName, 
-      city: city, 
-      state: state, 
-      zipCode: zipCode })
-      console.log(user);
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      preferredName: preferredName,
+      city: city,
+      state: state,
+      zipCode: zipCode
+    })
+    console.log(user);
     req.session.userId = user.userId;
     res.json({ success: true, user })
   }
@@ -56,20 +64,26 @@ authRoutes.post('/api/checkss', async (req, res) => {
   const { userId } = req.session
   if (userId) {
     const user = await User.findOne({ where: { userId: userId } });
-  
-  const favorites =  await Favorites.findAll({
-    where: {
-      userId: userId
-    },
-    include:{
-      model: Post
-    }
-  })
-  res.json({ success: true, user, favorites });
 
-}
+    const favorites = await Favorites.findAll({
+      where: {
+        userId: userId
+      },
+      include: {
+        model: Post
+      }
+    })
+    const rooms = await Chat.findAll({
+      where: {
+        [Op.or]: [{ user1Id: userId }, { user2Id: userId }],
+      },
+      include: {
+        model: Message,
+      }
+    })
+    res.json({ success: true, user, favorites, rooms });
+  }
   else {
-    // console.log("the api couldn't find a user")
     res.json({ success: false });
   }
 })
