@@ -88,7 +88,7 @@ export default function NewPostForm({ categories, setShowPost }) {
                     handleSubmit(e)
                 }}>
                 <select className=" categorySelect
-                 select m-2 select-bordered w-full max-w-xs"
+                 select my-2 select-bordered w-full max-w-xs"
                     onChange={(event) => { setSelectedCategory(event.target.value) }}
                     name="category" id="category"
                     defaultValue={''}>
@@ -96,7 +96,7 @@ export default function NewPostForm({ categories, setShowPost }) {
                     {catMap}
                 </select>
                 <select className=" subCategorySelect 
-                select m-2 select-bordered w-full max-w-xs"
+                select my-2 select-bordered w-full max-w-xs"
                     disabled={!selectedCategory}
                     onChange={(event) => { setSelectedSubCategory(event.target.value) }}
                     name="subCategory" id="subCategory"
@@ -106,7 +106,7 @@ export default function NewPostForm({ categories, setShowPost }) {
                 </select>
                 <div className="titleInput">
                     <input
-                        className="input m-2 input-bordered w-full max-w-xs"
+                        className="input my-2 input-bordered w-full max-w-xs"
                         placeholder="Title"
                         value={title}
                         onChange={(event) => { setTitle(event.target.value) }}
@@ -117,7 +117,7 @@ export default function NewPostForm({ categories, setShowPost }) {
                     <CurrencyInput
                         value={price}
                         placeholder={currencyFormat.format("")}
-                        className="input m-2  input-bordered w-full max-w-xs"
+                        className="input my-2  input-bordered w-full max-w-xs"
                         onValueChange={(price) => setPrice(price)}
                         intlConfig={{ locale: "en-US", currency: 'USD' }}
                         allowDecimals={true}
@@ -126,7 +126,7 @@ export default function NewPostForm({ categories, setShowPost }) {
                 </div>
                 <div className="detailInput">
                     <input
-                        className="textarea m-2 textarea-bordered w-full max-w-xs"
+                        className="textarea textarea-md my-2 textarea-bordered w-full max-w-xs"
                         placeholder="Details"
                         value={context}
                         onChange={(event) => { setContext(event.target.value) }}
@@ -134,7 +134,7 @@ export default function NewPostForm({ categories, setShowPost }) {
                 </div>
                 <div className="imageInput">
                     <input
-                        className="file-input m-2 file-input-bordered w-full max-w-xs"
+                        className="file-input my-2 file-input-bordered w-full max-w-xs"
                         placeholder="image"
                         multiple
                         type="file"
