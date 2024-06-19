@@ -16,39 +16,17 @@ export default function AccountPage() {
     showUserInfo();
   }, [])
 
-  // user listings
-  useEffect(() => {
-    const showUserPosts = async () => {
-      const res = await axios.get('/api/posts/account');
-      // console.log(res.data);
-      if (res.data.success) {
-        setPosts(res.data.posts);
-        // console.log("here are the user's posts", posts)
-      } else {
-        // console.log("DB query failed")
-      }
-    };
-    showUserPosts();
-  }, [])
 
-  const userPosts = posts.map(({ image, user, postId, title, context, createdDate, price }) =>
-
-  (
-    <div key={postId} className="grid">
-      <div className="card bg-base-100 shadow-xl">
-        <figure className="px-10 pt-10">
-          <img src={`${image}`} alt="image" className=" h-full w-full rounded-xl" />
-        </figure>
-        <div className="card-body flex   ">
-          <h2 className="card-title">{title}</h2>
-          <div className="card-actions">
-            <a className="btn btn-primary" href={`/posts/${postId}`}>Edit</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-  );
+    const postListItems = posts.map(({ image, user, postId, title, context, createdDate, price  }) => {
+      return(
+        <postTemplate
+        key={postId}
+        initialData={{ postId, title, context }}
+        initialIsEditing={false}
+  
+    />
+      )
+    });
 
   return (
     <>
@@ -58,6 +36,14 @@ export default function AccountPage() {
         </section> */}
         <section>
           <h1 className="flex justify-center text-xl p-4">My Listings</h1>
+          <div>
+            <h3 className="flex justify-center text-xl p-4">Account Information</h3>
+           
+
+
+
+
+          </div>
           <div className=" grid lg:grid-cols-3 gap-20  sm:grid-cols-2">
             {userPosts}
           </div>
