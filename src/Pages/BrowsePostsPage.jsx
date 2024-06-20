@@ -36,25 +36,24 @@ export default function BrowsePostsPage() {
 
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
-
-    <div key={postId} className="">
+           <div key={postId} className="">
       <div className="card bg-base-100 shadow-xl m-1">
-        <figure >
-          <img src={image[0]} alt="IMAGE NOT FOUND" className=" h-full w-full rounded-xl" />
+        <figure className="h-60 rouded pt-6 m-0">
+          <img src={image[0]} alt="IMAGE NOT FOUND" className=" rounded h-auto w-auto " />
         </figure>
-        <div className="card-body flex ">
+        <div  className="card-body flex px-3 pb-2 pt-0">
           <div>
-
             <div className="tooltip tooltip-top" data-tip="Category">
               <div title="Category" className="badge badge-info badge-xs">{categories[categoryId - 1].categoryName}</div>
             </div>
             <div className="tooltip tooltip-top" data-tip="Sub-Category">
-              <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div>
+                           <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div>
+
             </div>
+            
           </div>
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">
-
             <button className="btn" onClick={() => document.getElementById(`model-popup${postId}`).showModal()}>Read More</button>
             <dialog id={`model-popup${postId}`} className="modal w-auto ">
               <div className=" modal-box hero-content flex-col-reverse ">
