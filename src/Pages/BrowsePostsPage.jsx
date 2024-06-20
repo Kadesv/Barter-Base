@@ -55,36 +55,39 @@ export default function BrowsePostsPage() {
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">
             <button className="btn" onClick={() => document.getElementById(`model-popup${postId}`).showModal()}>Read More</button>
-            <dialog id={`model-popup${postId}`} className="modal w-auto ">
-              <div className=" modal-box hero-content flex-col-reverse ">
-                <div className="text-center items-center lg:text-left">
-                  <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">{title}</h1>
-                    <p className="py-6">{context}</p>
-                  </div>
-
-                  <div className="collapse bg-base-200">
-                    <input id={'dropDownInput' + postId} type="checkbox" />
-                    <div className="collapse-title ">
-                      Message Seller
+            <dialog id={`model-popup${postId}`} className="modal  w-auto ">
+                <div className=" modal-box hero-content -col-reverse ">
+                  <div className="text-center items-center lg:text-left">
+                    <div className="text-center lg:text-left">
+                      <h1 className="text-5xl font-bold ">{title}</h1>
+                      <p className="py-6">{context}</p>
                     </div>
-                    <form id={'messageForm' + postId} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
-                      <input id={'messageInput' + postId} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder="Type Here..." />
-                      <button className="btn btn-ghost">Send</button>
-                    </form>
+
+                    <div className="collapse bg-base-200">
+                      <input id={'dropDownInput' + postId + 'component'} type="checkbox" />
+                      <div className="collapse-title ">
+                        Message Seller
+                      </div>
+                      <form id={'messageForm' + postId + 'component'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
+                        <input id={'messageInput' + postId + 'component'} disabled={!authStatus}onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authStatus ? 'Type Here...':'Please Sign In first.'} />
+                        <button  disabled={!authStatus} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button>
+                        <a className="btn btn-ghost"href='/signIn'>Sign In</a>
+
+                      </form>
+                    </div>
+                  </div>
+                  {/* popup images */}
+                  <div className=" shadow-2xl bg-base-100">
+                    <figure className=" carousel rounded-box">
+                   <ImageMap images={image}/>
+
+                    </figure>
                   </div>
                 </div>
-                {/* popup images */}
-                <div className=" shadow-2xl bg-base-100">
-                  <figure className=" carousel rounded-box">
-                    <ImageMap images={image} />
-                  </figure>
-                </div>
-              </div>
-              <form id={'closeForm' + postId} method="dialog" className="modal-backdrop">
-                <button>close</button>
-              </form>
-            </dialog>
+                <form id={'closeForm' + postId + 'component'} method="dialog" className="modal-backdrop">
+                  <button>close</button>
+                </form>
+              </dialog>
 
             <div className="form-control">
               <div className="w-full flex ">
