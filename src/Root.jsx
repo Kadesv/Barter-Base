@@ -6,17 +6,15 @@ import { useState, useEffect } from 'react';
 export default function Root() {
   const { categories } = useLoaderData();
   const [authStatus, setAuthStatus] = useState(false);
-  const [userId, setUserId] = useState('');
+  const [user, setUser] = useState('');
   const [favorites, setFavorites] = useState([])
   const [chatRooms, setChatRooms] = useState([])
-  
   const getUserInfo = async () => {
     const res = await axios.post('/api/checkss');
     if (res.data.success) {
-      const { userId } = res.data.user;
       setFavorites(res.data.favorites)
       setChatRooms(res.data.rooms)
-      setUserId(userId);
+      setUser(res.data.user);
       setAuthStatus(true);
     }
   };
@@ -26,11 +24,11 @@ export default function Root() {
 
   return (
     <>
-      <HomeNav props={{ setAuthStatus, setUserId, categories, chatRooms, setChatRooms, authStatus, userId, favorites, chatRooms, setChatRooms, setFavorites }} className="" />
+      <HomeNav props={{ setAuthStatus, setUser, categories, chatRooms, setChatRooms, authStatus, user, favorites, setFavorites }} className="" />
 
       <main className='flex justify-center'>
         <Outlet
-          context={{ categories, authStatus, setAuthStatus, setUserId, favorites, chatRooms, setChatRooms, setFavorites }}
+          context={{ categories, authStatus, setAuthStatus, user, setUser, favorites, chatRooms, setChatRooms, setFavorites }}
         />
       </main>
     </>
