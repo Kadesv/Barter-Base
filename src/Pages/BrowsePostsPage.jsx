@@ -23,16 +23,23 @@ export default function BrowsePostsPage() {
     }
   }
 
-  // const handleNewChat=async(event,{user})=>{
-  //   event.preventDefault();
-  //   console.log(user.userId, message)
+  const handleNewChat=async(event, {user})=>{
+    event.preventDefault();
+    if(!authStatus){
+      alert('must sign in for this')
+    } else{
+    const chatObj = {
+      user2Id: user.userId,
+      message: message
+    }
 
-  //   const chatObj = {
-  //     user2Id: user.userId,
-  //     message: message
-  //   }
-  //   const res = await axios.post(`/api/chat/new`, chatObj)
-  // }
+    const res = await axios.post(`/api/chat/new`, chatObj)
+    console.log(res)
+if(res.data.success){
+  socket.emit("send_message",  res.data.newMessage)
+}
+setMessage('')
+  }}
 
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
