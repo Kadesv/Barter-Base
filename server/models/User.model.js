@@ -29,7 +29,7 @@ User.init(
       allowNull: true,
     },
     zipCode:{
-      type: DataTypes.INTEGER(5),
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     firstName: {

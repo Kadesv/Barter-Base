@@ -3,7 +3,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 
 export default function SignInPage() {
-    const { setUserId, setAuthStatus, setChatRooms, setFavorites } = useOutletContext();
+    const { user, setUser, setAuthStatus, setChatRooms, setFavorites } = useOutletContext();
     const navigate = useNavigate();
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
@@ -16,7 +16,8 @@ export default function SignInPage() {
             setFavorites(res.data.favorites)
             setAuthStatus(true)
             setChatRooms(res.data.rooms)
-            setUserId(res.data.user.preferredName)
+            setUser(res.data.user)
+            console.log(user)
             navigate('/')
         } else {
             alert("Email or Password is Incorrect")

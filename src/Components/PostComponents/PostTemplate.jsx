@@ -44,14 +44,14 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
                         <EditableTitle
                             value={title}
                             isEditing={isEditing}
-                            onChange={setTitle}
+                            onValueChange={setTitle}
                         />
                     </div>
                     <div>
                         <EditableText
                             value={context}
                             isEditing={isEditing}
-                            onChange={setContext}
+                            onValueChange={setContext}
                         />
                     </div>
 

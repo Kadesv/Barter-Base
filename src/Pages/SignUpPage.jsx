@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 
 export default function SignUpPage() {
     const navigate = useNavigate();
+    const { setUser } = useOutletContext();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLName] = useState('');
     const [pName, setPName] = useState('');
@@ -19,6 +20,7 @@ export default function SignUpPage() {
 
         const res = await axios.post('/api/register', formData)
         if (res.data.success) {
+            setUser(res.data.User)
             navigate('/')
         }
     };
