@@ -96,11 +96,14 @@ const chatData = [
 ];
 
 const chatsInDB = await Promise.all(
-    chatData.map((chat) => {
-        const { user1Id, user2Id } = chat;
-        const newChat = Chat.create({
+    chatData.map(async(chat) => {
+        const { user1Id, user2Id, user1Name, user2Name } = chat;
+        const newChat = await Chat.create({
             user1Id: user1Id,
-            user2Id: user2Id
+            user2Id: user2Id,
+            user1Name: user1Name,
+            user2Name: user2Name
+
         });
 
         return newChat;

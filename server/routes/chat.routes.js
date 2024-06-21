@@ -20,6 +20,12 @@ console.log(chatObj,message)
 
 });
 
+chatRouter.get('/:chatId', async (req, res) => {
+  const { chatId } = req.params;
+  res.json(await Chat.findByPk(chatId, ));
+});  
+s
+
 
 //   res.json({ success: true, newChat: { ...newChat, user } });
 // });
