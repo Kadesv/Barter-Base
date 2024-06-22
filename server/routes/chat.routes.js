@@ -1,44 +1,59 @@
 import { Router } from "express";
-import { loginRequired } from "../middlewares/auth.middleware.js";
-import { User, Chat } from '../models/index.js';
+import { User, Chat, Message } from '../models/index.js';
+import { Op } from "sequelize";
 const chatRouter = Router()
 
 
-
-chatRouter.post('/new', loginRequired, async (req, res) => {
+//create new chat
+chatRouter.post('/new', async (req, res) => {
   const { userId } = req.session;
-  const {message, chatObj} =req.body;
-console.log(chatObj,message)
-  const newChat = await Chat.create(
-    { user1Id: userId, user2Id : user2Id }
-)
+  const {message, postOwner} =req.body;
+console.log(message, postOwner.userId)
+const checkForChat = await Chat.findOne({
+  where:{
+    [Op.or]: [{ user1Id: userId, user2Id:postOwner.userId }, { user1Id: postOwner.userId, user2Id: userId }],
+  }
+})
+if(checkForChat){
+  const newMessage = await Message.create({
+    chatId: checkForChat.chatId,
+    userId: userId,
+    messageText: message
+  })
+  if(newChat && newMessage){
+    res.json({
+      success:true,
+      newMessage
+    })
+  }
+}else{
+  const findUser = await User.findByPk(userId);
+  const newChat = await Chat.create({
+user1Name: findUser.pName,
+user1Id: userId,
+user2Name: postOwner.pName,
+user2Id: postOwner.userId
+  })
+  const newMessage = await Message.create({
+    chatId: newChat.chatId,
+    userId: userId,
+    messageText: message
+  })
+  
+  if(newChat && newMessage){
+    res.json({
+      success:true,
+      newChat,
+      newMessage
+    })
+  }
+}});
 
 
-
-
-
-
-});
-
+//open chat page
 chatRouter.get('/:chatId', async (req, res) => {
   const { chatId } = req.params;
-  res.json(await Chat.findByPk(chatId, ));
+  res.json(await Chat.findByPk(chatId ));
 });  
-s
-
-
-//   res.json({ success: true, newChat: { ...newChat, user } });
-// });
-
-// chatRouter.post('/newsub', loginRequired, async (req, res) => {
-//   const { userId } = req.session;
-//   const { commentId, subCommentText } = req.body;
-//   const newSubComment = await SubComment.create(
-//     { userId: userId, commentId: commentId, subCommentText: subCommentText }
-//   );
-//   const user = await User.findByPk(newSubComment.userId);
-
-//   res.json({ success: true, newSubComment: { ...newSubComment, user } });
-// });
 
 export default chatRouter;

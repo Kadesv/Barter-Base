@@ -59,7 +59,8 @@ const router = createBrowserRouter(
         <Route path='/signup'element={<SignUpPage />}></Route>
         <Route path='/messages'element={<MessagePage />}
         loader={async (params) => {
-          const res = await axios.get(`api/chat`)
+          const res = await axios.get(`api/chat/${params.chatId}`)
+          return {chatInfo : res.data}
         }}
         ></Route>
 
