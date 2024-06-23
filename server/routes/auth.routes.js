@@ -6,7 +6,6 @@ const authRoutes = Router();
 authRoutes.post('/api/auth', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ where: { email: email },include:{model: Post } });
-console.log(user)
   if (user && user.password === password) {
 
     req.session.userId = user.userId;
@@ -26,6 +25,7 @@ console.log(user)
         model: Message,
       }
     })
+    // console.log(rooms)
     res.json({ success: true, user, favorites, rooms});
   } else {
     res.json({ success: false });
@@ -49,7 +49,6 @@ authRoutes.post('/api/register', async (req, res) => {
       state: state,
       zipCode: zipCode
     })
-    console.log(user);
     req.session.userId = user.userId;
     res.json({ success: true, user })
   }
@@ -81,6 +80,7 @@ authRoutes.post('/api/checkss', async (req, res) => {
         model: Message,
       }
     })
+    console.log(rooms)
     res.json({ success: true, user, favorites, rooms });
   }
   else {

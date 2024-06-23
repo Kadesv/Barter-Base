@@ -29,7 +29,7 @@ export default function BrowsePostsPage() {
       alert('must sign in for this')
     } else{
     const chatObj = {
-      user2Id: user.userId,
+      postOwner: user,
       message: message
     }
 
