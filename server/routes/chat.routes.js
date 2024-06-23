@@ -8,7 +8,7 @@ const chatRouter = Router()
 chatRouter.post('/new', async (req, res) => {
   const { userId } = req.session;
   const {message, postOwner} =req.body;
-console.log(message, postOwner.userId)
+// console.log(message, postOwner.userId)
 const checkForChat = await Chat.findOne({
   where:{
     [Op.or]: [{ user1Id: userId, user2Id:postOwner.userId }, { user1Id: postOwner.userId, user2Id: userId }],
@@ -53,7 +53,13 @@ user2Id: postOwner.userId
 //open chat page
 chatRouter.get('/:chatId', async (req, res) => {
   const { chatId } = req.params;
-  res.json(await Chat.findByPk(chatId ));
+  console.log('hit')
+  console.log(chatId)
+ const chatInfo = await Chat.findOne({
+  chatId:chatId
+ });
+ console.log(chatInfo)
+res.json({chatInfo})
 });  
 
 export default chatRouter;
