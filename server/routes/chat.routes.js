@@ -56,10 +56,27 @@ chatRouter.get('/:chatId', async (req, res) => {
   console.log('hit')
   console.log(chatId)
  const chatInfo = await Chat.findOne({
-  chatId:chatId
+  chatId:chatId,
+  include:{
+    model:Message
+  }
  });
  console.log(chatInfo)
 res.json({chatInfo})
 });  
+
+
+//send message
+chatRouter.post('/msg/new', async (req,res)=> {
+  const {chatId, message} = req.body;
+  const newMessage = await Message.create({
+    chatId: newChat.chatId,
+    userId: userId,
+    messageText: message
+  })
+  if(newMessage){
+    res.json({success: true, newMessage})
+  }
+})
 
 export default chatRouter;

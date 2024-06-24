@@ -34,10 +34,10 @@ export default function BrowsePostsPage() {
     }
 
     const res = await axios.post(`/api/chat/new`, chatObj)
-    console.log(res)
-if(res.data.success){
-  socket.emit("send_message",  res.data.newMessage)
-}
+    // console.log(res)
+// if(res.data.success){
+//   socket.emit("send_message",  res.data.newMessage)
+// }
 setMessage('')
   }}
 
