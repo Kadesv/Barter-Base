@@ -54,8 +54,6 @@ chatRouter.post('/new', async (req, res) => {
 //open chat page
 chatRouter.get('/:chatId', async (req, res) => {
   const { chatId } = req.params;
-  console.log('hit')
-  console.log(chatId)
   res.json(await Chat.findOne({
     where: {
       chatId: chatId,
@@ -69,10 +67,12 @@ chatRouter.get('/:chatId', async (req, res) => {
 
 
 //send message
-chatRouter.post('/msg/new', async (req, res) => {
+chatRouter.post('/msg', async (req, res) => {
   const { chatId, message } = req.body;
+  const {userId} = req.session
+  // console.log(chatId, message)
   const newMessage = await Message.create({
-    chatId: newChat.chatId,
+    chatId: chatId,
     userId: userId,
     messageText: message
   })

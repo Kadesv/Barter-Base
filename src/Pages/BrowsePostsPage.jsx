@@ -4,7 +4,7 @@ import LikeButton from "../Components/LikeButton";
 import axios from "axios";
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
+import { socket } from "../main";
 export default function BrowsePostsPage() {
   const { posts } = useLoaderData();
   const [filterOpen, setFilterOpen] = useState(false);
@@ -35,9 +35,9 @@ export default function BrowsePostsPage() {
 
     const res = await axios.post(`/api/chat/new`, chatObj)
     // console.log(res)
-// if(res.data.success){
-//   socket.emit("send_message",  res.data.newMessage)
-// }
+if(res.data.success){
+  socket.emit("send_message",  res.data.newMessage)
+}
 setMessage('')
   }}
 

@@ -47,13 +47,7 @@ const router = createBrowserRouter(
         //   return res.data;
         // }}
           />
-        {/* <Route path='/favorites'element={<FavoritesPage />}
-        loader={async ()=> {
-          const res = await axios.get('/api/posts/getFavorites');
-          console.log(res);
-          return (res.data)
-        }}
-        /> */}
+
         <Route path='/about'element={<AboutPage />}/>
         <Route path='/signIn'element={<SignInPage />}></Route>
         <Route path='/signup'element={<SignUpPage />}></Route>
@@ -61,7 +55,7 @@ const router = createBrowserRouter(
         element={<MessagePage />}
         loader={async ({params}) => {
           const res = await axios.get(`/api/chat/${params.chatId}`)
-          console.log(res)
+          // console.log(res)
           return {chatInfo : res.data}
         }}
         ></Route>

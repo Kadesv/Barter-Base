@@ -30,13 +30,17 @@ app.use(cors());
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
+
   socket.on("join_room", (data) => {
+    console.log(data)
     socket.join(data);
   })
 
   socket.on("send_message", (data) => {
-   socket.to(data.room).emit("receive_message", data);
+    console.log(data)
+   socket.to(data.chatId).emit("receive_message", data);
   });
+
 });
 
 

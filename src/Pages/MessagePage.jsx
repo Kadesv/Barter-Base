@@ -1,35 +1,51 @@
 import { useLoaderData, useOutletContext } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { socket } from "../main"
 export default function MessagePage() {
-  const { user } = useOutletContext()
+
+  const { user, authStatus } = useOutletContext()
   const { chatInfo } = useLoaderData()
+  const [messageList, setMessageList] = useState(chatInfo.messages);
   const [message, setMessage] = useState("")
+  console.log(socket)
 
-
-  const handleNewChat = async (event, { chatId }) => {
-    event.preventDefault();
+  const handleNewChat = async (e) => {
+    e.preventDefault();
     if (!authStatus) {
       alert('must sign in for this')
-    } else {
+    } else if (message === '') {
+      alert(
+        'must write a message'
+      )
+    }
+    else {
       const chatObj = {
-        chatId: chatId,
+        chatId: chatInfo.chatId,
         message: message
       }
+      const res = await axios.post(`/api/chat/msg`, chatObj);
 
-      const res = await axios.post(`/api/chat/msg/new`, chatObj)
-      console.log(res)
-      // if(res.data.success){
-      // // socket.emit("send_message",  res.data.newMessage)
-      // }
+      if (res.data.success) {
+        await socket.emit("send_message", res.data.newMessage)
+      }
       setMessage('')
     }
   }
+  
+  useEffect(()=> {
+    socket.on("receive_message", (data)=> {
+      console.log('useEffect')
+      setMessageList((list)=> [...list, data])
+    })
+  },[socket])
 
-  const chatMap = chatInfo.messages.map(({messageText, userId, messageId }) => {
-    return(
+
+  const chatMap = messageList.map(({ messageText, userId, messageId }) => {
+    return (
       <div key={messageId} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
         <div className=" chat-bubble">
-        {messageText}
+          {messageText}
 
         </div>
       </div>
@@ -38,8 +54,8 @@ export default function MessagePage() {
   return (
     <div>
       {chatMap}
-      <form onSubmit={(event) => handleNewChat(event, { chatId })}>
-        <input className="input"onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
+      <form onSubmit={(e) => handleNewChat(e)}>
+        <input className="input" value={message}onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
         <button className="btn">send</button>
       </form>
     </div>
