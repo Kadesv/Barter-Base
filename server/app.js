@@ -32,13 +32,13 @@ io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
   socket.on("join_room", (data) => {
-    console.log(data)
     socket.join(data);
+    console.log(`User joined room : ${data}`)
   })
 
   socket.on("send_message", (data) => {
-    console.log(data)
-   socket.to(data.chatId).emit("receive_message", data);
+    console.log(data.chatId)
+    io.to(data.chatId).emit("receive_message", data);
   });
 
 });

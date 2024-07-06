@@ -8,16 +8,13 @@ export default function MessagePage() {
   const { chatInfo } = useLoaderData()
   const [messageList, setMessageList] = useState(chatInfo.messages);
   const [message, setMessage] = useState("")
-  console.log(socket)
 
   const handleNewChat = async (e) => {
     e.preventDefault();
     if (!authStatus) {
       alert('must sign in for this')
     } else if (message === '') {
-      alert(
-        'must write a message'
-      )
+      return;
     }
     else {
       const chatObj = {
@@ -34,16 +31,19 @@ export default function MessagePage() {
   }
   
   useEffect(()=> {
+    socket.emit("join_room", chatInfo.chatId)
     socket.on("receive_message", (data)=> {
-      console.log('useEffect')
-      setMessageList((list)=> [...list, data])
+      console.log(data)
+      if(data.messageId !== messageList[messageList.length-1].messageId){
+      setMessageList((list)=> [...list, data])}
+      socket.off("receive_message")
     })
-  },[socket])
+  },[socket, setMessageList])
 
 
   const chatMap = messageList.map(({ messageText, userId, messageId }) => {
     return (
-      <div key={messageId} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
+      <div key={messageId + "messageKey"} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
         <div className=" chat-bubble">
           {messageText}
 

@@ -20,7 +20,7 @@ chatRouter.post('/new', async (req, res) => {
       userId: userId,
       messageText: message
     })
-    if (newChat && newMessage) {
+    if (checkForChat && newMessage) {
       res.json({
         success: true,
         newMessage
