@@ -1,9 +1,9 @@
-import { useLoaderData, useOutletContext } from "react-router-dom"
+import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { socket } from "../main"
 export default function MessagePage() {
-
+const navigate = useNavigate();
   const { user, authStatus } = useOutletContext()
   const { chatInfo } = useLoaderData()
   const [messageList, setMessageList] = useState(chatInfo.messages);
@@ -29,24 +29,27 @@ export default function MessagePage() {
       setMessage('')
     }
   }
-  
-  useEffect(()=> {
-    socket.emit("join_room", chatInfo.chatId)
-    socket.on("receive_message", (data)=> {
-      console.log(data)
-      if(data.messageId !== messageList[messageList.length-1].messageId){
-      setMessageList((list)=> [...list, data])}
-      socket.off("receive_message")
+
+  useEffect(() => {
+    // socket.emit("join_room", chatInfo.chatId)
+    console.log(socket)
+
+    socket.on("receive_message", async (data) => {
+      console.log(messageList.find((message) => message.messageId === data.messageId) === undefined)
+      if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
+        await setMessageList((list) => [...list, data])
+      }
+      return(
+      socket.off("receive_message"))
     })
-  },[socket, setMessageList])
+  }, [socket])
 
 
   const chatMap = messageList.map(({ messageText, userId, messageId }) => {
     return (
-      <div key={messageId + "messageKey"} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
+      <div key={messageId + "-messageKey"} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
         <div className=" chat-bubble">
           {messageText}
-
         </div>
       </div>
     )
@@ -55,7 +58,7 @@ export default function MessagePage() {
     <div>
       {chatMap}
       <form onSubmit={(e) => handleNewChat(e)}>
-        <input className="input" value={message}onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
+        <input className="input" value={message} onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
         <button className="btn">send</button>
       </form>
     </div>
