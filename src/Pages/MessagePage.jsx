@@ -1,30 +1,66 @@
+import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { socket } from "../main"
 export default function MessagePage() {
-  return (
-      <div>
-        <div className="chat flex direction-column chat-start">
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-          </div>
-          <div className="chat-bubble">It was said that you would, destroy the Sith, not join them.</div>
-        </div>
-        <div className="chat chat-start">
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-          </div>
-          <div className="chat-bubble">It was you who would bring balance to the Force</div>
-        </div>
-        <div className="chat chat-start">
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-          </div>
-          <div className="chat-bubble">Not leave it in Darkness</div>
+const navigate = useNavigate();
+  const { user, authStatus } = useOutletContext()
+  const { chatInfo } = useLoaderData()
+  const [messageList, setMessageList] = useState(chatInfo.messages);
+  const [message, setMessage] = useState("")
+
+  const handleNewChat = async (e) => {
+    e.preventDefault();
+    if (!authStatus) {
+      alert('must sign in for this')
+    } else if (message === '') {
+      return;
+    }
+    else {
+      const chatObj = {
+        chatId: chatInfo.chatId,
+        message: message
+      }
+      const res = await axios.post(`/api/chat/msg`, chatObj);
+
+      if (res.data.success) {
+        await socket.emit("send_message", res.data.newMessage)
+      }
+      setMessage('')
+    }
+  }
+
+  useEffect(() => {
+    // socket.emit("join_room", chatInfo.chatId)
+    console.log(socket)
+
+    socket.on("receive_message", async (data) => {
+      console.log(messageList.find((message) => message.messageId === data.messageId) === undefined)
+      if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
+        await setMessageList((list) => [...list, data])
+      }
+      return(
+      socket.off("receive_message"))
+    })
+  }, [socket])
+
+
+  const chatMap = messageList.map(({ messageText, userId, messageId }) => {
+    return (
+      <div key={messageId + "-messageKey"} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
+        <div className=" chat-bubble">
+          {messageText}
         </div>
       </div>
-   )
+    )
+  })
+  return (
+    <div>
+      {chatMap}
+      <form onSubmit={(e) => handleNewChat(e)}>
+        <input className="input" value={message} onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
+        <button className="btn">send</button>
+      </form>
+    </div>
+  )
 }

@@ -4,7 +4,7 @@ import LikeButton from "../Components/LikeButton";
 import axios from "axios";
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
+import { socket } from "../main";
 export default function BrowsePostsPage() {
   const { posts } = useLoaderData();
   const [filterOpen, setFilterOpen] = useState(false);
@@ -23,78 +23,79 @@ export default function BrowsePostsPage() {
     }
   }
 
-  const handleNewChat=async(event, {user})=>{
+  const handleNewChat = async (event, { user }) => {
     event.preventDefault();
-    if(!authStatus){
+    if (!authStatus) {
       alert('must sign in for this')
-    } else{
-    const chatObj = {
-      postOwner: user,
-      message: message
-    }
+    } else {
+      const chatObj = {
+        postOwner: user,
+        message: message
+      }
 
-    const res = await axios.post(`/api/chat/new`, chatObj)
-    console.log(res)
-if(res.data.success){
-  socket.emit("send_message",  res.data.newMessage)
-}
-setMessage('')
-  }}
+      const res = await axios.post(`/api/chat/new`, chatObj)
+      // console.log(res)
+      if (res.data.success) {
+        socket.emit("send_message", res.data.newMessage)
+      }
+      setMessage('')
+    }
+  }
 
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
-           <div key={postId} className="">
+    <div key={postId} className="">
       <div className="card bg-base-100 shadow-xl m-1">
-        <figure className="h-60 rouded pt-6 m-0">
+      <figure className="h-60 rouded pt-6 m-0">
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" rounded h-auto w-auto " />
         </figure>
-        <div  className="card-body flex px-3 pb-2 pt-0">
+        <div className="card-body flex px-3 pb-2 pt-0">
           <div>
             <div className="tooltip tooltip-top" data-tip="Category">
-              <div title="Category" className="badge badge-info badge-xs">{categories[categoryId - 1].categoryName}</div>
+              <div title="Category" className="badge badge-info badge-xs">{categories.find((cat)=> cat.categoryId === categoryId).categoryName}</div>
             </div>
             <div className="tooltip tooltip-top" data-tip="Sub-Category">
-                           <div className="badge badge-xs">{categories[categoryId - 1].subcategories[subCategoryId - 1].subCategoryName}</div>
-
+              {/* {console.log(categories[categoryId -1].subcategories[subCategoryId-1].subCategoryName)} */}
+              <div className="badge badge-xs">{categories.find((cat)=> cat.categoryId === categoryId).subcategories.find((subCat)=> subCat.subCategoryId === subCategoryId).subCategoryName}</div>
             </div>
-            
+
           </div>
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">
             <button className="btn" onClick={() => document.getElementById(`model-popup${postId}`).showModal()}>Read More</button>
             <dialog id={`model-popup${postId}`} className="modal  w-auto ">
-                <div className=" modal-box hero-content -col-reverse ">
-                  <div className="text-center items-center lg:text-left">
-                    <div className="text-center lg:text-left">
-                      <h1 className="text-5xl font-bold ">{title}</h1>
-                      <p className="py-6">{context}</p>
-                    </div>
-
-                    <div className="collapse bg-base-200">
-                      <input id={'dropDownInput' + postId + 'component'} type="checkbox" />
-                      <div className="collapse-title ">
-                        Message Seller
-                      </div>
-                      <form id={'messageForm' + postId + 'component'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
-                        <input id={'messageInput' + postId + 'component'} disabled={!authStatus}onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authStatus ? 'Type Here...':'Please Sign In first.'} />
-                        <button  disabled={!authStatus} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button>
-                        <a className="btn btn-ghost"href='/signIn'>Sign In</a>
-
-                      </form>
-                    </div>
+              <div className=" modal-box hero-content -col-reverse ">
+                <div className="text-center items-center lg:text-left">
+                  <div className="text-center lg:text-left">
+                    <h1 className="text-5xl font-bold ">{title}</h1>
+                    <p className="py-6">{context}</p>
                   </div>
-                  {/* popup images */}
-                  <div className=" shadow-2xl bg-base-100">
-                    <figure className=" carousel rounded-box">
-                   <ImageMap images={image}/>
 
-                    </figure>
+                  <div className="collapse bg-base-200">
+                    <input id={'dropDownInput' + postId + 'component'} type="checkbox" />
+                    <div className="collapse-title ">
+                      Message Seller
+                    </div>
+                    <form id={'messageForm' + postId + 'component'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
+                      <input id={'messageInput' + postId + 'component'} disabled={!authStatus} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authStatus ? 'Type Here...' : 'Please Sign In first.'} />
+                      <button disabled={!authStatus} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button>
+                      <a className="btn btn-ghost" href='/signIn'>Sign In</a>
+
+                    </form>
                   </div>
                 </div>
-                <form id={'closeForm' + postId + 'component'} method="dialog" className="modal-backdrop">
-                  <button>close</button>
-                </form>
-              </dialog>
+                {/* popup images */}
+                <div className=" shadow-2xl bg-base-100">
+                  <figure className=" carousel rounded-box">
+                    <ImageMap images={image} />
+
+                  </figure>
+                </div>
+              </div>
+              <form id={'closeForm' + postId + 'component'} method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
 
             <div className="form-control">
               <div className="w-full flex ">

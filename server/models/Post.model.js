@@ -1,7 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import util from 'util';
 import { db } from "../config/db.js";
-import daisyui from "daisyui";
 
 export default class Post extends Model {
   [util.inspect.custom]() {
@@ -29,10 +28,9 @@ Post.init(
       allowNull: false
     },
     categoryId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

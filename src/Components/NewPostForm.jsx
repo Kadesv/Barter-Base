@@ -43,6 +43,7 @@ export default function NewPostForm({ categories, setShowPost }) {
             selectedSubCategory: selectedSubCategory,
             image: urlArr,
         }
+        console.log(dbObject)
         const res = await axios.post('/api/posts/create', dbObject);
         urlArr = [];
         if (res.data.success) {

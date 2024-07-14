@@ -17,7 +17,6 @@ export default function SignInPage() {
             setAuthStatus(true)
             setChatRooms(res.data.rooms)
             setUser(res.data.user)
-            console.log(user)
             navigate('/')
         } else {
             alert("Email or Password is Incorrect")
