@@ -80,8 +80,8 @@ authRoutes.post('/api/checkss', async (req, res) => {
         model: Message,
       }
     })
-    // console.log(rooms)
-    res.json({ success: true, user, favorites, rooms });
+    console.log(rooms)
+    res.json({ success: true, user, favorites, rooms,  });
   }
   else {
     res.json({ success: false });

@@ -31,9 +31,6 @@ const navigate = useNavigate();
   }
 
   useEffect(() => {
-    // socket.emit("join_room", chatInfo.chatId)
-    console.log(socket)
-
     socket.on("receive_message", async (data) => {
       console.log(messageList.find((message) => message.messageId === data.messageId) === undefined)
       if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
