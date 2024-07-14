@@ -74,25 +74,30 @@ postRouter.get('/:postId', async (req, res) => {
 postRouter.post('/create', async (req, res) => {
   const { userId } = req.session;
   const { title, context, price, image, selectedCategory, selectedSubCategory } = req.body;
-  if(title && context && price && image && selectedCategory && selectedSubCategory){
-  const newPost = await Post.create({
-    title: title,
-    price: price,
-    context: context,
-    image: image,
-    userId: userId,
-    categoryId: selectedCategory,
-    subCategoryId: selectedSubCategory
-  })
-  if (newPost) {
-    res.json({ success: true })
-  }
-  else {
-    res.json({ success: false });
-  }
-}else {
-  res.json({ success: false });
-}
+  const cat = JSON.parse(selectedCategory);
+  const subCat = JSON.parse(selectedSubCategory);
+  const numPrice = JSON.parse(price)
+  console.log(req.body)
+//   if(title && context && price && image && selectedCategory && selectedSubCategory){
+//   const newPost = await Post.create({
+//     title: title,
+//     price: numPrice,
+//     context: context,
+//     image: image,
+//     userId: userId,
+//     categoryId: cat,
+//     subCategoryId: subCat
+//   })
+//   if (newPost) {
+//     console.log(newPost)
+//     res.json({ success: true })
+//   }
+//   else {
+//     res.json({ success: false });
+//   }
+// }else {
+//   res.json({ success: false });
+// }
 });
 
 postRouter.put('/save', async (req, res) => {

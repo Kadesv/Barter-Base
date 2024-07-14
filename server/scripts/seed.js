@@ -35,6 +35,7 @@ const allCategories = [
         subcategories: ['Services', 'LiveStock', 'Exotic', 'Pets']
     },
 ];
+
 const categoriesInDB = await Promise.all(allCategories.map(async category => {
     const newCategory = await Category.create({
         categoryName: category.categoryName
@@ -50,7 +51,7 @@ const categoriesInDB = await Promise.all(allCategories.map(async category => {
     }))
     return category;
 }));
-
+// console.log(categoriesInDB)
 const usersToCreate = [];
 for (let i = 1; i <= 10; i++) {
     const firstName = `FirstName${i}`;
@@ -64,19 +65,33 @@ const usersInDB = await Promise.all(usersToCreate);
 // console.log(usersInDB);
 
 const postsInDB = await Promise.all(
-    postData.map((post) => {
+    postData.map(async (post) => {
         const { title, context,  } = post;
         const imageId = Math.floor(Math.random()* 500)+1
         const image = [`https://picsum.photos/id/${imageId}/200/300`];
         const postPrice = Math.floor(Math.random() * 500 )
-        const cat = Math.floor(Math.random()* allCategories.length) 
-        const subCat = Math.floor(Math.random()* allCategories[cat].subcategories.length) + 1;
-        // console.log(cat + 1, allCategories[cat], allCategories[cat].subcategories[subCat - 1], subCat)
+
+        //gives random number based on length of the allCategories variable 
+        const catIndex = Math.floor(Math.random()* categoriesInDB.length +1);
+
+        const subCat = await SubCategory.findAll({
+            where:{
+                categoryId: catIndex
+            }
+        })
+        const subCatId = subCat[Math.floor(Math.random()* subCat.length)].subCategoryId;
+
+
+        //using cat as the index of what subcategory to use it picks a random number based on the length of the subcategories array within the category object
+        // category[random].subcategories[random].subCategoryId
+
+        // const subCat = categoriesInDB[catIndex].subcategories[Math.floor(Math.random()* categoriesInDB[catIndex].subcategories.length)];
+        // console.log(subCat)
         const newPost = Post.create({
             title: 'title',
             context: 'context',
-            subCategoryId: subCat,
-            categoryId: cat + 1 ,
+            subCategoryId: subCatId,
+            categoryId:catIndex ,
             userId: 3,
             price: 1,
             image: image
