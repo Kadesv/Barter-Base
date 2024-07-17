@@ -27,7 +27,8 @@ export default function SignUpPage() {
 
     return (
         <div className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 items-center text-center">
-            <form onSubmit={(e) => {
+            <form
+            onSubmit={(e) => {
                 handleRegister(e, {
                     firstName: firstName,
                     lastName: lastName,
@@ -39,6 +40,9 @@ export default function SignUpPage() {
                     password: password,
                 })
             }}>
+                <div
+            className="grid grid-cols-2"
+            >
 
                 {/* first name */}
                 <label className="input input-bordered flex items-center gap-2 md:shrink-0 my-4">
@@ -73,12 +77,15 @@ export default function SignUpPage() {
                     <input type="text"
                         placeholder="City"
                         value={city}
+                        required
                         onChange={(e) => setCity(e.target.value)}
                     />
                 </label>
                 {/* state */}
-                <label className="input input-bordered flex items-center gap-2 md:shrink-0 my-4">
-                    <input type="text"
+                <label className="input input-bordered  flex items-center gap-2 md:shrink-0 my-4">
+                    <input 
+                    className="placeholder-opacity-5"
+                    type="text"
                         placeholder="State"
                         value={stateOfLiving}
                         onChange={(e) => setStateOfLiving(e.target.value)}
@@ -109,7 +116,12 @@ export default function SignUpPage() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
-                <button className="btn btn-primary flex justify-center my-4" type="submit">Sign Up</button>
+                </div>
+                <div className="grid grid-cols-1">
+                <button className="btn rounded-box grid h-10 place-items-center" type="submit">Create Account</button>
+
+                </div>
+
             </form>
         </div>
     );
