@@ -33,18 +33,17 @@ authRoutes.post('/api/auth', async (req, res) => {
 });
 // new user
 authRoutes.post('/api/register', async (req, res) => {
-  const { email, password, firstName, lastName, preferredName, city, state, zipCode } = req.body;
+  const { email, password, firstName, lastName, city, state, zipCode } = req.body;
   const checkEmail = await User.findOne({ where: { email: email } });
   if (checkEmail !== null) {
     res.json({ success: false });
   }
-  else if (email && password && firstName && lastName && preferredName && city && state && zipCode) {
+  else if (email && password && firstName && lastName && city && state && zipCode) {
     const user = await User.create({
       email: email,
       password: password,
       firstName: firstName,
       lastName: lastName,
-      preferredName: preferredName,
       city: city,
       state: state,
       zipCode: zipCode
@@ -80,8 +79,8 @@ authRoutes.post('/api/checkss', async (req, res) => {
         model: Message,
       }
     })
-    // console.log(rooms)
-    res.json({ success: true, user, favorites, rooms });
+    console.log(rooms)
+    res.json({ success: true, user, favorites, rooms,  });
   }
   else {
     res.json({ success: false });

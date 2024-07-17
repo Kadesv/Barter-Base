@@ -15,11 +15,6 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    preferredName: {
-      type: DataTypes.STRING(25),
-      allowNull: true,
-      unique: false,
-    },
     city: {
       type: DataTypes.STRING(25),
       allowNull: true,

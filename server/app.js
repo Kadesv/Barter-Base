@@ -33,9 +33,9 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     console.log(socket.rooms)
-
-    socket.join(data);
-    console.log(`User joined room : ${data}`)
+    for(let room of data){
+      socket.join(room.chatId)
+    }
   })
 
   socket.on("send_message", (data) => {

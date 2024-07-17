@@ -1,6 +1,8 @@
 import { Outlet, useLoaderData } from 'react-router-dom';
 import HomeNav from './HomeNav';
 import axios from 'axios';
+import { socket } from "./main"
+
 import { useState, useEffect } from 'react';
 
 export default function Root() {
@@ -14,6 +16,8 @@ export default function Root() {
     if (res.data.success) {
       setFavorites(res.data.favorites)
       setChatRooms(res.data.rooms)
+    socket.emit('join_room', res.data.rooms)
+
       setUser(res.data.user);
       setAuthStatus(true);
     }

@@ -56,9 +56,8 @@ const usersToCreate = [];
 for (let i = 1; i <= 10; i++) {
     const firstName = `FirstName${i}`;
     const lastName = `LastName${i}`;
-    const preferredName = `PName${i}`;
     const email = `user${i}@test.com`;
-    usersToCreate.push(User.create({ preferredName: preferredName, firstName: firstName, lastName: lastName, email: email, password: 'test' }));
+    usersToCreate.push(User.create({ firstName: firstName, lastName: lastName, email: email, password: 'test' }));
 }
 
 const usersInDB = await Promise.all(usersToCreate);
@@ -103,10 +102,10 @@ const postsInDB = await Promise.all(
 // console.log(postsInDB);
 
 const chatData = [
-    { user1Id: 1, user2Id: 2, user1Name: "pName1", user2Name: "pName2"},
-    { user1Id: 3, user2Id: 1,  user1Name: "pName3", user2Name: "pName1" },
-    { user1Id: 1, user2Id: 5,  user1Name: "pName1", user2Name: "pName5" },
-    { user1Id: 6, user2Id: 1 ,  user1Name: "pName6", user2Name: "pName1"},
+    { user1Id: 1, user2Id: 2, user1Name: "fName1", user2Name: "fName2"},
+    { user1Id: 3, user2Id: 1,  user1Name: "fName3", user2Name: "fName1" },
+    { user1Id: 1, user2Id: 5,  user1Name: "fName1", user2Name: "fName5" },
+    { user1Id: 6, user2Id: 1 ,  user1Name: "fName6", user2Name: "fName1"},
     
 ];
 

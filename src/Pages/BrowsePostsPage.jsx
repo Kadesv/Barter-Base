@@ -77,9 +77,9 @@ export default function BrowsePostsPage() {
                       Message Seller
                     </div>
                     <form id={'messageForm' + postId + 'component'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
-                      <input id={'messageInput' + postId + 'component'} disabled={!authStatus} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authStatus ? 'Type Here...' : 'Please Sign In first.'} />
-                      <button disabled={!authStatus} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button>
-                      <a className="btn btn-ghost" href='/signIn'>Sign In</a>
+                      <input id={'messageInput' + postId + 'component'} disabled={!authStatus} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authStatus ? 'Type Here...' : 'Please Log In first.'} />
+                      {authStatus ? <button disabled={!authStatus} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button> :
+                      <a className="btn btn-ghost" href='/signIn'>Log In</a>}
 
                     </form>
                   </div>

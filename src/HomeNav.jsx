@@ -86,30 +86,7 @@ export default function HomeNav({ props }) {
         </>
     )
   }
-  const noSignAlert = () => {
-    return (
-      authStatus ?
-        <>
-
-
-        </>
-        :
-        <>
-
-          <div
-
-            className=" flex card w-full bg-neutral rounded-none text-neutral-content z-10 fixed bottom-0">
-            <div className="card-body items-center text-center">
-              <h2 className="card-title">You must be signed in to do this.</h2>
-              <div className="card-actions justify-end">
-              </div>
-            </div>
-          </div>
-
-        </>
-
-    )
-  };
+ 
   return (
     <>
       <nav className="navbar bg-base-300 sticky top-0 z-10">
@@ -159,14 +136,13 @@ export default function HomeNav({ props }) {
 
             <section className="drawer-side ">
               <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => { closeAllClick() }} className="drawer-overlay"></label>
-              <section className={!authStatus ? 'bg-base-200 pointer-events-none menu  p-4 w-80 min-h-full flex items-center text-base-content' : "menu  flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content"}>
+              <section className= "menu  flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content">
                 {/* Sidebar content here */}
                 <div>
                   <button onClick={() => { onFavoriteClick() }} className='btn'>Favorites</button>
                   <button onClick={() => { onNewPostClick() }} className='btn'>New Post</button>
                   <button onClick={() => { onChatClick() }} className='btn'>Chats</button>
                 </div>
-                {noSignAlert()}
                 {showFavorites ?
                   <FavoritesComponent authStatus={authStatus} setFavorites={setFavorites} favorites={favorites} categories={categories} />
                   : null
