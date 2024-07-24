@@ -31,8 +31,11 @@ const navigate = useNavigate();
   }
 
   useEffect(() => {
+    console.log(authStatus)
+    // if(!authStatus){
+    //   navigate("/")
+    // }
     socket.on("receive_message", async (data) => {
-      console.log(messageList.find((message) => message.messageId === data.messageId) === undefined)
       if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
         await setMessageList((list) => [...list, data])
       }
@@ -41,10 +44,15 @@ const navigate = useNavigate();
     })
   }, [socket])
 
-
+console.log(messageList)
   const chatMap = messageList.map(({ messageText, userId, messageId }) => {
     return (
+      
       <div key={messageId + "-messageKey"} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
+         <div className="chat-header">
+    userName
+    <time className="text-xs opacity-50">12:45</time>
+  </div>
         <div className=" chat-bubble">
           {messageText}
         </div>
@@ -52,9 +60,12 @@ const navigate = useNavigate();
     )
   })
   return (
-    <div>
+    <div 
+    className="w-auto">
       {chatMap}
-      <form onSubmit={(e) => handleNewChat(e)}>
+      <form 
+      className="z-10 fixed bottom-0"
+      onSubmit={(e) => handleNewChat(e)}>
         <input className="input" value={message} onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
         <button className="btn">send</button>
       </form>

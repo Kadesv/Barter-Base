@@ -59,9 +59,6 @@ const router = createBrowserRouter(
           return {chatInfo : res.data}
         }}
         ></Route>
-
-      
-
     </Route>,
   ),
 );

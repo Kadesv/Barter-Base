@@ -15,7 +15,6 @@ const joinRoom = ({chatId})=>{
     })
     return (
         <>
-            <h1 className="flex justify-center">Chats</h1>
             {roomsMap}
         </>
     )

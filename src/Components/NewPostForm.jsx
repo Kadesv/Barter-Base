@@ -83,7 +83,6 @@ export default function NewPostForm({ categories, setShowPost }) {
 
     return (
         <>
-            <h1>New Post</h1>
             <form className="grid"
                 onSubmit={(e) => {
                     handleSubmit(e)

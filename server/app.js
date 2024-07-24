@@ -32,8 +32,7 @@ io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
   socket.on("join_room", (data) => {
-    console.log(socket.rooms)
-    for(let room of data){
+    for (let room of data) {
       socket.join(room.chatId)
     }
   })
@@ -44,7 +43,6 @@ io.on("connection", (socket) => {
   });
 
 });
-
 
 app.use(router);
 

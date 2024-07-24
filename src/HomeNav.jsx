@@ -4,12 +4,12 @@ import ChatRoomList from './Components/ChatRoomList.jsx';
 import NoSignAlert from './Components/NoSignAlert.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import LogoutButton from './Components/LogoutButton.jsx';
+import LogButton from './Components/LogButton.jsx';
 import FavoritesComponent from './Components/FavoritesComponent.jsx';
 
 export default function HomeNav({ props }) {
   const navigate = useNavigate();
-  const { user, setUser, authStatus, setAuthStatus, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
+  const { user, authStatus, setAuthStatus, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
   const [showPost, setShowPost] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -95,12 +95,14 @@ export default function HomeNav({ props }) {
             <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
             </button>
-            <LogoutButton handleLogOut={(e) => handleLogout(e)} authStatus={authStatus} />
 
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><a href='/'>Homepage</a></li>
               <li><AccountLink /></li>
               <li><a href='/favorites'>Favorites</a></li>
+            <LogButton handleLogOut={(e) => handleLogout(e)} authStatus={authStatus} />
+
+
               {/* <li><a href='/about'>About</a></li> */}
 
             </ul>
@@ -136,12 +138,12 @@ export default function HomeNav({ props }) {
 
             <section className="drawer-side ">
               <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => { closeAllClick() }} className="drawer-overlay"></label>
-              <section className= "menu  flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content">
+              <section className= "menu fixed h-screen flex items-center bg-base-200 p-4 w-80  text-base-content">
                 {/* Sidebar content here */}
-                <div>
-                  <button onClick={() => { onFavoriteClick() }} className='btn'>Favorites</button>
-                  <button onClick={() => { onNewPostClick() }} className='btn'>New Post</button>
-                  <button onClick={() => { onChatClick() }} className='btn'>Chats</button>
+                <div className='tabs tabs-lifted'>
+                  <button onClick={() => { onFavoriteClick() }} className={showFavorites ? 'tab tab-active':'tab'}>Favorites</button>
+                  <button onClick={() => { onNewPostClick() }} className={showPost ? 'tab tab-active':'tab'}>New Post</button>
+                  <button onClick={() => { onChatClick() }} className={showChat ? 'tab tab-active':'tab'}>Chats</button>
                 </div>
                 {showFavorites ?
                   <FavoritesComponent authStatus={authStatus} setFavorites={setFavorites} favorites={favorites} categories={categories} />

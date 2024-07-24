@@ -16,8 +16,7 @@ export default function Root() {
     if (res.data.success) {
       setFavorites(res.data.favorites)
       setChatRooms(res.data.rooms)
-    socket.emit('join_room', res.data.rooms)
-
+      socket.emit('join_room', res.data.rooms)
       setUser(res.data.user);
       setAuthStatus(true);
     }
@@ -30,7 +29,9 @@ export default function Root() {
     <>
       <HomeNav props={{ setAuthStatus, setUser, categories, chatRooms, setChatRooms, authStatus, user, favorites, setFavorites }} className="" />
 
-      <main className='flex justify-center'>
+      <main 
+      style={{"backgroundImage": "linear-gradient(to top, #09203f 0%, #537895 100%)"}}
+      className='flex justify-center'>
         <Outlet
           context={{ categories, authStatus, setAuthStatus, user, setUser, favorites, chatRooms, setChatRooms, setFavorites }}
         />
