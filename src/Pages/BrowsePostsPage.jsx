@@ -62,7 +62,7 @@ export default function BrowsePostsPage() {
           </div>
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">
-            <dialog id={`model-popup${postId}`} className="modal w-auto h-">
+            <dialog id={`model-popup${postId}`} className="modal">
               <div className=" modal-box hero-content -col-reverse ">
                 <div className="text-center items-center lg:text-left">
                   <div className="text-center lg:text-left">

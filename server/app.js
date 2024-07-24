@@ -12,7 +12,7 @@ const app = express();
 const ioServer = createServer(app);
 const io = new SocketIOServer(ioServer, {
   cors: {
-    origin: "*"
+    origin: "http://localhost:8000"
   },
 });
 

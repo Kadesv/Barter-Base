@@ -61,12 +61,12 @@ console.log(messageList)
   })
   return (
     <div 
-    className="w-auto">
+    className="w-screen h-screen">
       {chatMap}
       <form 
-      className="z-10 fixed bottom-0"
+      className="z-10 w-screen fixed bottom-0"
       onSubmit={(e) => handleNewChat(e)}>
-        <input className="input" value={message} onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
+        <input className="input w-3/4" value={message} onChange={(e) => { setMessage(e.target.value) }} placeholder="message" />
         <button className="btn">send</button>
       </form>
     </div>

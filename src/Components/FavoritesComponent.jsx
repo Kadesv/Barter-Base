@@ -6,17 +6,17 @@ import ImageMap from "./ImageMap";
 export default function FavoritesComponent({ authStatus, favorites, setFavorites, categories }) {
 
   const handleFavorite = async ({ postId }) => {
-    const i = favorites.findIndex((favorite)=> favorite.postId === postId);
+    const i = favorites.findIndex((favorite) => favorite.postId === postId);
     const favCopy = [...favorites]
-    favCopy.splice(i,1)
+    favCopy.splice(i, 1)
     setFavorites(favCopy)
-      await axios.post(`/api/posts/favorite/${postId}`);
-}
+    await axios.post(`/api/posts/favorite/${postId}`);
+  }
 
 
   const favMap = favorites.map(({ post: { image, context, title }, postId }) => {
     return (
-      <div key={postId + 'component'} className="">
+      <div key={postId + 'favorite'} className="">
         <div className="card bg-base-100  m-1 ">
 
           <div className="card-body side-component flex flex-row p-0 h-40">
@@ -36,12 +36,12 @@ export default function FavoritesComponent({ authStatus, favorites, setFavorites
                     </div>
 
                     <div className="collapse bg-base-200">
-                      <input id={'dropDownInput' + postId + 'component'} type="checkbox" />
+                      <input id={'dropDownInput' + postId + 'side'} type="checkbox" />
                       <div className="collapse-title ">
                         Message Seller
                       </div>
-                      <form id={'messageForm' + postId + 'component'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
-                        <input id={'messageInput' + postId + 'component'} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder="Type Here..." />
+                      <form id={'messageForm' + postId + 'side'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
+                        <input id={'messageInput' + postId + 'side'} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder="Type Here..." />
                         <button className="btn btn-ghost">Send</button>
                       </form>
                     </div>
@@ -49,20 +49,18 @@ export default function FavoritesComponent({ authStatus, favorites, setFavorites
                   {/* popup images */}
                   <div className=" shadow-2xl bg-base-100">
                     <figure className=" carousel rounded-box">
-                   <ImageMap images={image}/>
+                      <ImageMap images={image} />
 
                     </figure>
                   </div>
                 </div>
-                <form id={'closeForm' + postId + 'component'} method="dialog" className="modal-backdrop">
+                <form id={'closeForm' + postId + 'side'} method="dialog" className="modal-backdrop">
                   <button>close</button>
                 </form>
               </dialog>
 
               <div className="form-control ">
-                <div className="w-full  ">
                   <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
-                </div>
               </div>
             </div>
           </div>
@@ -73,13 +71,7 @@ export default function FavoritesComponent({ authStatus, favorites, setFavorites
 
   return (
     <>
-      <div className='w-full'>
-        <section>
-          {favMap.toReversed()}
-          <div className="">
-          </div>
-        </section>
-      </div>
+        {favMap.toReversed()}
     </>
   )
 }
