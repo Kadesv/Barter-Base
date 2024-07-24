@@ -45,7 +45,7 @@ export default function BrowsePostsPage() {
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
     <div key={postId} className="">
-      <div className="card bg-base-100 shadow-xl m-1">
+      <div onClick={()=>document.getElementById(`model-popup${postId}`).showModal() }className="card bg-base-100 shadow-xl m-1">
       <figure className="h-60 rouded pt-6 m-0">
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" rounded h-auto w-auto " />
         </figure>
@@ -62,8 +62,7 @@ export default function BrowsePostsPage() {
           </div>
           <h2 className="card-title">{title}</h2>
           <div className="card-actions">
-            <button className="btn" onClick={() => document.getElementById(`model-popup${postId}`).showModal()}>Read More</button>
-            <dialog id={`model-popup${postId}`} className="modal  w-auto ">
+            <dialog id={`model-popup${postId}`} className="modal w-auto h-">
               <div className=" modal-box hero-content -col-reverse ">
                 <div className="text-center items-center lg:text-left">
                   <div className="text-center lg:text-left">

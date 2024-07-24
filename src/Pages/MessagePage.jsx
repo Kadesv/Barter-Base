@@ -31,9 +31,10 @@ const navigate = useNavigate();
   }
 
   useEffect(() => {
-    if(authStatus){
-      navigate("/")
-    }
+    console.log(authStatus)
+    // if(!authStatus){
+    //   navigate("/")
+    // }
     socket.on("receive_message", async (data) => {
       if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
         await setMessageList((list) => [...list, data])

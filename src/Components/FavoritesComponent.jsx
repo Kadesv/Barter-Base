@@ -75,7 +75,6 @@ export default function FavoritesComponent({ authStatus, favorites, setFavorites
     <>
       <div className='w-full'>
         <section>
-          <h1 className="flex justify-center">Favorites</h1>
           {favMap.toReversed()}
           <div className="">
           </div>
