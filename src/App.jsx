@@ -18,47 +18,42 @@ import PostDetailPage from './Pages/PostDetailPage.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Root />} 
+    <Route path="/" element={<Root />}
       loader={async () => {
         const res = await axios.get('/api/posts/getCategories');
-        return {categories: res.data};
+        return { categories: res.data };
       }}
-    errorElement={<ErrorPage />}>
+      errorElement={<ErrorPage />}>
 
       {/* Homepage */}
       <Route index element={<BrowsePostsPage />}
         loader={async () => {
           const res = await axios.get('/api/posts/browse');
-          const {userFavorites, posts} = res.data
+          const { userFavorites, posts } = res.data
           // console.log(userFavorites)
-          return ({posts, userFavorites}) ;
+          return ({ posts, userFavorites });
         }} />
-      <Route path='posts/:postId' 
-        element={<PostDetailPage/>}
+      <Route path='posts/:postId'
+        element={<PostDetailPage />}
         loader={async ({ params }) => {
           const res = await axios.get(`/api/posts/${params.postId}`);
-          return {post: res.data}
+          return { post: res.data }
         }}
-     />
-      
-      <Route path='/account' element={<AccountPage />}
-        // loader={async () => {
-        //   const res = await axios.get('/api/posts/account');
-        //   return res.data;
-        // }}
-          />
+      />
 
-        <Route path='/about'element={<AboutPage />}/>
-        <Route path='/signIn'element={<SignInPage />}></Route>
-        <Route path='/signup'element={<SignUpPage />}></Route>
-        <Route path='chats/:chatId'
+      <Route path='/account' element={<AccountPage />} />
+
+      <Route path='/about' element={<AboutPage />} />
+      <Route path='/signIn' element={<SignInPage />}></Route>
+      <Route path='/signup' element={<SignUpPage />}></Route>
+      <Route path='chats/:chatId'
         element={<MessagePage />}
-        loader={async ({params}) => {
+        loader={async ({ params }) => {
           const res = await axios.get(`/api/chat/${params.chatId}`)
           // console.log(res)
-          return {chatInfo : res.data}
+          return { chatInfo: res.data }
         }}
-        ></Route>
+      />
     </Route>,
   ),
 );

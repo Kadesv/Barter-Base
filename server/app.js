@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("send_message", (data) => {
-    console.log(data.chatId)
+    // console.log(data.chatId)
     io.to(data.chatId).emit("receive_message", data);
   });
 

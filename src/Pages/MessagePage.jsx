@@ -31,7 +31,7 @@ const navigate = useNavigate();
   }
 
   useEffect(() => {
-    console.log(authStatus)
+    // console.log(authStatus)
     // if(!authStatus){
     //   navigate("/")
     // }
@@ -44,7 +44,7 @@ const navigate = useNavigate();
     })
   }, [socket])
 
-console.log(messageList)
+// console.log(messageList)
   const chatMap = messageList.map(({ messageText, userId, messageId }) => {
     return (
       

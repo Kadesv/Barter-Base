@@ -32,7 +32,7 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
                 const url = await getDownloadURL(imgRef);
                 urlArr.push(url)
             } catch (error) {
-                console.log(error);
+                // console.log(error);
             }
         }
         const dbObject = {
@@ -43,7 +43,7 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
             selectedSubCategory: selectedSubCategory,
             image: urlArr,
         }
-        console.log(dbObject)
+        // console.log(dbObject)
         const res = await axios.post('/api/posts/create', dbObject);
         urlArr = [];
         if (res.data.success) {

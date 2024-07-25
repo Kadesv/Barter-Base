@@ -50,22 +50,6 @@ res.json( await Favorites.findAll({
   }
 })
 
-postRouter.get('/account', async (req, res) => {
-  const { userId } = req.session;
-  const posts = (await Post.findAll({
-    where: {
-      userId: userId
-    }
-  }));
-  const user = (await User.findByPk(userId));
-  const favorites = (await Favorites.findAll({
-    where: {
-      userId
-    }
-  }));
-  res.json({ success: true, posts, user, favorites });
-});
-
 postRouter.get('/:postId', async (req, res) => {
   const { postId } = req.params;
   res.json(await Post.findByPk(postId));
@@ -88,7 +72,7 @@ postRouter.post('/create', async (req, res) => {
     subCategoryId: subCat
   })
   if (newPost) {
-    console.log(newPost)
+    // console.log(newPost)
     res.json({ success: true })
   }
   else {

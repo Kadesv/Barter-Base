@@ -5,7 +5,7 @@ const authRoutes = Router();
 
 authRoutes.post('/api/auth', async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ where: { email: email },include:{model: Post } });
+  const user = await User.findOne({ where: { email: email }, include: { model: Post } });
   if (user && user.password === password) {
 
     req.session.userId = user.userId;
@@ -26,7 +26,7 @@ authRoutes.post('/api/auth', async (req, res) => {
       }
     })
     // console.log(rooms)
-    res.json({ success: true, user, favorites, rooms});
+    res.json({ success: true, user, favorites, rooms });
   } else {
     res.json({ success: false });
   }
@@ -61,7 +61,12 @@ authRoutes.post('/api/register', async (req, res) => {
 authRoutes.post('/api/checkss', async (req, res) => {
   const { userId } = req.session
   if (userId) {
-    const user = await User.findOne({ where: { userId: userId } });
+    const user = await User.findOne({
+      where: { userId: userId },
+      include: {
+        model: Post
+      }
+    });
 
     const favorites = await Favorites.findAll({
       where: {
@@ -79,8 +84,8 @@ authRoutes.post('/api/checkss', async (req, res) => {
         model: Message,
       }
     })
-    console.log(rooms)
-    res.json({ success: true, user, favorites, rooms,  });
+    // console.log(rooms)
+    res.json({ success: true, user, favorites, rooms, });
   }
   else {
     res.json({ success: false });
