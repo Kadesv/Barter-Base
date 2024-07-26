@@ -122,7 +122,6 @@ export default function BrowsePostsPage() {
   return (
     <>
       <div className="grid  p-bottom-10 lg:grid-cols-3 gap-x-20   sm:grid-cols-1">
-        {filterComponent()}
         {postListItems}
 
       </div>
