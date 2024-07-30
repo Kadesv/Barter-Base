@@ -10,6 +10,7 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
 
     const [title, setTitle] = useState(initialData.title);
     const [context, setContext] = useState(initialData.context);
+    const [images, setImage] = useState(initialData.image)
     const [isEditing, setIsEditing] = useState(initialIsEditing);
     const editMode = () => setIsEditing(true);
     const navigate = useNavigate();
@@ -40,7 +41,15 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
 
                 <div
                     style={{ width: '65rem' }} key={initialData.postId} className="m-4">
-                    <div >
+                        
+                        <div>
+                        <EditableImages
+                            value= {images}
+
+                            />
+                        </div>
+
+                    <div>
                         <EditableTitle
                             value={title}
                             isEditing={isEditing}
@@ -63,7 +72,7 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
                                 viewMode(e, {
                                     title: title,
                                     context: context,
-                                    postId: initialData.forumId
+                                    postId: initialData.postId
                                 })
                             }}
                             onDeleteClick={(e) => { handleDeletePost(e, initialData.postId) }}

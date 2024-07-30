@@ -13,8 +13,6 @@ export default function EditableText({ value, onValueChange, isEditing }) {
             <>
                 <div>
                     <input
-                        style={{textAlign: 'center'}}
-                        size='sm'
                         plaintext
                         value={value}
                         onChange={(e) => onValueChange(e.target.value)}

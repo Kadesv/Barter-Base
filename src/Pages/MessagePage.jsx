@@ -4,7 +4,7 @@ import axios from "axios"
 import { socket } from "../main"
 export default function MessagePage() {
 const navigate = useNavigate();
-  const { user, authStatus } = useOutletContext()
+  const { user, authStatus, setAuthStatus } = useOutletContext()
   const { chatInfo } = useLoaderData()
   const [messageList, setMessageList] = useState(chatInfo.messages);
   const [message, setMessage] = useState("")
@@ -29,12 +29,18 @@ const navigate = useNavigate();
       setMessage('')
     }
   }
+const checkAuth = async ()=> {
+  const res = await axios.get('/api/authCheck', {message : 'user_check'})
+  console.log(res.data)
 
+}
   useEffect(() => {
-    // console.log(authStatus)
-    // if(!authStatus){
+    console.log(authStatus)
+
+    // if(authStatus ===  false){
     //   navigate("/")
     // }
+    checkAuth()
     socket.on("receive_message", async (data) => {
       if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
         await setMessageList((list) => [...list, data])

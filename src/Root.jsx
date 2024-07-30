@@ -12,7 +12,7 @@ export default function Root() {
   const [favorites, setFavorites] = useState([])
   const [chatRooms, setChatRooms] = useState([])
   const getUserInfo = async () => {
-    const res = await axios.post('/api/checkss');
+    const res = await axios.post('/api/authCheck');
     if (res.data.success) {
       setFavorites(res.data.favorites)
       setChatRooms(res.data.rooms)

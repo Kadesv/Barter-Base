@@ -41,7 +41,14 @@ const router = createBrowserRouter(
         }}
       />
 
-      <Route path='/account' element={<AccountPage />} />
+      <Route path='/account' element={<AccountPage />} 
+      
+      loader={async ()=>{ 
+        const res = await axios.get('/api/accountInfo');
+        console.log(res.data)
+        return res.data
+
+      }}/>
 
       <Route path='/about' element={<AboutPage />} />
       <Route path='/signIn' element={<SignInPage />}></Route>
@@ -49,7 +56,7 @@ const router = createBrowserRouter(
       <Route path='chats/:chatId'
         element={<MessagePage />}
         loader={async ({ params }) => {
-          const res = await axios.get(`/api/chat/${params.chatId}`)
+          const res = await axios.get(`/api/chat/${params.chatId}`);
           // console.log(res)
           return { chatInfo: res.data }
         }}
