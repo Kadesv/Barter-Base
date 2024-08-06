@@ -13,7 +13,7 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
     const [context, setContext] = useState(initialData.context);
     const [images, setImage] = useState(initialData.image);
     const [isEditing, setIsEditing] = useState(initialIsEditing);
-    console.log(images)
+    // console.log(images)
     const editMode = (e) =>{ 
         e.preventDefault()
         setIsEditing(true);}
@@ -33,7 +33,6 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
     const handleDeletePost = async (event, postId) => {
 
         event.preventDefault();
-        console.log('hit');
         await axios.delete(`/api/posts/delete/${postId}`);
         setIsEditing(false);
         navigate('/account');

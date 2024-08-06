@@ -42,10 +42,11 @@ const router = createBrowserRouter(
       />
 
       <Route path='/account' element={<AccountPage />} 
-      
       loader={async ()=>{ 
         const res = await axios.get('/api/accountInfo');
-        console.log(res.data)
+       if(res.data.success === false){
+        return {user: undefined}
+       }
         return res.data
 
       }}/>

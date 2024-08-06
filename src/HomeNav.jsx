@@ -138,7 +138,7 @@ export default function HomeNav({ props }) {
 
             <section className="drawer-side ">
               <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => { closeAllClick() }} className="drawer-overlay"></label>
-              <section className= "menu fixed h-screen flex items-center bg-base-200 p-4 w-80  text-base-content">
+              <section className= "menu flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content">
                 {/* Sidebar content here */}
                 <div className='tabs tabs-lifted'>
                   <button onClick={() => { onFavoriteClick() }} className={showFavorites ? 'tab tab-active':'tab'}>Favorites</button>

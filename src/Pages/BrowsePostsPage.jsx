@@ -45,7 +45,7 @@ export default function BrowsePostsPage() {
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
     <div key={postId} className="">
-      <div onClick={()=>document.getElementById(`model-popup${postId}`).showModal() }className="card bg-base-100 shadow-xl m-1">
+      <div className="card bg-base-100 shadow-xl m-1">
       <figure className="h-60 rouded pt-6 m-0">
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" rounded h-auto w-auto " />
         </figure>
@@ -61,6 +61,8 @@ export default function BrowsePostsPage() {
 
           </div>
           <h2 className="card-title">{title}</h2>
+          <h2>${price}</h2>
+
           <div className="card-actions">
             <dialog id={`model-popup${postId}`} className="modal">
               <div className=" modal-box hero-content -col-reverse ">
@@ -97,7 +99,7 @@ export default function BrowsePostsPage() {
             </dialog>
 
             <div className="form-control">
-              <div className="w-full flex ">
+              <div className="w-full flex z-10">
                 <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
               </div>
             </div>

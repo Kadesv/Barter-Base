@@ -1,10 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState} from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import PostTemplate from "../Components/PostComponents/PostTemplate.jsx"
 export default function AccountPage() {
   const { user} = useLoaderData();
+  if(user === undefined){
+    navigate('/')
+  }
   console.log(user)
+  const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
   console.log(user, userInfo)
 
@@ -24,9 +28,9 @@ export default function AccountPage() {
     console.log(userInfo)
     const res = await axios.post('/api/auth/update', userInfo);
     console.log(res)
-
-
   }
+
+
   return (
     <>
       <div className='w-full '>
