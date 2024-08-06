@@ -13,7 +13,7 @@ export default function EditableText({ value, onValueChange, isEditing }) {
             <>
                 <div>
                     <input
-                        plaintext
+                        
                         value={value}
                         onChange={(e) => onValueChange(e.target.value)}
                     />

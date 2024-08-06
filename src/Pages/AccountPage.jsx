@@ -13,7 +13,7 @@ export default function AccountPage() {
     return(
       <PostTemplate
       key={postId}
-      initialData={{ postId, title, context }}
+      initialData={{ postId, title, context, image }}
       initialIsEditing={false}
 
   />
@@ -29,7 +29,7 @@ export default function AccountPage() {
   }
   return (
     <>
-      <div className='w-full h-screen'>
+      <div className='w-full '>
         <section
           className="flex content-evenly"
         >
@@ -95,7 +95,7 @@ export default function AccountPage() {
               <button className="btn btn-success" type="submit">Save</button>
               <button
                 className="btn btn-error"
-              >undo changes</button>
+              >cancel</button>
             </form>
           </div>
         </section>

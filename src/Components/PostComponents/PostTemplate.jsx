@@ -1,4 +1,5 @@
 import EditableTitle from "./EditableTitle";
+import EditableImages from "./EditableImages";
 import EditableText from "./EditableText";
 import EditableButtons from "./EditableButtons";
 import axios from "axios";
@@ -10,9 +11,12 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
 
     const [title, setTitle] = useState(initialData.title);
     const [context, setContext] = useState(initialData.context);
-    const [images, setImage] = useState(initialData.image)
+    const [images, setImage] = useState(initialData.image);
     const [isEditing, setIsEditing] = useState(initialIsEditing);
-    const editMode = () => setIsEditing(true);
+    console.log(images)
+    const editMode = (e) =>{ 
+        e.preventDefault()
+        setIsEditing(true);}
     const navigate = useNavigate();
 
     const viewMode = async (event, formData) => {
@@ -23,7 +27,6 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
             setTitle(data.title);
             setContext(data.context);
         }
-
         setIsEditing(false);
     };
 
@@ -45,7 +48,8 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
                         <div>
                         <EditableImages
                             value= {images}
-
+                            isEditing={isEditing}
+                            onValueChange={setImage}
                             />
                         </div>
 
@@ -67,7 +71,7 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
                     <div>
                         <EditableButtons
                             isEditing={isEditing}
-                            onEditClick={editMode}
+                            onEditClick={(e) => editMode(e)}
                             onSaveClick={(e) => {
                                 viewMode(e, {
                                     title: title,
