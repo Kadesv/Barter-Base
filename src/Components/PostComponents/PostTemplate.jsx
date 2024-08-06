@@ -43,7 +43,8 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
             <form className="savePostForm">
 
                 <div
-                    style={{ width: '65rem' }} key={initialData.postId} className="m-4">
+                className="card bg-base-100 shadow-xl m-1"
+                key={initialData.postId} >
                         
                         <div>
                         <EditableImages

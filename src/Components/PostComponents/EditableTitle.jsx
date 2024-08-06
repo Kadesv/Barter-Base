@@ -11,11 +11,10 @@ export default function EditableTitle({ isEditing, value, onValueChange }) {
 
             :
 
-            <div className="card card-title"
+            <div className="card card-title bold"
             >
                 <input
                 className="input"
-                    plaintext
                     value={value}
                     onChange={(e) => onValueChange(e.target.value)}
                 />
