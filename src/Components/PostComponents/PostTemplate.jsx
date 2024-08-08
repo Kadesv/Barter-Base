@@ -42,7 +42,7 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
             <form className="savePostForm">
 
                 <div
-                className="card bg-base-100 shadow-xl m-1"
+                className="card card-side bg-base-100 shadow-xl m-1"
                 key={initialData.postId} >
                         
                         <div>
@@ -52,7 +52,7 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
                             onValueChange={setImage}
                             />
                         </div>
-
+                <div className=" flex flex-col">
                     <div>
                         <EditableTitle
                             value={title}
@@ -83,6 +83,7 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
                             postId={initialData.postId}
                         />
                     </div>
+                </div>
                 </div>
             </form >
         </>

@@ -13,7 +13,7 @@ export default function AccountPage() {
   console.log(user, userInfo)
 
   const userPosts = user.posts.map(({ image, postId, title, context, createdDate, price  }) => {
-    console.log()
+    // console.log()
     return(
       <PostTemplate
       key={postId}
@@ -25,9 +25,9 @@ export default function AccountPage() {
   });
   const handleUserUpdate = async (e) => {
     e.preventDefault()
-    console.log(userInfo)
+    // console.log(userInfo)
     const res = await axios.post('/api/auth/update', userInfo);
-    console.log(res)
+    // console.log(res)
   }
 
 
@@ -35,11 +35,11 @@ export default function AccountPage() {
     <>
       <div className='w-full '>
         <section
-          className="flex content-evenly"
+          className="flex justify-around"
         >
           <div>
             <h1 className="flex justify-center text-xl p-4">My Listings</h1>
-              {userPosts}
+             {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
           </div>
           <div>
 

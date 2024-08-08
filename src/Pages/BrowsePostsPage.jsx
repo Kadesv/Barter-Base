@@ -3,7 +3,6 @@ import ImageMap from "../Components/ImageMap";
 import LikeButton from "../Components/LikeButton";
 import axios from "axios";
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { socket } from "../main";
 export default function BrowsePostsPage() {
   const { posts } = useLoaderData();
@@ -11,8 +10,9 @@ export default function BrowsePostsPage() {
   const { categories, authStatus, favorites, setFavorites } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-
-  const handleFavorite = async ({ postId }) => {
+console.log(favorites)
+  const handleFavorite = async (e,{ postId }) => {
+    e.preventDefault()
     if (!authStatus) {
       navigate('/signIn')
     }
@@ -46,7 +46,7 @@ export default function BrowsePostsPage() {
   (
     <div key={postId} className="">
       <div className="card bg-base-100 shadow-xl m-1">
-      <figure className="h-60 rouded pt-6 m-0">
+      <figure onClick={()=>document.getElementById(`model-popup${postId}`).showModal() } className="h-60 rouded pt-6 m-0">
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" rounded h-auto w-auto " />
         </figure>
         <div className="card-body flex px-3 pb-2 pt-0">
@@ -55,13 +55,12 @@ export default function BrowsePostsPage() {
               <div title="Category" className="badge badge-info badge-xs">{categories.find((cat)=> cat.categoryId === categoryId).categoryName}</div>
             </div>
             <div className="tooltip tooltip-top" data-tip="Sub-Category">
-              {/* {console.log(categories[categoryId -1].subcategories[subCategoryId-1].subCategoryName)} */}
               <div className="badge badge-xs">{categories.find((cat)=> cat.categoryId === categoryId).subcategories.find((subCat)=> subCat.subCategoryId === subCategoryId).subCategoryName}</div>
             </div>
 
           </div>
           <h2 className="card-title">{title}</h2>
-          <h2>${price}</h2>
+          <h2 className="card-context">${price}</h2>
 
           <div className="card-actions">
             <dialog id={`model-popup${postId}`} className="modal">
@@ -99,7 +98,7 @@ export default function BrowsePostsPage() {
             </dialog>
 
             <div className="form-control">
-              <div className="w-full flex z-10">
+              <div className="w-full flex ">
                 <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
               </div>
             </div>

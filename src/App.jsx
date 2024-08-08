@@ -42,6 +42,8 @@ const router = createBrowserRouter(
       />
 
       <Route path='/account' element={<AccountPage />} 
+      errorElement={<ErrorPage />}
+
       loader={async ()=>{ 
         const res = await axios.get('/api/accountInfo');
        if(res.data.success === false){

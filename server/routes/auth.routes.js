@@ -79,7 +79,7 @@ authRoutes.post('/api/authCheck', async (req, res) => {
         model: Post
       }
     })
-    console.log(favorites)
+    // console.log(favorites)
     const rooms = await Chat.findAll({
       where: {
         [Op.or]: [{ user1Id: userId }, { user2Id: userId }],

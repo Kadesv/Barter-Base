@@ -4,7 +4,7 @@ export default function EditableImages({isEditing, value, onValueChange}) {
     return (
         !isEditing ?
 
-             <figure className=" carousel rounded-box">
+             <figure className=" h-60  w-auto carousel rounded-box">
                 <ImageMap images={value} /> 
                 
                 
@@ -13,13 +13,13 @@ export default function EditableImages({isEditing, value, onValueChange}) {
             :
 
             <>
-                <figure className=" carousel rounded-box">
+                <figure className=" h-60 min-w-1/5 carousel rounded-box">
                     <ImageMap images={value} />
                 </figure>
                 
                 <div className="imageInput">
                     <input
-                        className="file-input my-2 file-input-bordered w-full max-w-xs"
+                        className="file-input w-auto my-2 file-input-bordered  max-w-xs"
                         placeholder="image"
                         multiple
                         type="file"

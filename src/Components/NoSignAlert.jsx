@@ -5,8 +5,8 @@ export default function NoSignAlert() {
 
             <div
 
-                className=" rounded flex card w-full h-1/4 rounded-none text-neutral-content z-10 fixed bottom-10">
-                <div className="card-body items-center text-center">
+                className="  flex card  pb-44 h-1/5  rounded-none text-neutral-content z-10 fixed bottom-10">
+                <div className="card-body items-center text-center ">
                     <h2 className="card-title">You must be signed in to use this.</h2>
                     <a
                         className='btn '
