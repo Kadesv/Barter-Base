@@ -6,10 +6,13 @@ const joinRoom = ({chatId})=>{
 
     const roomsMap = chatRooms.map(({ chatId, user1Id, user2Name, user1Name }) => {
         return (
-            <div key={chatId} className="card bg-base-100 w-full my-2 h-auto mr-2 ">
-                <a as="div" href={`/chats/${chatId}`} className="card-body side-component flex flex-row p-0 ">
-                    <h4 className="card-title w-10" >{user.userId === user1Id ? user2Name : user1Name}</h4>
+            <div key={chatId} className=" ml-1 bg-base-100 w-4/5 my-2 join join-horizontal  mr-2 ">
+                <a href={`/chats/${chatId}`} className=" w-3/4 btn btn-ghost card-title join-item  ">
+                {user.userId === user1Id ? user2Name : user1Name}
                 </a>
+                <button className=" btn btn-ghost join-item">
+                :
+                </button>
             </div>
         )
     })

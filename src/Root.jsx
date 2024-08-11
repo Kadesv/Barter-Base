@@ -35,7 +35,7 @@ export default function Root() {
           context={{ categories, authStatus, setAuthStatus, user, setUser, favorites, chatRooms, setChatRooms, setFavorites }}
         />
       </main>
-      <footer className="footer footer-center bg-base-200 text-base-content rounded p-10">
+      {/* <footer className="footer footer-center bg-base-200 text-base-content rounded p-10">
   <nav className="grid grid-flow-col gap-4">
     <a className="link link-hover">About us</a>
     <a className="link link-hover">Contact</a>
@@ -82,7 +82,7 @@ export default function Root() {
   <aside>
     <p>Copyright © {new Date().getFullYear()} - There are no Copyrights</p>
   </aside>
-</footer>
+</footer> */}
     </>
   );
 };
