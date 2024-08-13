@@ -13,7 +13,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import PostDetailPage from './Pages/PostDetailPage.jsx';
 
 
 const router = createBrowserRouter(
@@ -33,13 +32,6 @@ const router = createBrowserRouter(
           // console.log(userFavorites)
           return ({ posts, userFavorites });
         }} />
-      <Route path='posts/:postId'
-        element={<PostDetailPage />}
-        loader={async ({ params }) => {
-          const res = await axios.get(`/api/posts/${params.postId}`);
-          return { post: res.data }
-        }}
-      />
 
       <Route path='/account' element={<AccountPage />} 
       errorElement={<ErrorPage />}

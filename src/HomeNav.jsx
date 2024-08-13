@@ -86,7 +86,7 @@ export default function HomeNav({ props }) {
         </>
     )
   }
- 
+
   return (
     <>
       <nav className="navbar bg-base-200 sticky top-0 z-10">
@@ -100,7 +100,7 @@ export default function HomeNav({ props }) {
               <li><a href='/'>Homepage</a></li>
               <li><AccountLink /></li>
               <li><a href='/favorites'>Favorites</a></li>
-            <LogButton handleLogOut={(e) => handleLogout(e)} authStatus={authStatus} />
+              <LogButton handleLogOut={(e) => handleLogout(e)} authStatus={authStatus} />
 
 
               {/* <li><a href='/about'>About</a></li> */}
@@ -138,12 +138,12 @@ export default function HomeNav({ props }) {
 
             <section className="drawer-side ">
               <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => { closeAllClick() }} className="drawer-overlay"></label>
-              <section className= "menu flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content">
+              <section className="menu flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content">
                 {/* Sidebar content here */}
                 <div className='tabs tabs-lifted'>
-                  <button onClick={() => { onFavoriteClick() }} className={showFavorites ? 'tab tab-active':'tab'}>Favorites</button>
-                  <button onClick={() => { onNewPostClick() }} className={showPost ? 'tab tab-active':'tab'}>New Post</button>
-                  <button onClick={() => { onChatClick() }} className={showChat ? 'tab tab-active':'tab'}>Chats</button>
+                  <button onClick={() => { onFavoriteClick() }} className={showFavorites ? 'tab tab-active' : 'tab'}>Favorites</button>
+                  <button onClick={() => { onNewPostClick() }} className={showPost ? 'tab tab-active' : 'tab'}>New Post</button>
+                  <button onClick={() => { onChatClick() }} className={showChat ? 'tab tab-active' : 'tab'}>Chats</button>
                 </div>
                 {showFavorites ?
                   <FavoritesComponent authStatus={authStatus} setFavorites={setFavorites} favorites={favorites} categories={categories} />

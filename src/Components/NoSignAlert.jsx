@@ -9,7 +9,7 @@ export default function NoSignAlert() {
                 <div className="card-body items-center text-center ">
                     <h2 className="card-title">You must be signed in to use this.</h2>
                     <a
-                        className='btn '
+                        className='btn btn-info '
                         href="/signIn">Sign In</a>
                     <div className="card-actions justify-end">
                     </div>
