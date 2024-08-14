@@ -3,7 +3,7 @@ export default function EditableText({ value, onValueChange, isEditing }) {
         !isEditing ?
 
             <>
-                <div>
+                <div className="card card-body">
                     {value}
                 </div>
             </>
@@ -13,7 +13,9 @@ export default function EditableText({ value, onValueChange, isEditing }) {
             <>
                 <div>
                     <input
-                        
+                id="contextInput"
+
+                        className="input"
                         value={value}
                         onChange={(e) => onValueChange(e.target.value)}
                     />

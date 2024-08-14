@@ -1,5 +1,6 @@
 import EditableTitle from "./EditableTitle";
-import EditableImages from "./EditableImages";
+import ImageInput from "./ImageInput";
+import ImageMap from "../ImageMap";
 import EditableText from "./EditableText";
 import EditableButtons from "./EditableButtons";
 import axios from "axios";
@@ -39,20 +40,16 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
     };
     return (
         <>
-            <form className="savePostForm">
+            <form 
+            key={`postForm ${initialData.postId}`}
+            className="savePostForm carousel-item">
 
                 <div
-                className="card card-side bg-base-100 shadow-xl m-1"
+                className="card min-w-max card-side bg-base-100 shadow-xl m-1"
                 key={initialData.postId} >
-                        
-                        <div>
-                        <EditableImages
-                            value= {images}
-                            isEditing={isEditing}
-                            onValueChange={setImage}
-                            />
-                        </div>
-                <div className=" flex flex-col">
+                        <ImageMap images={images}/>
+                       
+                <div className=" flex justify-between items-center flex-col">
                     <div>
                         <EditableTitle
                             value={title}
@@ -67,8 +64,16 @@ export default function PostTemplate({ initialData, initialIsEditing }) {
                             onValueChange={setContext}
                         />
                     </div>
-
                     <div>
+                            
+                            <ImageInput
+                                isEditing={isEditing}
+                                onValueChange={setImage}
+                                />
+                            </div>
+
+                    <div
+                    className="join join-horizontal">
                         <EditableButtons
                             isEditing={isEditing}
                             onEditClick={(e) => editMode(e)}

@@ -37,7 +37,7 @@ export default function AccountPage() {
         <section
           className="flex justify-around"
         >
-          <div>
+          <div className="carousel carousel-vertical rounded-box h-screen">
             <h1 className="flex justify-center text-xl p-4">My Listings</h1>
              {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
           </div>
@@ -45,11 +45,12 @@ export default function AccountPage() {
 
             <h3 className="flex justify-center text-xl p-4">Account Information</h3>
             <form
-
+              id='accountInfoForm'
               onSubmit={(e) => handleUserUpdate(e)}
               className="grid">
               <label className="input flex items-center gap-2">
                 <input
+                  id="accountFNameInput"
                   value={userInfo.firstName === null ? '' : userInfo.firstName}
                   onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
                   className="input m-1 input-ghost"
@@ -58,6 +59,7 @@ export default function AccountPage() {
 
               <label className="input flex items-center gap-2">
                 <input
+                  id="accountLNameInput"
                   value={userInfo.lastName === null ? '' : userInfo.lastName}
                   onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
                   className="input m-1 input-ghost"
@@ -66,6 +68,7 @@ export default function AccountPage() {
 
               <label className="input flex items-center gap-2">
                 <input
+                  id="accountEmailInput"
                   value={userInfo.email === null ? '' : userInfo.email}
                   onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
                   className="input m-1 input-ghost"
@@ -74,6 +77,7 @@ export default function AccountPage() {
 
               <label className="input flex items-center gap-2">
                 <input
+                  id="accountCityInput"
                   value={userInfo.city === null ? '' : userInfo.city}
                   onChange={(e) => setUserInfo({ ...userInfo, city: e.target.value })}
                   className="input m-1 input-ghost"
@@ -82,6 +86,7 @@ export default function AccountPage() {
 
               <label className="input flex items-center gap-2">
                 <input
+                  id="accountStateInput"
                   value={userInfo.state === null ? '' : userInfo.state}
                   onChange={(e) => setUserInfo({ ...userInfo, state: e.target.value })}
                   className="input m-1 input-ghost"
@@ -90,6 +95,7 @@ export default function AccountPage() {
 
               <label className="input flex items-center gap-2">
                 <input
+                  id="accountZipCodeInput"
                   value={userInfo.zipCode === null ? '' : userInfo.zipCode}
                   onChange={(e) => setUserInfo({ ...userInfo, zipCode: e.target.value })}
                   className="input m-1 input-ghost"
@@ -98,6 +104,7 @@ export default function AccountPage() {
 
               <button className="btn btn-success" type="submit">Save</button>
               <button
+                onClick={()=>onCancelClick}
                 className="btn btn-error"
               >cancel</button>
             </form>
