@@ -5,7 +5,7 @@ const authRoutes = Router();
 
 authRoutes.post('/api/auth', async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ where: { email: email }});
+  const user = await User.findOne({ where: { email: email } });
   if (user && user.password === password) {
 
     req.session.userId = user.userId;
@@ -13,7 +13,7 @@ authRoutes.post('/api/auth', async (req, res) => {
       where: {
         userId: user.userId
       },
-      include:{
+      include: {
         model: Post
       }
     })
@@ -58,7 +58,6 @@ authRoutes.post('/api/register', async (req, res) => {
 
 
 authRoutes.post('/api/authCheck', async (req, res) => {
-  const {message} = req.body
   const { userId } = req.session
   // console.log(message)
   if (userId) {
@@ -75,7 +74,7 @@ authRoutes.post('/api/authCheck', async (req, res) => {
       where: {
         userId: userId
       },
-      include:{
+      include: {
         model: Post
       }
     })
@@ -101,11 +100,25 @@ authRoutes.post('/api/logout', (req, res) => {
   res.json({ success: true });
 });
 
+authRoutes.put('/api/update', async (req, res) => {
+  const { userId } = req.session;
+  const { firstName, lastName, email, state, city, zipCode } = req.body
+  
+    if(firstName && lastName && email){
+        await User.update({firstName, lastName, email, state, city, zipCode },{
+          where:{
+            userId
+          }
+        })
+    }
+  
+  res.json({ success: true });
+});
 
 authRoutes.get('/api/accountInfo', async (req, res) => {
   const { userId } = req.session;
-  if(userId === undefined){
-    res.json({success: false})
+  if (userId === undefined) {
+    res.json({ success: false })
   }
   const user = await User.findOne({
     where: { userId: userId },
@@ -113,7 +126,7 @@ authRoutes.get('/api/accountInfo', async (req, res) => {
       model: Post
     }
   })
-  res.json({user}) 
+  res.json({ user })
 })
 
 export default authRoutes;

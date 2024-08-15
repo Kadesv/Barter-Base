@@ -7,10 +7,10 @@ export default function AccountPage() {
   if(user === undefined){
     navigate('/')
   }
-  console.log(user)
+  // console.log(user)
   const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
-  console.log(user, userInfo)
+  // console.log(user, userInfo)
 
   const userPosts = user.posts.map(({ image, postId, title, context, createdDate, price  }) => {
     // console.log()
@@ -25,20 +25,19 @@ export default function AccountPage() {
   });
   const handleUserUpdate = async (e) => {
     e.preventDefault()
-    // console.log(userInfo)
-    const res = await axios.post('/api/auth/update', userInfo);
-    // console.log(res)
+    const res = await axios.put('/api/update', userInfo);
+    console.log(res)
   }
 
 
   return (
     <>
-      <div className='w-full '>
+      <div className='min-w-full '>
         <section
           className="flex justify-around"
         >
           <div className="carousel carousel-vertical rounded-box h-screen">
-            <h1 className="flex justify-center text-xl p-4">My Listings</h1>
+            <h1 className="flex justify-center bg-base-neutral text-xl p-4">My Listings</h1>
              {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
           </div>
           <div>
