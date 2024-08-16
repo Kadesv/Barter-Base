@@ -109,6 +109,7 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
                 <div className="titleInput">
                     <input
                         id="titleInput"
+                        maxLength={25}
                         disabled={!authStatus}
                         className="input my-2 input-bordered w-full max-w-xs"
                         placeholder="Title"
@@ -130,10 +131,11 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
                         allowNegativeValue={false}
                     />
                 </div>
-                <div className="detailInput">
+                <div className="contextInput">
                     <input
-                        id="detailInput"
+                        id="contextInput"
                         disabled={!authStatus}
+                        maxLength={250}
 
                         className="textarea textarea-md my-2 textarea-bordered w-full max-w-xs"
                         placeholder="Details"

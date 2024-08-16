@@ -1,26 +1,49 @@
 import axios from "axios";
-import { useEffect, useState} from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
-import PostTemplate from "../Components/PostComponents/PostTemplate.jsx"
+import { useEffect, useState } from "react";
+import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import AccountEditableForm from "../Components/AccountEditForm.jsx";
+import NoSignAlert from "../Components/NoSignAlert.jsx";
+import PostTemplate from "../Components/PostTemplate.jsx";
 export default function AccountPage() {
-  const { user} = useLoaderData();
-  if(user === undefined){
+  const { user } = useLoaderData();
+  const { categories, authStatus } = useOutletContext();
+  const [showAccount, setShowAccount] = useState(true)
+  const [isEditingAccount, setIsEditingAccount] = useState(false)
+  const [showPosts, setShowPosts] = useState(false)
+  console.log(authStatus)
+  if (user === undefined) {
     navigate('/')
   }
+
+  const onAccountClick = () => {
+    if (showAccount === false && showPosts === true) {
+      setShowPosts(false)
+      setShowAccount(true)
+    }
+  }
+
+  const onPostsClick = () => {
+    if (showAccount === true && showPosts === false) {
+      setShowPosts(true)
+      setShowAccount(false)
+    }
+  }
+
   // console.log(user)
   const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
   // console.log(user, userInfo)
 
-  const userPosts = user.posts.map(({ image, postId, title, context, createdDate, price  }) => {
-    // console.log()
-    return(
+  const userPosts = user.posts.map(({ image, postId, title, context, createdDate, price, categoryId, subCategoryId }) => {
+    // console.log(createdDate, price, categoryId, subCategoryId)
+    return (
       <PostTemplate
-      key={postId}
-      initialData={{ postId, title, context, image }}
-      initialIsEditing={false}
-
-  />
+        key={postId}
+        initialData={{ image, postId, title, context, createdDate, price, categoryId, subCategoryId }}
+        initialIsEditing={false}
+        categories={categories}
+        authStatus={authStatus}
+      />
     )
   });
   const handleUserUpdate = async (e) => {
@@ -32,84 +55,29 @@ export default function AccountPage() {
 
   return (
     <>
-      <div className='min-w-full '>
-        <section
-          className="flex justify-around"
-        >
+
+      <section className="menu flex items-center min-w-full justify-around  p-4 w-80 min-h-full text-base-content">
+        <div className='tabs tabs-lifted'>
+          <button onClick={() => { onAccountClick() }} className={showAccount ? 'tab tab-active' : 'tab'}>AccountInformation</button>
+          <button onClick={() => { onPostsClick() }} className={showPosts ? 'tab tab-active' : 'tab'}>My Listings</button>
+        </div>
+        {showAccount ?
+          <AccountEditableForm isEditingAccount={isEditingAccount} setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
+          : null
+        }
+        {showPosts ?
           <div className="carousel carousel-vertical rounded-box h-screen">
-            <h1 className="flex justify-center bg-base-neutral text-xl p-4">My Listings</h1>
-             {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
+            {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
           </div>
-          <div>
+          : null
+        }
+        {!authStatus ?
+          <NoSignAlert />
+          :
+          null
+        }
 
-            <h3 className="flex justify-center text-xl p-4">Account Information</h3>
-            <form
-              id='accountInfoForm'
-              onSubmit={(e) => handleUserUpdate(e)}
-              className="grid">
-              <label className="input flex items-center gap-2">
-                <input
-                  id="accountFNameInput"
-                  value={userInfo.firstName === null ? '' : userInfo.firstName}
-                  onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
-                  className="input m-1 input-ghost"
-                  placeholder="First Name" />
-              </label>
-
-              <label className="input flex items-center gap-2">
-                <input
-                  id="accountLNameInput"
-                  value={userInfo.lastName === null ? '' : userInfo.lastName}
-                  onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
-                  className="input m-1 input-ghost"
-                  placeholder="Last Name" />
-              </label>
-
-              <label className="input flex items-center gap-2">
-                <input
-                  id="accountEmailInput"
-                  value={userInfo.email === null ? '' : userInfo.email}
-                  onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-                  className="input m-1 input-ghost"
-                  placeholder="Email" />
-              </label>
-
-              <label className="input flex items-center gap-2">
-                <input
-                  id="accountCityInput"
-                  value={userInfo.city === null ? '' : userInfo.city}
-                  onChange={(e) => setUserInfo({ ...userInfo, city: e.target.value })}
-                  className="input m-1 input-ghost"
-                  placeholder="City" />
-              </label>
-
-              <label className="input flex items-center gap-2">
-                <input
-                  id="accountStateInput"
-                  value={userInfo.state === null ? '' : userInfo.state}
-                  onChange={(e) => setUserInfo({ ...userInfo, state: e.target.value })}
-                  className="input m-1 input-ghost"
-                  placeholder="State" />
-              </label>
-
-              <label className="input flex items-center gap-2">
-                <input
-                  id="accountZipCodeInput"
-                  value={userInfo.zipCode === null ? '' : userInfo.zipCode}
-                  onChange={(e) => setUserInfo({ ...userInfo, zipCode: e.target.value })}
-                  className="input m-1 input-ghost"
-                  placeholder="Zipcode" />
-              </label>
-
-              <button className="btn btn-success" type="submit">Save</button>
-              <button
-                onClick={()=>onCancelClick}
-                className="btn btn-error"
-              >cancel</button>
-            </form>
-          </div>
-        </section>
-      </div>
+      </section>
     </>
   )
 }
