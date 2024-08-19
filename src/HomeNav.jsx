@@ -89,7 +89,7 @@ export default function HomeNav({ props }) {
 
   return (
     <>
-      <nav className="navbar bg-base-200 sticky top-0 z-10">
+      <nav className="navbar bg-base-300 sticky top-0 z-10">
         <section className="navbar-start">
           <article className="dropdown">
             <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -140,7 +140,7 @@ export default function HomeNav({ props }) {
               <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => { closeAllClick() }} className="drawer-overlay"></label>
               <section className="menu flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content">
                 {/* Sidebar content here */}
-                <div className='tabs tabs-lifted'>
+                <div className='tabs tabs-bordered'>
                   <button onClick={() => { onFavoriteClick() }} className={showFavorites ? 'tab tab-active' : 'tab'}>Favorites</button>
                   <button onClick={() => { onNewPostClick() }} className={showPost ? 'tab tab-active' : 'tab'}>New Post</button>
                   <button onClick={() => { onChatClick() }} className={showChat ? 'tab tab-active' : 'tab'}>Chats</button>

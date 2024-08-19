@@ -32,26 +32,26 @@ export default function BrowsePostsPage() {
         postOwner: user,
         message: message
       }
-console.log(chatObj)
+      console.log(chatObj)
       const res = await axios.post(`/api/chat/new`, chatObj)
-      // if (res.data.success) {
-      //   socket.emit("send_message", res.data.newMessage)
-      // }
-      // setMessage('')
+      if (res.data.success) {
+        socket.emit("send_message", res.data.newMessage)
+      }
+      setMessage('')
     }
   }
 
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
     <div key={postId} className="">
-      <div className="card bg-base-100 shadow-xl m-1">
+      <div className="card card-compact bg-base-300 shadow-xl m-1">
         <figure onClick={() => document.getElementById(`model-popup${postId}`).showModal()} className="h-60 rouded pt-6 m-0">
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" rounded h-auto w-auto " />
         </figure>
         <div className="card-body flex px-3 pb-2 pt-0">
           <div>
             <div className="tooltip tooltip-top" data-tip="Category">
-              <div title="Category" className="badge badge-info badge-xs">{categories.find((cat) => cat.categoryId === categoryId).categoryName}</div>
+              <div title="Category" className="badge badge-xs">{categories.find((cat) => cat.categoryId === categoryId).categoryName}</div>
             </div>
             <div className="tooltip tooltip-top" data-tip="Sub-Category">
               <div className="badge badge-xs">{categories.find((cat) => cat.categoryId === categoryId).subcategories.find((subCat) => subCat.subCategoryId === subCategoryId).subCategoryName}</div>
@@ -59,15 +59,19 @@ console.log(chatObj)
 
           </div>
           <h2 className="card-title">{title}</h2>
-          <h2 className="card-context">${price}</h2>
-
+          <div className="flex">
+            <h2 className="card-context flex items-center">${price}</h2>
+            <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
+          </div>
           <div className="card-actions">
             <dialog id={`model-popup${postId}`} className="modal">
               <div className=" modal-box hero-content -col-reverse ">
                 <div className="text-center items-center lg:text-left">
                   <div className="text-center lg:text-left">
+                    <h2 className="card-context flex items-center">${price}</h2>
                     <h1 className="text-5xl font-bold ">{title}</h1>
-                    <p className="py-6">{context}</p>
+                    <p className="py-6 ">{context}</p>
+                    <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
                   </div>
 
                   <div className="collapse bg-base-200">
@@ -89,16 +93,13 @@ console.log(chatObj)
                     <ImageMap images={image} />
 
                   </figure>
+
                 </div>
               </div>
               <form id={'closeForm' + postId + 'component'} method="dialog" className="modal-backdrop">
                 <button>close</button>
               </form>
             </dialog>
-
-            <section className=" flex flex-row-reverse w-full justify-between ">
-                <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
-            </section>
           </div>
         </div>
       </div>
