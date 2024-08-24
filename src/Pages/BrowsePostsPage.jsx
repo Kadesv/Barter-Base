@@ -3,7 +3,6 @@ import ImageMap from "../Components/ImageMap";
 import LikeButton from "../Components/LikeButton";
 import axios from "axios";
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { socket } from "../main";
 export default function BrowsePostsPage() {
   const { posts } = useLoaderData();
@@ -11,8 +10,10 @@ export default function BrowsePostsPage() {
   const { categories, authStatus, favorites, setFavorites } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-
-  const handleFavorite = async ({ postId }) => {
+  console.log(favorites)
+  
+  const handleFavorite = async (e, { postId }) => {
+    e.preventDefault()
     if (!authStatus) {
       navigate('/signIn')
     }
@@ -32,9 +33,8 @@ export default function BrowsePostsPage() {
         postOwner: user,
         message: message
       }
-
+      console.log(chatObj)
       const res = await axios.post(`/api/chat/new`, chatObj)
-      // console.log(res)
       if (res.data.success) {
         socket.emit("send_message", res.data.newMessage)
       }
@@ -45,29 +45,34 @@ export default function BrowsePostsPage() {
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
     <div key={postId} className="">
-      <div onClick={()=>document.getElementById(`model-popup${postId}`).showModal() }className="card bg-base-100 shadow-xl m-1">
-      <figure className="h-60 rouded pt-6 m-0">
+      <div className="card card-compact bg-base-300 shadow-xl m-1">
+        <figure onClick={() => document.getElementById(`model-popup${postId}`).showModal()} className="h-60 rouded pt-6 m-0">
           <img src={image[0]} alt="IMAGE NOT FOUND" className=" rounded h-auto w-auto " />
         </figure>
         <div className="card-body flex px-3 pb-2 pt-0">
           <div>
             <div className="tooltip tooltip-top" data-tip="Category">
-              <div title="Category" className="badge badge-info badge-xs">{categories.find((cat)=> cat.categoryId === categoryId).categoryName}</div>
+              <div title="Category" className="badge badge-xs">{categories.find((cat) => cat.categoryId === categoryId).categoryName}</div>
             </div>
             <div className="tooltip tooltip-top" data-tip="Sub-Category">
-              {/* {console.log(categories[categoryId -1].subcategories[subCategoryId-1].subCategoryName)} */}
-              <div className="badge badge-xs">{categories.find((cat)=> cat.categoryId === categoryId).subcategories.find((subCat)=> subCat.subCategoryId === subCategoryId).subCategoryName}</div>
+              <div className="badge badge-xs">{categories.find((cat) => cat.categoryId === categoryId).subcategories.find((subCat) => subCat.subCategoryId === subCategoryId).subCategoryName}</div>
             </div>
 
           </div>
           <h2 className="card-title">{title}</h2>
+          <div className="flex">
+            <h2 className="card-context flex items-center">${price}</h2>
+            <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
+          </div>
           <div className="card-actions">
-            <dialog id={`model-popup${postId}`} className="modal w-auto h-">
+            <dialog id={`model-popup${postId}`} className="modal">
               <div className=" modal-box hero-content -col-reverse ">
                 <div className="text-center items-center lg:text-left">
                   <div className="text-center lg:text-left">
+                    <h2 className="card-context flex items-center">${price}</h2>
                     <h1 className="text-5xl font-bold ">{title}</h1>
-                    <p className="py-6">{context}</p>
+                    <p className="py-6 ">{context}</p>
+                    <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
                   </div>
 
                   <div className="collapse bg-base-200">
@@ -78,7 +83,7 @@ export default function BrowsePostsPage() {
                     <form id={'messageForm' + postId + 'component'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
                       <input id={'messageInput' + postId + 'component'} disabled={!authStatus} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authStatus ? 'Type Here...' : 'Please Log In first.'} />
                       {authStatus ? <button disabled={!authStatus} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button> :
-                      <a className="btn btn-ghost" href='/signIn'>Log In</a>}
+                        <a className="btn btn-ghost" href='/signIn'>Log In</a>}
 
                     </form>
                   </div>
@@ -89,18 +94,13 @@ export default function BrowsePostsPage() {
                     <ImageMap images={image} />
 
                   </figure>
+
                 </div>
               </div>
               <form id={'closeForm' + postId + 'component'} method="dialog" className="modal-backdrop">
                 <button>close</button>
               </form>
             </dialog>
-
-            <div className="form-control">
-              <div className="w-full flex ">
-                <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -121,8 +121,7 @@ export default function BrowsePostsPage() {
 
   return (
     <>
-      <div className="grid  p-bottom-10 lg:grid-cols-3 gap-x-20   sm:grid-cols-1">
-        {filterComponent()}
+      <div className="grid  p-bottom-10 lg:grid-cols-3 gap-x-20   sm:grid-cols-2">
         {postListItems}
 
       </div>

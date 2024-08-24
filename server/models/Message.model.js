@@ -26,9 +26,15 @@ Message.init(
     chatId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false
     }
   },
   {
+    timestamps: false,
     modelName: 'message',
     sequelize: db,
   },

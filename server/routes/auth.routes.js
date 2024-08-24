@@ -5,7 +5,7 @@ const authRoutes = Router();
 
 authRoutes.post('/api/auth', async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ where: { email: email },include:{model: Post } });
+  const user = await User.findOne({ where: { email: email } });
   if (user && user.password === password) {
 
     req.session.userId = user.userId;
@@ -25,8 +25,7 @@ authRoutes.post('/api/auth', async (req, res) => {
         model: Message,
       }
     })
-    // console.log(rooms)
-    res.json({ success: true, user, favorites, rooms});
+    res.json({ success: true, user, favorites, rooms });
   } else {
     res.json({ success: false });
   }
@@ -58,10 +57,18 @@ authRoutes.post('/api/register', async (req, res) => {
 });
 
 
-authRoutes.post('/api/checkss', async (req, res) => {
+authRoutes.post('/api/authCheck', async (req, res) => {
   const { userId } = req.session
+  // console.log(message)
   if (userId) {
-    const user = await User.findOne({ where: { userId: userId } });
+    const user = await User.findOne({
+      where: { userId: userId },
+      include: {
+        model: Post
+      }
+    });
+    // console.log(user)
+
 
     const favorites = await Favorites.findAll({
       where: {
@@ -71,6 +78,7 @@ authRoutes.post('/api/checkss', async (req, res) => {
         model: Post
       }
     })
+    // console.log(favorites)
     const rooms = await Chat.findAll({
       where: {
         [Op.or]: [{ user1Id: userId }, { user2Id: userId }],
@@ -79,8 +87,8 @@ authRoutes.post('/api/checkss', async (req, res) => {
         model: Message,
       }
     })
-    console.log(rooms)
-    res.json({ success: true, user, favorites, rooms,  });
+    // console.log(rooms)
+    res.json({ success: true, user, favorites, rooms, });
   }
   else {
     res.json({ success: false });
@@ -91,5 +99,34 @@ authRoutes.post('/api/logout', (req, res) => {
   req.session.destroy();
   res.json({ success: true });
 });
+
+authRoutes.put('/api/update', async (req, res) => {
+  const { userId } = req.session;
+  const { firstName, lastName, email, state, city, zipCode } = req.body
+  
+    if(firstName && lastName && email){
+        await User.update({firstName, lastName, email, state, city, zipCode },{
+          where:{
+            userId
+          }
+        })
+    }
+  
+  res.json({ success: true });
+});
+
+authRoutes.get('/api/accountInfo', async (req, res) => {
+  const { userId } = req.session;
+  if (userId === undefined) {
+    res.json({ success: false })
+  }
+  const user = await User.findOne({
+    where: { userId: userId },
+    include: {
+      model: Post
+    }
+  })
+  res.json({ user })
+})
 
 export default authRoutes;
