@@ -11,6 +11,7 @@ export default function BrowsePostsPage() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   console.log(favorites)
+  
   const handleFavorite = async (e, { postId }) => {
     e.preventDefault()
     if (!authStatus) {

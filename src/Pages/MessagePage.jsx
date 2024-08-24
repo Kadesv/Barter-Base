@@ -2,6 +2,7 @@ import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { socket } from "../main"
+import { dateFormat } from "../Components/dateFormat"
 export default function MessagePage() {
   const navigate = useNavigate();
   const { user, authStatus, setAuthStatus } = useOutletContext()
@@ -35,31 +36,29 @@ export default function MessagePage() {
 
   }
   useEffect(() => {
-    console.log(authStatus)
-
-    // if(authStatus ===  false){
-    //   navigate("/")
-    // }
-    checkAuth()
-    socket.on("receive_message", async (data) => {
-      
+    const handleMessage = async (data) => {
       if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
-       const refresh = await axios.get(`/api/chat/${params.chatId}`);
-       console.log(refresh)
+        const refresh = await axios.get(`/api/chat/${chatInfo.chatId}`);
+        setMessageList(refresh.data.messages);
       }
-      return (
-        socket.off("receive_message"))
-    })
-  }, [socket])
+    };
+  
+    socket.on("receive_message", handleMessage);
+  
+    // Cleanup function to remove the listener when the component unmounts
+    return () => {
+      socket.off("receive_message", handleMessage);
+    };
+  }, []); 
 
   // console.log(messageList)
-  const chatMap = messageList.map(({ messageText, userId, messageId }) => {
+  const chatMap = messageList.map(({ messageText, createdAt, userId, messageId }) => {
     return (
 
       <div key={messageId + "-messageKey"} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
         <div className="chat-header">
-          userName
-          <time className="text-xs opacity-50">12:45</time>
+          <div>{userId === chatInfo.user1Id ? chatInfo.user1Name: chatInfo.user2Name}</div>
+          <time className="text-xs ">{dateFormat(createdAt)}</time>
         </div>
         <div className=" chat-bubble">
           {messageText}
