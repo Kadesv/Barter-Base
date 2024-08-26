@@ -69,11 +69,11 @@ export default function MessagePage() {
   return (
     <div className="flex
     flex-row w-full">
-      <div className="w-1/2 h-screen">
+      {/* <div className="w-1/2 h-screen">
         <h2>chat select</h2>
-      </div>
+      </div> */}
       <div
-        className="w-1/2 h-screen">
+        className=" h-screen">
         {chatMap}
         <form
           className="z-10 w-screen fixed bottom-0"
