@@ -5,9 +5,8 @@ import AccountEditableForm from "../Components/AccountEditForm.jsx";
 import NoSignAlert from "../Components/NoSignAlert.jsx";
 import PostTemplate from "../Components/PostTemplate.jsx";
 export default function AccountPage() {
-
-  const { user } = useLoaderData();
   const { categories, authStatus } = useOutletContext();
+  const { user } = useLoaderData();
   const [showAccount, setShowAccount] = useState(true)
   const [isEditingAccount, setIsEditingAccount] = useState(false)
   const [showPosts, setShowPosts] = useState(false)
@@ -50,7 +49,7 @@ export default function AccountPage() {
         <div className="carousel carousel-vertical rounded-box h-screen">
           {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
         </div>
-        <div className="flex flex-col fixed top-20 right-10">
+        <div className="flex flex-col rounded-xl fixed top-20 right-10">
         <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>
