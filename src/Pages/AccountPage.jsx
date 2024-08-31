@@ -46,10 +46,10 @@ export default function AccountPage() {
           <button onClick={() => { onPostsClick() }} className={showPosts ? 'tab tab-active' : 'tab'}>My Listings</button>
         </div>
 
-        <div className="carousel carousel-vertical rounded-box h-screen">
+        <div className="carousel carousel-vertical w-2/3 rounded-box h-screen">
           {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
         </div>
-        <div className="flex flex-col rounded-xl fixed top-20 right-10">
+        <div className="flex  w-1/3 rounded-xl justify-center h-auto">
         <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>

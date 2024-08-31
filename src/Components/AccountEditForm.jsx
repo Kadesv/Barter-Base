@@ -11,7 +11,7 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                         id="accountFNameInput"
                         value={userInfo.firstName === null ? '' : userInfo.firstName}
                         onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
-                        className="input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="First Name" />
 
 
@@ -20,7 +20,7 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                         id="accountLNameInput"
                         value={userInfo.lastName === null ? '' : userInfo.lastName}
                         onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
-                        className="input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="Last Name" />
 
 
@@ -29,7 +29,7 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                         id="accountEmailInput"
                         value={userInfo.email === null ? '' : userInfo.email}
                         onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-                        className="input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="Email" />
 
 
@@ -38,7 +38,7 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                         id="accountCityInput"
                         value={userInfo.city === null ? '' : userInfo.city}
                         onChange={(e) => setUserInfo({ ...userInfo, city: e.target.value })}
-                        className="input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="City" />
 
 
@@ -47,7 +47,7 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                         id="accountStateInput"
                         value={userInfo.state === null ? '' : userInfo.state}
                         onChange={(e) => setUserInfo({ ...userInfo, state: e.target.value })}
-                        className="input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="State" />
 
 
@@ -56,27 +56,27 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                         id="accountZipCodeInput"
                         value={userInfo.zipCode === null ? '' : userInfo.zipCode}
                         onChange={(e) => setUserInfo({ ...userInfo, zipCode: e.target.value })}
-                        className="input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="Zip Code" />
-            <div className="join ">
+            <div className=" max-w-2xl join ">
                     <button
-                        className="btn join-item w-1/2 btn-success"
+                        className=" max-w-2xl btn join-item w-1/2 btn-success"
                         onClick={() => onSaveClick}>Save</button>
                     <button
-                        className="btn join-item w-1/2 btn-warning"
+                        className=" max-w-2xl btn join-item w-1/2 btn-warning"
                         onClick={() => onCancelClick}>cancel</button>
                         </div>
                 </form>
             </>
             :
             <form
-                className="grid grid-cols-1">
-                <input readOnly placeholder="First Name" className="input input-ghost input-bordered m-1" value={userInfo.firstName? userInfo.firstName : ''} />
-                <input readOnly placeholder="Last Name" className="input input-ghost input-bordered m-1" value={userInfo.lastName? userInfo.lastName : ''} />
-                <input readOnly placeholder="Email" className="input input-ghost input-bordered m-1" value={userInfo.email? userInfo.email : ''} />
-                <input readOnly placeholder="City" className="input input-ghost input-bordered m-1" value={userInfo.city? userInfo.city : ''} />
-                <input readOnly placeholder="State" className="input input-ghost input-bordered m-1" value={userInfo.state? userInfo.state : ''} />
-                <input readOnly placeholder="Zip Code" className="input input-ghost input-bordered m-1" value={userInfo.zipCode ? userInfo.zipCode : ''} />
+                className="grid w-1/2 ">
+                <input readOnly placeholder="First Name" className="input max-w-2xl input-ghost input-bordered m-1" value={userInfo.firstName? userInfo.firstName : ''} />
+                <input readOnly placeholder="Last Name" className="input max-w-2xl input-ghost input-bordered m-1" value={userInfo.lastName? userInfo.lastName : ''} />
+                <input readOnly placeholder="Email" className="input max-w-2xl input-ghost input-bordered m-1" value={userInfo.email? userInfo.email : ''} />
+                <input readOnly placeholder="City" className="input max-w-2xl input-ghost input-bordered m-1" value={userInfo.city? userInfo.city : ''} />
+                <input readOnly placeholder="State" className="input max-w-2xl input-ghost input-bordered m-1" value={userInfo.state? userInfo.state : ''} />
+                <input readOnly placeholder="Zip Code" className="input max-w-2xl input-ghost input-bordered m-1" value={userInfo.zipCode ? userInfo.zipCode : ''} />
 
                 <button
                     className="btn btn-info"

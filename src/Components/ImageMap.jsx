@@ -2,7 +2,7 @@ export default function ImageMap({images}){
    return (
     images.map((image, index) => {
           return(
-    <div key={index} className='carousel-item '>
+    <div key={index} className='carousel-item min-w-max'>
         <img src={image} alt="image" className="rounded-xl w-full" />
         </div>
         )
