@@ -66,7 +66,7 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
 
             <>
                 <article id={`newPostForm ${initialData.postId}`}
-                    className="m-3 flex flex-row max-h-96 carousel-item min-w-min">
+                    className="m-5 flex flex-row max-h-96 carousel-item min-w-min">
 
                     <figure className="carousel min-w-max ">
                         <ImageMap images={image} />
@@ -108,12 +108,12 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
                         />
                         <section className=" my-1 mx-2 join w-full max-w-xl">
                             <button
-                                className="btn w-1/2 join-item"
+                                className="btn btn-outline w-1/2 join-item"
                                 onClick={(e) => editMode(e)}>
                                 edit
                             </button>
                             <button
-                                className="btn w-1/2 join-item btn-danger join-item"
+                                className="btn btn-outline w-1/2 join-item btn-danger join-item"
                                 onClick={(e) => { handleDeletePost(e, initialData.postId) }}
                             >
                                 delete
@@ -126,29 +126,37 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
             :
 
             <>
-                <form id="newPostForm"
-                    className="grid m-1 carousel-item"
+                <article id="newPostForm"
+                    className="m-5 flex flex-row max-h-96 carousel-item min-w-min"
                     onSubmit={(e) => {
                         handleSubmit(e)
                     }}>
-                    <figure className="carousel">
+                    <figure className="carousel min-w-max">
                         <ImageMap images={image} />
                     </figure>
+                    <form>
+                    <input
+                        id="titleInput"
+                        maxLength={25}
+                        className="input my-1 mx-2 select-bordered w-full max-w-xl"
+                        placeholder="Title"
+                        value={title}
+                        onChange={(e) => { setTitle(e.target.value) }}
+                    />
 
                     <select
-                        className="select m-2 select-bordered w-full max-w-xl"
+                        className="select my-1 mx-2 select-bordered w-full max-w-xl"
                         onChange={(e) => { setSelectedCategory(e.target.value) }}
                         name="category"
                         id="category"
                         defaultValue={initialData.categoryId}>
-
                         <option disabled value={''} hidden>Category</option>
                         {catMap}
 
                     </select>
 
                     <select
-                        className=" subCategorySelect select m-2 select-bordered w-full max-w-xl"
+                        className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-xl"
                         disabled={!selectedCategory}
                         onChange={(e) => { setSelectedSubCategory(e.target.value) }}
                         name="subCategory" id="subCategory"
@@ -157,20 +165,11 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
                         {subCatMap()}
                     </select>
 
-                    <input
-                        id="titleInput"
-                        maxLength={25}
-                        className="input m-2 input-bordered w-full max-w-xl"
-                        placeholder="Title"
-                        value={title}
-                        onChange={(e) => { setTitle(e.target.value) }}
-                    />
-
                     <CurrencyInput
                         id="currencyInput"
                         value={price}
                         placeholder={currencyFormat.format("")}
-                        className="input m-2 input-bordered w-full max-w-xl"
+                        className="input my-1 mx-2 select-bordered w-full max-w-xl"
                         onValueChange={(price) => setPrice(price)}
                         intlConfig={{ locale: "en-US", currency: 'USD' }}
                         allowDecimals={true}
@@ -180,7 +179,7 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
                     <input
                         id="contextInput"
                         maxLength={250}
-                        className="textarea textarea-md m-2 textarea-bordered w-full max-w-xl"
+                        className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-xl"
                         placeholder="Details"
                         value={context}
                         onChange={(e) => { setContext(e.target.value) }}
@@ -197,9 +196,9 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
                         }}
                     />
                     <section
-                        className="join">
+                        className="my-1 mx-2 join w-full max-w-xl">
                         <button
-                            className="btn btn-success join-item"
+                            className="btn btn-outline w-1/3 join-item btn-success join-item"
                             onClick={(e) => {
                                 viewMode(e, {
                                     title: title,
@@ -214,18 +213,19 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
 
                         </button>
                         <button
-                            className="btn btn-danger join-item"
+                            className="btn btn-outline w-1/3 join-item btn-danger join-item"
                             onClick={(e) => { handleDeletePost(e, initialData.postId) }}
                         >
                             delete
                         </button>
                         <button
-                            onClick={() => { onCancelClick() }}
-                            className="btn btn-warning join-item">
+                            onClick={(e) => { onCancelClick(e, initialData) }}
+                            className="btn btn-outline w-1/3 join-item btn-warning join-item">
                             cancel
                         </button>
                     </section>
-                </form>
+                    </form>
+                </article>
             </>
 
     )
