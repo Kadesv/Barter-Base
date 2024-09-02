@@ -10,7 +10,7 @@ const currencyFormat = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
 });
-export default function PostTemplate({ initialData, initialIsEditing, categories }) {
+export default function PostTemplate({ initialData, user, initialIsEditing, categories }) {
 
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(initialIsEditing);
@@ -97,7 +97,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
                     className="m-5 flex flex-row max-h-max carousel-item min-w-min">
 
                     <figure className="carousel w-1/2 ">
-                        <ImageMap images={postInfo.image} />
+                        <ImageMap images={postInfo.image} userId={initialData.userId} user={user}/>
                     </figure>
                     <form
                         id={`readOnlyForm ${initialData.postId}`}>
@@ -169,7 +169,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
                     }}>
 
                     <figure className="carousel w-96">
-                        <ImageMap images={postInfo.image} />
+                        <ImageMap images={postInfo.image} user={user} userId={initialData.userId}/>
                     </figure>
 
                     <form

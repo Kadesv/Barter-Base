@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 export default function Root() {
   const { categories } = useLoaderData();
   const [authStatus, setAuthStatus] = useState(false);
-  const [user, setUser] = useState('');
+  const [authUser, setAuthUser] = useState('');
   const [favorites, setFavorites] = useState([])
   const [chatRooms, setChatRooms] = useState([])
   const getUserInfo = async () => {
@@ -17,7 +17,7 @@ export default function Root() {
       setFavorites(res.data.favorites)
       setChatRooms(res.data.rooms)
       socket.emit('join_room', res.data.rooms)
-      setUser(res.data.user);
+      setAuthUser(res.data.user);
       setAuthStatus(true);
     }
   };
@@ -27,12 +27,12 @@ export default function Root() {
 
   return (
     <>
-      <HomeNav props={{ setAuthStatus, setUser, categories, chatRooms, setChatRooms, authStatus, user, favorites, setFavorites }} className="" />
+      <HomeNav props={{ setAuthStatus, setAuthUser, categories, chatRooms, setChatRooms, authStatus, authUser, favorites, setFavorites }} className="" />
       <main
         // style={{ "backgroundImage": "linear-gradient(to top, #304352 0%, #d7d2cc 100%)" }}
         className='flex justify-center min-h-screen'>
         <Outlet
-          context={{ categories, authStatus, setAuthStatus, user, setUser, favorites, chatRooms, setChatRooms, setFavorites }}
+          context={{ categories, authStatus, setAuthStatus, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites }}
         />
       </main>
       {/* <footer className="footer footer-center bg-base-200 text-base-content rounded p-10">

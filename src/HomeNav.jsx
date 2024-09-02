@@ -9,7 +9,7 @@ import FavoritesComponent from './Components/FavoritesComponent.jsx';
 
 export default function HomeNav({ props }) {
   const navigate = useNavigate();
-  const { user, authStatus, setAuthStatus, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
+  const { authUser, authStatus, setAuthStatus, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
   const [showPost, setShowPost] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -154,7 +154,7 @@ export default function HomeNav({ props }) {
                   : null
                 }
                 {showChat ?
-                  <ChatRoomList chatRooms={chatRooms} user={user} />
+                  <ChatRoomList chatRooms={chatRooms} user={authUser} />
                   : null
                 }
                 {!authStatus ?

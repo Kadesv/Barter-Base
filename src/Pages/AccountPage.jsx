@@ -18,15 +18,16 @@ export default function AccountPage() {
   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
   // console.log(user, userInfo)
 
-  const userPosts = user.posts.map(({ image, postId, title, context, createdDate, price, categoryId, subCategoryId }) => {
+  const userPosts = user.posts.map(({ userId, image, postId, title, context, createdDate, price, categoryId, subCategoryId }) => {
     // console.log(createdDate, price, categoryId, subCategoryId)
     return (
       <PostTemplate
         key={postId}
-        initialData={{ image, postId, title, context, createdDate, price, categoryId, subCategoryId }}
+        initialData={{ image, postId, userId, title, context, createdDate, price, categoryId, subCategoryId }}
         initialIsEditing={false}
         categories={categories}
         authStatus={authStatus}
+        user={user}
       
       />
     )

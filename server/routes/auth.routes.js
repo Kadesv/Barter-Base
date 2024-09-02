@@ -25,7 +25,13 @@ authRoutes.post('/api/auth', async (req, res) => {
         model: Message,
       }
     })
-    res.json({ success: true, user, favorites, rooms });
+
+    const posts = await Post.findAll({
+      where:{
+        userId: user.userId
+      }
+    })
+    res.json({ success: true, user, favorites, rooms, posts });
   } else {
     res.json({ success: false });
   }
@@ -78,7 +84,7 @@ authRoutes.post('/api/authCheck', async (req, res) => {
         model: Post
       }
     })
-    // console.log(favorites)
+    
     const rooms = await Chat.findAll({
       where: {
         [Op.or]: [{ user1Id: userId }, { user2Id: userId }],
@@ -87,8 +93,13 @@ authRoutes.post('/api/authCheck', async (req, res) => {
         model: Message,
       }
     })
+    const posts = await Post.findAll({
+      where:{
+        userId: user.userId
+      }
+    })
     // console.log(rooms)
-    res.json({ success: true, user, favorites, rooms, });
+    res.json({ success: true, user, favorites, rooms, posts });
   }
   else {
     res.json({ success: false });

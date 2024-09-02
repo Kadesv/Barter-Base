@@ -1,4 +1,3 @@
-import { socket } from "../main"
 export default function ChatRoomList({ chatRooms, user }) {
 
 const handleDelete = (e) => {

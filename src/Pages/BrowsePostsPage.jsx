@@ -7,7 +7,7 @@ import { socket } from "../main";
 export default function BrowsePostsPage() {
   const { posts } = useLoaderData();
   const [filterOpen, setFilterOpen] = useState(false);
-  const { categories, authStatus, favorites, setFavorites } = useOutletContext();
+  const { categories, authStatus, favorites, setFavorites, authUser } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   console.log(favorites)
@@ -78,7 +78,7 @@ export default function BrowsePostsPage() {
                     <h2 className="card-context flex items-center">${price}</h2>
                     <h1 className="text-5xl font-bold ">{title}</h1>
                     <p className="py-6 ">{context}</p>
-                    <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
+                    <LikeButton authStatus={authStatus} user={authUser}postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
                   </div>
 
                   <div className="collapse bg-base-200">
@@ -98,7 +98,7 @@ export default function BrowsePostsPage() {
 
                 <div className=" shadow-2xl bg-base-100">
                   <figure className=" carousel rounded-box">
-                    <ImageMap images={image} />
+                    <ImageMap images={image} userId={user.userId} user={authUser} />
                   </figure>
                 </div>
               </div>

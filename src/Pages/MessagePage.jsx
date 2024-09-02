@@ -5,7 +5,7 @@ import { socket } from "../main"
 import { dateFormat } from "../Components/dateFormat"
 export default function MessagePage() {
   const navigate = useNavigate();
-  const { user, authStatus, setAuthStatus } = useOutletContext()
+  const { authUser, authStatus, setAuthStatus } = useOutletContext()
   const { chatInfo } = useLoaderData()
   const [messageList, setMessageList] = useState(chatInfo.messages);
   const [message, setMessage] = useState("")
@@ -55,7 +55,7 @@ export default function MessagePage() {
   const chatMap = messageList.map(({ messageText, createdAt, userId, messageId }) => {
     return (
 
-      <div key={messageId + "-messageKey"} className={userId === user.userId ? "chat chat-start" : "chat chat-end"}>
+      <div key={messageId + "-messageKey"} className={userId === authUser.userId ? "chat chat-start" : "chat chat-end"}>
         <div className="chat-header">
           <div>{userId === chatInfo.user1Id ? chatInfo.user1Name: chatInfo.user2Name}</div>
           <time className="text-xs ">{dateFormat(createdAt)}</time>
