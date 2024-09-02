@@ -27,6 +27,7 @@ export default function AccountPage() {
         initialIsEditing={false}
         categories={categories}
         authStatus={authStatus}
+      
       />
     )
   });
@@ -36,6 +37,10 @@ export default function AccountPage() {
     console.log(res)
   }
 
+  const handleCancelClick = (e) => {
+    e.preventDefault();
+
+  }
 
   return (
     <>
@@ -49,7 +54,7 @@ export default function AccountPage() {
         <div className="carousel carousel-vertical w-2/3 rounded-box h-screen">
           {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
         </div>
-        <div className="flex  w-1/3 rounded-xl justify-center h-auto">
+        <div className="flex  w-1/3 rounded-xl justify-center h-full">
         <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>

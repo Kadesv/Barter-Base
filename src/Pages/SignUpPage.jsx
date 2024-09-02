@@ -107,7 +107,7 @@ export default function SignUpPage() {
                         />
 
                     </label>
-                    <button className="btn col-span-2 rounded-box grid h-10 place-items-center" type="submit">Create Account</button>
+                    <button className="btn btn-outline col-span-2 rounded-box grid h-10 place-items-center" type="submit">Create Account</button>
                 </div>
 
 

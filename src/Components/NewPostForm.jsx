@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ref, uploadBytes, getDownloadURL, } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
