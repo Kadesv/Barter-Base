@@ -16,6 +16,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
     const [isEditing, setIsEditing] = useState(initialIsEditing);
     const [newImageFile, setNewImageFile] = useState(null)
     const [postInfo, setPostInfo] = useState({
+        postId: initialData.postId,
         title: initialData.title,
         context: initialData.context,
         image: initialData.image,
@@ -23,8 +24,6 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
         selectedCategory: initialData.categoryId,
         selectedSubCategory: initialData.subCategoryId
     })
-    //   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
-
 
     const catMap = categories.map(({ categoryId, categoryName }) => {
         return (
@@ -54,7 +53,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
 
     const viewMode = async (e) => {
         e.preventDefault();
-        // console.log(newImageFile, postInfo)
+        console.log(newImageFile)
         if (newImageFile !== null) {
             for (let file of newImageFile) {
                 const imgRef = ref(storage, `posts/${file.name}_${uuidv4()}`);
@@ -62,7 +61,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
                 try {
                     await uploadBytes(imgRef, file);
                     const url = await getDownloadURL(imgRef);
-                    console.log(url)
+                    console.log(postInfo.image)
                     setPostInfo({ ...postInfo, image: [...postInfo.image, url] })
                         console.log(postInfo.image)
                 } catch (error) {
@@ -71,6 +70,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
             }
         }
         const res = await axios.put('/api/posts/save/', postInfo);
+        console.log(res.data)
         if (res.data.success) {
             setIsEditing(false);
         }
@@ -96,7 +96,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
                 <article id={`accountPost ${initialData.postId}`}
                     className="m-5 flex flex-row max-h-max carousel-item min-w-min">
 
-                    <figure className="carousel min-w-max ">
+                    <figure className="carousel w-1/2 ">
                         <ImageMap images={postInfo.image} />
                     </figure>
                     <form
@@ -168,7 +168,7 @@ export default function PostTemplate({ initialData, initialIsEditing, categories
                         handleSubmit(e)
                     }}>
 
-                    <figure className="carousel min-w-max">
+                    <figure className="carousel w-96">
                         <ImageMap images={postInfo.image} />
                     </figure>
 
