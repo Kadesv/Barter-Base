@@ -72,7 +72,6 @@ postRouter.post('/create', async (req, res) => {
     subCategoryId: subCat
   })
   if (newPost) {
-    // console.log(newPost)
     res.json({ success: true })
   }
   else {
@@ -84,10 +83,8 @@ postRouter.post('/create', async (req, res) => {
 });
 
 postRouter.put('/save', async (req, res) => {
-  console.log('backend hit')
   const { userId } = req.session;
   const { title, context, postId, image, selectedCategory, selectedSubCategory  } = req.body;
-  console.log(title, context, postId, image, selectedCategory, selectedSubCategory)
   if (title && context && userId && postId) {
      await Post.update({ title, context, image, categoryId: selectedCategory, subCategoryId: selectedSubCategory }, {
       where: {
@@ -95,7 +92,6 @@ postRouter.put('/save', async (req, res) => {
       }
     })
     const updatedPost = await Post.findByPk(postId);
-    console.log(updatedPost)
 
     res.json({ success: true, updatedPost})
   }

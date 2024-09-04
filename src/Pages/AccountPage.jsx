@@ -5,7 +5,7 @@ import AccountEditableForm from "../Components/AccountEditForm.jsx";
 import NoSignAlert from "../Components/NoSignAlert.jsx";
 import PostTemplate from "../Components/PostTemplate.jsx";
 export default function AccountPage() {
-  const { categories, authStatus } = useOutletContext();
+  const { categories } = useOutletContext();
   const { user } = useLoaderData();
   const [showAccount, setShowAccount] = useState(true)
   const [isEditingAccount, setIsEditingAccount] = useState(false)
@@ -16,17 +16,14 @@ export default function AccountPage() {
     navigate('/')
   }
   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
-  // console.log(user, userInfo)
 
   const userPosts = user.posts.map(({ userId, image, postId, title, context, createdDate, price, categoryId, subCategoryId }) => {
-    // console.log(createdDate, price, categoryId, subCategoryId)
     return (
       <PostTemplate
         key={postId}
         initialData={{ image, postId, userId, title, context, createdDate, price, categoryId, subCategoryId }}
         initialIsEditing={false}
         categories={categories}
-        authStatus={authStatus}
         user={user}
       
       />
@@ -35,7 +32,6 @@ export default function AccountPage() {
   const handleUserUpdate = async (e) => {
     e.preventDefault()
     const res = await axios.put('/api/update', userInfo);
-    console.log(res)
   }
 
   const handleCancelClick = (e) => {

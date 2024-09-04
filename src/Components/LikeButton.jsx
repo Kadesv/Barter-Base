@@ -1,5 +1,5 @@
-export default function LikeButton({ authStatus, postId, favorites, handleFavorite }) {
-  if (authStatus) {
+export default function LikeButton({ authUser, postId, favorites, handleFavorite }) {
+  if (authUser) {
     return (
       favorites.find((favorite) => favorite.postId === postId) ?
         <form key={postId + 'likeButton'} className="w-full flex flex-row-reverse">

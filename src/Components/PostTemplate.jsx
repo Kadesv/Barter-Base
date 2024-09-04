@@ -53,24 +53,18 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
     const viewMode = async (e) => {
         e.preventDefault();
-        console.log(newImageFile)
         if (newImageFile !== null) {
             for (let file of newImageFile) {
                 const imgRef = ref(storage, `posts/${file.name}_${uuidv4()}`);
-                console.log(imgRef)
                 try {
                     await uploadBytes(imgRef, file);
                     const url = await getDownloadURL(imgRef);
-                    console.log(postInfo.image)
                     setPostInfo({ ...postInfo, image: [...postInfo.image, url] })
-                        console.log(postInfo.image)
                 } catch (error) {
-                    console.log(error)
                 }
             }
         }
         const res = await axios.put('/api/posts/save/', postInfo);
-        console.log(res.data)
         if (res.data.success) {
             setIsEditing(false);
         }

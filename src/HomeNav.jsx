@@ -9,7 +9,7 @@ import FavoritesComponent from './Components/FavoritesComponent.jsx';
 
 export default function HomeNav({ props }) {
   const navigate = useNavigate();
-  const { authUser, authStatus, setAuthStatus, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
+  const { authUser, setAuthUser, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
   const [showPost, setShowPost] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -18,9 +18,9 @@ export default function HomeNav({ props }) {
     e.preventDefault();
     const res = await axios.post('/api/logout');
     if (res.data.success) {
-      setAuthStatus(false);
       setFavorites([]);
       setChatRooms([])
+      setAuthUser(null)
       navigate('/');
     }
   };
@@ -75,7 +75,7 @@ export default function HomeNav({ props }) {
   }
   const AccountLink = () => {
     return (
-      authStatus ?
+      authUser ?
         <>
           <a href='/account'>Account</a>
         </>
@@ -100,7 +100,7 @@ export default function HomeNav({ props }) {
               <li><a href='/'>Homepage</a></li>
               <li><AccountLink /></li>
               <li><a href='/favorites'>Favorites</a></li>
-              <LogButton handleLogOut={(e) => handleLogout(e)} authStatus={authStatus} />
+              <LogButton handleLogOut={(e) => handleLogout(e)} authUser={authUser} />
 
 
               {/* <li><a href='/about'>About</a></li> */}
@@ -146,18 +146,18 @@ export default function HomeNav({ props }) {
                   <button onClick={() => { onChatClick() }} className={showChat ? 'tab tab-active' : 'tab'}>Chats</button>
                 </div>
                 {showFavorites ?
-                  <FavoritesComponent authStatus={authStatus} setFavorites={setFavorites} favorites={favorites} categories={categories} />
+                  <FavoritesComponent authUser={authUser} setFavorites={setFavorites} favorites={favorites} categories={categories} />
                   : null
                 }
                 {showPost ?
-                  <NewPostForm categories={categories} authStatus={authStatus} setShowPost={setShowPost} />
+                  <NewPostForm categories={categories} authUser={authUser} setShowPost={setShowPost} />
                   : null
                 }
                 {showChat ?
                   <ChatRoomList chatRooms={chatRooms} user={authUser} />
                   : null
                 }
-                {!authStatus ?
+                {!authUser ?
                   <NoSignAlert />
                   :
                   null

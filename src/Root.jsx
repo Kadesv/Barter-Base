@@ -7,8 +7,7 @@ import { useState, useEffect } from 'react';
 
 export default function Root() {
   const { categories } = useLoaderData();
-  const [authStatus, setAuthStatus] = useState(false);
-  const [authUser, setAuthUser] = useState('');
+  const [authUser, setAuthUser] = useState(null);
   const [favorites, setFavorites] = useState([])
   const [chatRooms, setChatRooms] = useState([])
   const getUserInfo = async () => {
@@ -18,7 +17,6 @@ export default function Root() {
       setChatRooms(res.data.rooms)
       socket.emit('join_room', res.data.rooms)
       setAuthUser(res.data.user);
-      setAuthStatus(true);
     }
   };
   useEffect(() => {
@@ -27,12 +25,12 @@ export default function Root() {
 
   return (
     <>
-      <HomeNav props={{ setAuthStatus, setAuthUser, categories, chatRooms, setChatRooms, authStatus, authUser, favorites, setFavorites }} className="" />
+      <HomeNav props={{ setAuthUser, categories, chatRooms, setChatRooms, authUser, favorites, setFavorites }} className="" />
       <main
         // style={{ "backgroundImage": "linear-gradient(to top, #304352 0%, #d7d2cc 100%)" }}
         className='flex justify-center min-h-screen'>
         <Outlet
-          context={{ categories, authStatus, setAuthStatus, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites }}
+          context={{ categories, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites }}
         />
       </main>
       {/* <footer className="footer footer-center bg-base-200 text-base-content rounded p-10">

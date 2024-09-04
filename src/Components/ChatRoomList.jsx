@@ -2,7 +2,6 @@ export default function ChatRoomList({ chatRooms, user }) {
 
 const handleDelete = (e) => {
     e.preventDefault();
-    console.log('hit')
 }
 
     const roomsMap = chatRooms.map(({ chatId, user1Id, user2Name, user1Name }) => {

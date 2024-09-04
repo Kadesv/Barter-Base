@@ -29,7 +29,6 @@ const router = createBrowserRouter(
         loader={async () => {
           const res = await axios.get('/api/posts/browse');
           const { userFavorites, posts } = res.data
-          // console.log(userFavorites)
           return ({ posts, userFavorites });
         }} />
 
@@ -52,7 +51,6 @@ const router = createBrowserRouter(
         element={<MessagePage />}
         loader={async ({ params }) => {
           const res = await axios.get(`/api/chat/${params.chatId}`);
-          // console.log(res)
           return { chatInfo: res.data }
         }}
       />

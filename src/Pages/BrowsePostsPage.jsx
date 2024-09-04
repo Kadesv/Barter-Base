@@ -7,14 +7,13 @@ import { socket } from "../main";
 export default function BrowsePostsPage() {
   const { posts } = useLoaderData();
   const [filterOpen, setFilterOpen] = useState(false);
-  const { categories, authStatus, favorites, setFavorites, authUser } = useOutletContext();
+  const { categories,  favorites, setFavorites, authUser } = useOutletContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  console.log(favorites)
 
   const handleFavorite = async (e, { postId }) => {
     e.preventDefault()
-    if (!authStatus) {
+    if (!authUser) {
       navigate('/signIn')
     }
     else {
@@ -26,14 +25,13 @@ export default function BrowsePostsPage() {
 
   const handleNewChat = async (event, { user }) => {
     event.preventDefault();
-    if (!authStatus) {
+    if (!authUser) {
       alert('must sign in for this')
     } else {
       const chatObj = {
         postOwner: user,
         message: message
       }
-      console.log(chatObj)
       const res = await axios.post(`/api/chat/new`, chatObj)
       if (res.data.success) {
         socket.emit("send_message", res.data.newMessage)
@@ -66,7 +64,7 @@ export default function BrowsePostsPage() {
 
           <div className="flex">
             <h2 className="card-context flex items-center">${price}</h2>
-            <LikeButton authStatus={authStatus} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
+            <LikeButton authUser={authUser} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
           </div>
 
           <div className="card-actions">
@@ -78,7 +76,7 @@ export default function BrowsePostsPage() {
                     <h2 className="card-context flex items-center">${price}</h2>
                     <h1 className="text-5xl font-bold ">{title}</h1>
                     <p className="py-6 ">{context}</p>
-                    <LikeButton authStatus={authStatus} user={authUser}postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
+                    <LikeButton authUser={authUser} user={authUser}postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
                   </div>
 
                   <div className="collapse bg-base-200">
@@ -88,8 +86,8 @@ export default function BrowsePostsPage() {
                     </div>
 
                     <form id={'messageForm' + postId + 'component'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
-                      <input id={'messageInput' + postId + 'component'} disabled={!authStatus} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authStatus ? 'Type Here...' : 'Please Log In first.'} />
-                      {authStatus ? <button disabled={!authStatus} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button> :
+                      <input id={'messageInput' + postId + 'component'} disabled={!authUser} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder={authUser ? 'Type Here...' : 'Please Log In first.'} />
+                      {authUser  ? <button disabled={!authUser} onClick={() => document.getElementById(`model-popup${postId}`).close()} className="btn btn-ghost">Send</button> :
                         <a className="btn btn-ghost" href='/signIn'>Log In</a>}
                     </form>
 

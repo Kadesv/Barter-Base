@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default function SignUpPage() {
     const navigate = useNavigate();
-    const { setUser } = useOutletContext();
+    const { setAuthUser } = useOutletContext();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLName] = useState('');
     const [city, setCity] = useState('');
@@ -18,7 +18,8 @@ export default function SignUpPage() {
 
         const res = await axios.post('/api/register', formData)
         if (res.data.success) {
-            setUser(res.data.User)
+            setAuthUser(res.data.User)
+
             navigate('/')
         }
     };

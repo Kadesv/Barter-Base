@@ -65,7 +65,6 @@ authRoutes.post('/api/register', async (req, res) => {
 
 authRoutes.post('/api/authCheck', async (req, res) => {
   const { userId } = req.session
-  // console.log(message)
   if (userId) {
     const user = await User.findOne({
       where: { userId: userId },
@@ -73,8 +72,6 @@ authRoutes.post('/api/authCheck', async (req, res) => {
         model: Post
       }
     });
-    // console.log(user)
-
 
     const favorites = await Favorites.findAll({
       where: {
@@ -98,7 +95,6 @@ authRoutes.post('/api/authCheck', async (req, res) => {
         userId: user.userId
       }
     })
-    // console.log(rooms)
     res.json({ success: true, user, favorites, rooms, posts });
   }
   else {

@@ -5,14 +5,14 @@ import { socket } from "../main"
 import { dateFormat } from "../Components/dateFormat"
 export default function MessagePage() {
   const navigate = useNavigate();
-  const { authUser, authStatus, setAuthStatus } = useOutletContext()
+  const { authUser } = useOutletContext()
   const { chatInfo } = useLoaderData()
   const [messageList, setMessageList] = useState(chatInfo.messages);
   const [message, setMessage] = useState("")
 
   const handleNewChat = async (e) => {
     e.preventDefault();
-    if (!authStatus) {
+    if (!authUser) {
       alert('must sign in for this')
     } else if (message === '') {
       return;
@@ -30,11 +30,6 @@ export default function MessagePage() {
       setMessage('')
     }
   }
-  const checkAuth = async () => {
-    const res = await axios.get('/api/authCheck', { message: 'user_check' })
-    console.log(res.data)
-
-  }
   useEffect(() => {
     const handleMessage = async (data) => {
       if (messageList.find((message) => message.messageId === data.messageId) === undefined) {
@@ -51,7 +46,6 @@ export default function MessagePage() {
     };
   }, []); 
 
-  // console.log(messageList)
   const chatMap = messageList.map(({ messageText, createdAt, userId, messageId }) => {
     return (
 

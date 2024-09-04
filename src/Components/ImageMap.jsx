@@ -1,5 +1,6 @@
-export default function ImageMap({ images, userId, authStatus }) {
-      if (!authStatus) {
+export default function ImageMap({ images, userId, user }) {
+
+      if (!user) {
             return (
                   images.map((image, index) => {
                         return (
@@ -13,7 +14,7 @@ export default function ImageMap({ images, userId, authStatus }) {
             return (
                   images.map((image, index) => {
                         return (
-                              userId === userId.userId ?
+                              userId !== user.userId ?
                                     <div key={index} className='carousel-item w-full'>
                                           <img src={image} alt="image" className=" w-full" />
                                     </div>

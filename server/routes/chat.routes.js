@@ -70,7 +70,6 @@ chatRouter.get('/:chatId', async (req, res) => {
 chatRouter.post('/msg', async (req, res) => {
   const { chatId, message } = req.body;
   const { userId } = req.session
-  // console.log(chatId, message)
   const newMessage = await Message.create({
     chatId: chatId,
     userId: userId,
