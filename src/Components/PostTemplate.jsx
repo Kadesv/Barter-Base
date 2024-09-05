@@ -88,67 +88,72 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
             <>
                 <article id={`accountPost ${initialData.postId}`}
-                    className="m-5 flex flex-row max-h-max carousel-item min-w-min">
-
-                    <figure className="carousel w-1/2 ">
-                        <ImageMap images={postInfo.image} userId={initialData.userId} user={user}/>
-                    </figure>
+                    className="m-5 flex flex-row max-h-96 carousel-item min-w-min">
                     <form
+                        className="grid grid-cols-3 h-auto w-full"
                         id={`readOnlyForm ${initialData.postId}`}>
-                        <input
-                            id={`titleReadOnly ${initialData.postId}`}
-                            readOnly
-                            className="input my-1 mx-2 input-bordered w-full max-w-xl"
-                            maxLength={25}
-                            placeholder="Title"
-                            value={postInfo.title}
-                        />
-                        <input
-                            id={`catReadOnly ${initialData.postId}`}
-                            readOnly
-                            className="select my-1 mx-2 select-bordered w-full max-w-xl"
-                            name="category"
-                            value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).categoryName} />
-                        <input
-                            id={`subCatReadOnly ${initialData.postId}`}
-                            readOnly
-                            className="select my-1 mx-2 select-bordered w-full max-w-xl"
-                            name="subCategory"
-                            value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).subcategories.find((subCat) => subCat.subCategoryId === postInfo.selectedSubCategory).subCategoryName} />
+                        <figure className="carousel col-span-1 h-auto min-w-min w-auto">
+                            <ImageMap images={postInfo.image} userId={initialData.userId} user={user} />
+                        </figure>
 
-                        <CurrencyInput
-                            readOnly
-                            id={`priceReadOnly ${initialData.postId}`}
-                            className="input my-1 mx-2 input-bordered w-full max-w-xl"
-                            value={postInfo.price}
-                            placeholder={currencyFormat.format("")}
-                            intlConfig={{ locale: "en-US", currency: 'USD' }}
-                            allowDecimals={true}
-                            allowNegativeValue={false}
-                        />
-                        <textarea
-                            readOnly
-                            id={`contextReadOnly ${initialData.postId}`}
-                            maxLength={250}
-                            className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-xl"
-                            placeholder="Details"
-                            value={postInfo.context}
-                        />
-                        <section className=" my-1 mx-2 join w-full max-w-xl">
-                            <button
-                                id={`editBtnReadOnly ${initialData.postId}`}
-                                className="btn btn-outline w-1/2 join-item"
-                                onClick={(e) => editMode(e)}>
-                                edit
-                            </button>
-                            <button
-                                id={`deleteBtnReadOnly ${initialData.postId}`}
-                                className="btn btn-outline w-1/2 join-item btn-danger join-item"
-                                onClick={(e) => { handleDeletePost(e, postInfo.postId) }}
-                            >
-                                delete
-                            </button>
-                        </section>
+                        <div
+                            className="col-span-2"
+                        >
+                            <input
+                                id={`titleReadOnly ${initialData.postId}`}
+                                readOnly
+                                className="input my-1 mx-2 input-bordered w-full max-w-xl"
+                                maxLength={25}
+                                placeholder="Title"
+                                value={postInfo.title}
+                            />
+                            <input
+                                id={`catReadOnly ${initialData.postId}`}
+                                readOnly
+                                className="select my-1 mx-2 select-bordered w-full max-w-xl"
+                                name="category"
+                                value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).categoryName} />
+                            <input
+                                id={`subCatReadOnly ${initialData.postId}`}
+                                readOnly
+                                className="select my-1 mx-2 select-bordered w-full max-w-xl"
+                                name="subCategory"
+                                value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).subcategories.find((subCat) => subCat.subCategoryId === postInfo.selectedSubCategory).subCategoryName} />
+
+                            <CurrencyInput
+                                readOnly
+                                id={`priceReadOnly ${initialData.postId}`}
+                                className="input my-1 mx-2 input-bordered w-full max-w-xl"
+                                value={postInfo.price}
+                                placeholder={currencyFormat.format("")}
+                                intlConfig={{ locale: "en-US", currency: 'USD' }}
+                                allowDecimals={true}
+                                allowNegativeValue={false}
+                            />
+                            <textarea
+                                readOnly
+                                id={`contextReadOnly ${initialData.postId}`}
+                                maxLength={250}
+                                className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-xl"
+                                placeholder="Details"
+                                value={postInfo.context}
+                            />
+                            <section className=" my-1 mx-2 join w-full max-w-xl">
+                                <button
+                                    id={`editBtnReadOnly ${initialData.postId}`}
+                                    className="btn btn-outline w-1/2 join-item"
+                                    onClick={(e) => editMode(e)}>
+                                    edit
+                                </button>
+                                <button
+                                    id={`deleteBtnReadOnly ${initialData.postId}`}
+                                    className="btn btn-outline w-1/2 join-item btn-danger join-item"
+                                    onClick={(e) => { handleDeletePost(e, postInfo.postId) }}
+                                >
+                                    delete
+                                </button>
+                            </section>
+                        </div>
                     </form>
                 </article>
             </>
@@ -157,77 +162,23 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
             <>
                 <article id={`accountPost ${initialData.postId}`}
-                    className="m-5 border-solid flex flex-row max-h-96 carousel-item min-w-min"
+                    className="m-10 border-2 border-white flex-grow carousel-item "
                     onSubmit={(e) => {
                         handleSubmit(e)
                     }}>
-
-                    <figure className="carousel w-96">
-                        <ImageMap images={postInfo.image} user={user} userId={initialData.userId}/>
-                    </figure>
-
                     <form
+                        className=" grid m-3grid-cols-3 h-full w-full"
                         id={`editPostForm ${initialData.postId}`}>
-
-                        <input
-                            id={`titleInput ${initialData.postId}`}
-                            maxLength={25}
-                            className="input my-1 mx-2 select-bordered w-full max-w-xl"
-                            placeholder="Title"
-                            value={postInfo.title}
-                            onChange={(e) => { setPostInfo({ ...postInfo, title: e.target.value }) }}
-                        />
-
-                        <select
-                            id={`catSelect ${initialData.postId}`}
-                            className="select my-1 mx-2 select-bordered w-full max-w-xl"
-                            onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
-                            name="category"
-                            defaultValue={postInfo.selectedCategory}>
-
-                            <option disabled value={''} hidden>Category</option>
-
-                            {catMap}
-
-                        </select>
-
-                        <select
-                            id={`subCatSelect ${initialData.postId}`}
-                            className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-xl"
-                            disabled={!postInfo.selectedCategory}
-                            onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
-                            name="subCategory"
-                            defaultValue={postInfo.selectedSubCategory}>
-
-                            <option disabled value={''} hidden >Sub Category</option>
-
-                            {subCatMap()}
-
-                        </select>
-
-                        <CurrencyInput
-                            id={`priceInput ${initialData.postId}`}
-                            value={postInfo.price}
-                            placeholder={currencyFormat.format("")}
-                            className="input my-1 mx-2 select-bordered w-full max-w-xl"
-                            onValueChange={(e) => setPostInfo({ ...postInfo, price: e })}
-                            intlConfig={{ locale: "en-US", currency: 'USD' }}
-                            allowDecimals={true}
-                            allowNegativeValue={false}
-                        />
-
-                        <input
-                            id={`contextInput ${initialData.postId}`}
-                            maxLength={250}
-                            className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-xl"
-                            placeholder="Details"
-                            value={postInfo.context}
-                            onChange={(e) => { setPostInfo({ ...postInfo, context: e.target.value }) }}
-                        />
-
+                            <div
+                            className="col-span-1"
+                            >
+                        <figure className="carousel  max-h-96 min-w-max w-full">
+                            <ImageMap images={postInfo.image} user={user} userId={initialData.userId} />
+                        </figure>
+                        <label>
                         <input
                             id={`imageInput ${initialData.postId}`}
-                            className="file-input m-2 file-input-bordered w-full max-w-xl"
+                            className="file-input  mrfile-input-bordered w-full max-w-xl"
                             placeholder="image"
                             multiple
                             type="file"
@@ -237,35 +188,94 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                             }}
                         />
 
-                        <section
-                            className="my-1 mx-2 join w-full max-w-xl">
+                        </label>
+                        </div>
+                        <div className="col-span-2">
+                            <input
+                                id={`titleInput ${initialData.postId}`}
+                                maxLength={25}
+                                className="input my-1 mx-2 flex flex-col select-bordered w-full max-w-xl"
+                                placeholder="Title"
+                                value={postInfo.title}
+                                onChange={(e) => { setPostInfo({ ...postInfo, title: e.target.value }) }}
+                            />
 
-                            <button
-                                id={`saveBtn ${initialData.postId}`}
-                                type="submit"
-                                className="btn btn-outline w-1/3 join-item btn-success join-item"
-                                onClick={(e) => {
-                                    viewMode(e)
-                                }}>
-                                save
+                            <select
+                                id={`catSelect ${initialData.postId}`}
+                                className="select my-1 mx-2 select-bordered w-full max-w-xl"
+                                onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
+                                name="category"
+                                defaultValue={postInfo.selectedCategory}>
+                                <option disabled value={''} hidden>Category</option>
 
-                            </button>
+                                {catMap}
 
-                            <button
-                                id={`deleteBtn ${initialData.postId}`}
-                                className="btn btn-outline w-1/3 join-item btn-danger join-item"
-                                onClick={(e) => { handleDeletePost(e, initialData.postId) }}>
-                                delete
-                            </button>
+                            </select>
 
-                            <button
-                                id={`cancelBtn ${initialData.postId}`}
-                                onClick={(e) => { onCancelClick(e, initialData) }}
-                                className="btn btn-outline w-1/3 join-item btn-warning join-item">
-                                cancel
-                            </button>
+                            <select
+                                id={`subCatSelect ${initialData.postId}`}
+                                className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-xl"
+                                disabled={!postInfo.selectedCategory}
+                                onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
+                                name="subCategory"
+                                defaultValue={postInfo.selectedSubCategory}>
 
-                        </section>
+                                <option disabled value={''} hidden >Sub Category</option>
+
+                                {subCatMap()}
+
+                            </select>
+
+                            <CurrencyInput
+                                id={`priceInput ${initialData.postId}`}
+                                value={postInfo.price}
+                                placeholder={currencyFormat.format("")}
+                                className="input my-1 mx-2 select-bordered w-full max-w-xl"
+                                onValueChange={(e) => setPostInfo({ ...postInfo, price: e })}
+                                intlConfig={{ locale: "en-US", currency: 'USD' }}
+                                allowDecimals={true}
+                                allowNegativeValue={false}
+                            />
+
+                            <textarea
+                                id={`contextInput ${initialData.postId}`}
+                                maxLength={250}
+                                className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-xl"
+                                placeholder="Details"
+                                value={postInfo.context}
+                                onChange={(e) => { setPostInfo({ ...postInfo, context: e.target.value }) }}
+                            />
+
+
+                            <section
+                                className="my-1 mx-2 join w-full max-w-xl">
+
+                                <button
+                                    id={`saveBtn ${initialData.postId}`}
+                                    type="submit"
+                                    className="btn btn-outline w-1/3 join-item join-item"
+                                    onClick={(e) => {
+                                        viewMode(e)
+                                    }}>
+                                    save
+                                </button>
+
+                                <button
+                                    id={`deleteBtn ${initialData.postId}`}
+                                    className="btn btn-outline w-1/3 join-item btn-danger join-item"
+                                    onClick={(e) => { handleDeletePost(e, initialData.postId) }}>
+                                    delete
+                                </button>
+
+                                <button
+                                    id={`cancelBtn ${initialData.postId}`}
+                                    onClick={(e) => { onCancelClick(e, initialData) }}
+                                    className="btn btn-outline w-1/3 join-item join-item">
+                                    cancel
+                                </button>
+
+                            </section>
+                        </div>
                     </form>
                 </article>
             </>

@@ -5,60 +5,60 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                 <form
                     id='accountInfoForm grid-cols-1'
                     onSubmit={(e) => handleUserUpdate(e)}
-                    className="grid flex-grow">
+                    className="grid h-full">
 
                     <input
                         id="accountFNameInput"
                         value={userInfo.firstName === null ? '' : userInfo.firstName}
                         onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
-                        className=" max-w-xl input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="First Name" />
 
                     <input
                         id="accountLNameInput"
                         value={userInfo.lastName === null ? '' : userInfo.lastName}
                         onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
-                        className=" max-w-xl input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="Last Name" />
 
                     <input
                         id="accountEmailInput"
                         value={userInfo.email === null ? '' : userInfo.email}
                         onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-                        className=" max-w-xl input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="Email" />
 
                     <input
                         id="accountCityInput"
                         value={userInfo.city === null ? '' : userInfo.city}
                         onChange={(e) => setUserInfo({ ...userInfo, city: e.target.value })}
-                        className=" max-w-xl input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="City" />
 
                     <input
                         id="accountStateInput"
                         value={userInfo.state === null ? '' : userInfo.state}
                         onChange={(e) => setUserInfo({ ...userInfo, state: e.target.value })}
-                        className=" max-w-xl input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="State" />
 
                     <input
                         id="accountZipCodeInput"
                         value={userInfo.zipCode === null ? '' : userInfo.zipCode}
                         onChange={(e) => setUserInfo({ ...userInfo, zipCode: e.target.value })}
-                        className=" max-w-xl input input-ghost input-bordered m-1"
+                        className=" max-w-2xl input input-ghost input-bordered m-1"
                         placeholder="Zip Code" />
 
-                    <div className=" max-w-xl join ">
+                    <div className=" max-w-2xl join ">
 
                         <button
                             id="accountSaveBtn"
-                            className=" max-w-xl btn join-item w-1/2 btn-success"
+                            className=" max-w-2xl btn join-item w-1/2 btn-success"
                             onClick={(e) => onAccSaveClick(e)}>Save</button>
 
                         <button
                             id="accountCancelBtn"
-                            className=" max-w-xl btn join-item w-1/2 btn-warning"
+                            className=" max-w-2xl btn join-item w-1/2 btn-warning"
                             onClick={(e) => onAccCancelClick(e)}>cancel</button>
 
                     </div>
@@ -67,7 +67,7 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
             :
 
             <form
-                className="grid w-1/2 ">
+                className="grid border border-2 border-black rounded w-1/2 ">
 
                 <input
                     readOnly

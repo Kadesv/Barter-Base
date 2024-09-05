@@ -101,10 +101,7 @@ export default function HomeNav({ props }) {
               <li><AccountLink /></li>
               <li><a href='/favorites'>Favorites</a></li>
               <LogButton handleLogOut={(e) => handleLogout(e)} authUser={authUser} />
-
-
               {/* <li><a href='/about'>About</a></li> */}
-
             </ul>
           </article>
         </section>

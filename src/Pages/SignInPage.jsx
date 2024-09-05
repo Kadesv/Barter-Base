@@ -58,11 +58,11 @@ export default function SignInPage() {
 
                     <div className="flex w-full flex-col border-opacity-50">
                         <button className="btn btn-outline  rounded-box grid h-10 place-items-center" type="submit">Log In</button>
-                        <div className="divider">OR</div>
+                        <div className="divider">or</div>
                         <button className="btn btn-outline rounded-box grid h-10 place-items-center" onClick={handleCreate}>Create Account</button>
                     </div>
                 </form>
             </>
         </div>
     );
-};  
+}; 

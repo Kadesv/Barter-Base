@@ -42,17 +42,12 @@ export default function AccountPage() {
   return (
     <>
 
-      <section className="menu flex flex-row items-center min-w-full justify-around  p-4 w-80 min-h-full text-base-content">
-        <div className='tabs tabs-lifted sm:hidden'>
-          <button onClick={() => { onAccountClick() }} className={showAccount ? 'tab tab-active' : 'tab'}>AccountInformation</button>
-          <button onClick={() => { onPostsClick() }} className={showPosts ? 'tab tab-active' : 'tab'}>My Listings</button>
-        </div>
-
-        <div className="carousel carousel-vertical w-2/3 rounded-box h-screen">
+      <section className="menu flex flex-row items-center min-w-full justify-around w-full  p-4 w-80 min-h-full text-base-content">
+        <div className="carousel carousel-vertical lg:w-2/3 sm:w-full min-w-min rounded-box ">
           {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
         </div>
-        <div className="flex  w-1/3 rounded-xl justify-center h-full">
-        <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
+        <div className="flex  w-1/3 rounded-xl justify-center h-1/2">
+        {/* <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} /> */}
         </div>
       </section>
     </>
