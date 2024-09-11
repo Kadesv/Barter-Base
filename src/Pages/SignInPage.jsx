@@ -27,7 +27,7 @@ export default function SignInPage() {
     };
 
     return (
-        <div className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 items-center text-center">
+        <div className="justify-center items-center h-screen my-20 max-w-sm mx-auto md:max-w-sm gap-3 text-center">
             <>
                 <form onSubmit={(e) => {
                     handleSignIn(e, {
