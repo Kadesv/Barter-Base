@@ -107,7 +107,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                         <input
                             id={`titleInput ${initialData.postId}`}
                             maxLength={25}
-                            className="input mb-1 mx-2 input-bordered w-full max-w-xl"
+                            className="input mb-1 mx-2 input-bordered w-full max-w-sm"
                             placeholder="Title"
                             readOnly={!isEditing}
                             value={postInfo.title}
@@ -118,7 +118,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                       <>
                         <select
                             id={`catSelect ${initialData.postId}`}
-                            className="select my-1 mx-2 select-bordered w-full max-w-xl"
+                            className="select my-1 mx-2 select-bordered w-full max-w-sm"
                             onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
                             name="category"
                             defaultValue={postInfo.selectedCategory}>
@@ -128,7 +128,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
                         <select
                             id={`subCatSelect ${initialData.postId}`}
-                            className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-xl"
+                            className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
                             disabled={ !postInfo.selectedCategory}
                             onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
                             name="subCategory"
@@ -145,7 +145,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 <>
                         <input
                         id={`catSelect ${initialData.postId}`}
-                        className="select my-1 mx-2 select-bordered w-full max-w-xl"
+                        className="select my-1 mx-2 select-bordered w-full max-w-sm"
                         onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
                         name="category"
                         value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).categoryName}
@@ -154,7 +154,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
                     <input
                         id={`subCatSelect ${initialData.postId}`}
-                        className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-xl"
+                        className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
                         disabled={ !postInfo.selectedCategory}
                         onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
                         name="subCategory"
@@ -168,7 +168,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                             readOnly={!isEditing}
                             value={postInfo.price}
                             placeholder={currencyFormat.format("")}
-                            className="input my-1 mx-2 select-bordered w-full max-w-xl"
+                            className="input my-1 mx-2 select-bordered w-full max-w-sm"
                             onValueChange={(e) => setPostInfo({ ...postInfo, price: e })}
                             intlConfig={{ locale: "en-US", currency: 'USD' }}
                             allowDecimals={true}
@@ -177,7 +177,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                         <input
                             id={`imageInput ${initialData.postId}`}
                             disabled={!isEditing}
-                            className="file-input mx-2 my-1 file-input-bordered w-full max-w-xl"
+                            className="file-input mx-2 my-1 file-input-bordered w-full max-w-sm"
                             multiple
                             type="file"
                             accept=".png, .jpg, .heic"
@@ -190,7 +190,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                             id={`contextInput ${initialData.postId}`}
                             maxLength={250}
                             readOnly={!isEditing}
-                            className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-xl"
+                            className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-sm"
                             placeholder="Details"
                             value={postInfo.context}
                             onChange={(e) => { setPostInfo({ ...postInfo, context: e.target.value }) }}
@@ -199,7 +199,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
                         {isEditing ?
                             <section
-                                className=" mx-2 join w-full max-w-xl">
+                                className=" mx-2 join w-full max-w-sm">
 
                                 <button
                                     id={`saveBtn ${initialData.postId}`}
@@ -227,7 +227,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
                             </section>
                             :
-                            <section className="  mx-2 join w-full max-w-xl">
+                            <section className="  mx-2 join w-full max-w-sm">
                                 <button
                                     id={`editBtnReadOnly ${initialData.postId}`}
                                     className="btn btn-outline btn-ghost w-1/2 join-item"
