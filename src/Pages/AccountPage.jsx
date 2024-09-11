@@ -42,7 +42,7 @@ export default function AccountPage() {
   return (
     <>
 
-      <section className="menu flex flex-row items-center min-w-full justify-around w-full  p-4 w-80 min-h-full text-base-content">
+      <section className="menu flex flex-row items-center  justify-around w-screen  p-4  min-h-full text-base-content">
         <div className="carousel carousel-vertical lg:w-2/3 sm:w-full min-w-min rounded-box ">
           {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
         </div>

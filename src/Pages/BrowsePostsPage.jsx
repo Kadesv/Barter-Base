@@ -42,7 +42,7 @@ export default function BrowsePostsPage() {
 
   const postListItems = posts.map(({ image, user, postId, subCategoryId, title, categoryId, context, createdDate, price }) =>
   (
-    <div key={postId} className="">
+    <div key={postId} className="my-5">
       <div className="card card-compact bg-base-200 shadow-xl m-1">
         {/*click on image to see more details */}
         <figure onClick={() => document.getElementById(`model-popup${postId}`).showModal()} className="h-60 rouded pt-6 m-0">

@@ -2,6 +2,7 @@ export default function ChatRoomList({ chatRooms, user }) {
 
     const handleDelete = (e) => {
         e.preventDefault();
+            
     }
 
     const roomsMap = chatRooms.map(({ chatId, user1Id, user2Name, user1Name }) => {
@@ -23,7 +24,7 @@ export default function ChatRoomList({ chatRooms, user }) {
                                     d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
                             </svg>
                         </button>
-                        <ul tabIndex={0} className="menu menu-sm bg-base-200 dropdown-content mt-3 z-[1]  shadow bg-base-100 rounded-box w-">
+                        <ul tabIndex={0} className="menu menu-sm bg-base-200 dropdown-content mt-3 z-[1]  shadow  rounded-box w-">
                             <li><button 
                                 onClick={(e) => handleDelete(e)}>delete</button></li>
 

@@ -106,7 +106,7 @@ export default function HomeNav({ props }) {
           </article>
         </section>
         <button className="navbar-center">
-          <a href='/' className="btn btn-ghost text-4xl">LSK</a>
+          <a href='/' className="btn btn-ghost  text-4xl">LSK</a>
         </button>
         <section className="navbar-end">
           <section style={{ height: '60px', width: '60px' }} className="drawer z-10 drawer-end fixed right-0">
