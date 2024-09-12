@@ -87,7 +87,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
         <>
             <article id={`accountPost ${initialData.postId}`}
-                className="m-10 flex flex-row max-h-96 carousel-item min-w-min "
+                className="m-14 flex flex-row max-h-96 carousel-item min-w-min "
                 onSubmit={(e) => {
                     handleSubmit(e)
                 }}>
@@ -114,53 +114,53 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                             onChange={(e) => { setPostInfo({ ...postInfo, title: e.target.value }) }}
                         />
 
-                      {isEditing ?
-                      <>
-                        <select
-                            id={`catSelect ${initialData.postId}`}
-                            className="select my-1 mx-2 select-bordered w-full max-w-sm"
-                            onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
-                            name="category"
-                            defaultValue={postInfo.selectedCategory}>
-                            <option disabled value={''} hidden>Category</option>
-                            {catMap}
-                        </select>
+                        {isEditing ?
+                            <>
+                                <select
+                                    id={`catSelect ${initialData.postId}`}
+                                    className="select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
+                                    name="category"
+                                    defaultValue={postInfo.selectedCategory}>
+                                    <option disabled value={''} hidden>Category</option>
+                                    {catMap}
+                                </select>
 
-                        <select
-                            id={`subCatSelect ${initialData.postId}`}
-                            className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
-                            disabled={ !postInfo.selectedCategory}
-                            onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
-                            name="subCategory"
-                            defaultValue={postInfo.selectedSubCategory}>
+                                <select
+                                    id={`subCatSelect ${initialData.postId}`}
+                                    className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    disabled={!postInfo.selectedCategory}
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
+                                    name="subCategory"
+                                    defaultValue={postInfo.selectedSubCategory}>
 
-                            <option disabled value={''} hidden >Sub Category</option>
+                                    <option disabled value={''} hidden >Sub Category</option>
 
-                            {subCatMap()}
+                                    {subCatMap()}
 
-                        </select>
-                        </>
+                                </select>
+                            </>
 
-                        :
-<>
-                        <input
-                        id={`catSelect ${initialData.postId}`}
-                        className="select my-1 mx-2 select-bordered w-full max-w-sm"
-                        onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
-                        name="category"
-                        value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).categoryName}
-                        />
+                            :
+                            <>
+                                <input
+                                    id={`catSelect ${initialData.postId}`}
+                                    className="select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
+                                    name="category"
+                                    value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).categoryName}
+                                />
 
 
-                    <input
-                        id={`subCatSelect ${initialData.postId}`}
-                        className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
-                        disabled={ !postInfo.selectedCategory}
-                        onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
-                        name="subCategory"
-                       value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).subcategories.find((subCat) => subCat.subCategoryId === postInfo.selectedSubCategory).subCategoryName}
-                        />
-                        </>
+                                <input
+                                    id={`subCatSelect ${initialData.postId}`}
+                                    className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    disabled={!postInfo.selectedCategory}
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
+                                    name="subCategory"
+                                    value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).subcategories.find((subCat) => subCat.subCategoryId === postInfo.selectedSubCategory).subCategoryName}
+                                />
+                            </>
                         }
 
                         <CurrencyInput
@@ -204,7 +204,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                                 <button
                                     id={`saveBtn ${initialData.postId}`}
                                     type="submit"
-                                    className="btn btn-outline w-1/3 join-item "
+                                    className="btn btn-outline border-gray-700  w-1/3 join-item "
                                     onClick={(e) => {
                                         viewMode(e)
                                     }}>
@@ -214,13 +214,13 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                                 <button
                                     id={`cancelBtn ${initialData.postId}`}
                                     onClick={(e) => { handleCancel(e, initialData) }}
-                                    className="btn btn-outline w-1/3  join-item">
+                                    className="btn btn-outline border-gray-700  w-1/3  join-item">
                                     cancel
                                 </button>
 
                                 <button
                                     id={`deleteBtn ${initialData.postId}`}
-                                    className="btn btn-outline w-1/3 join-item btn-danger "
+                                    className="btn btn-outline border-gray-700  w-1/3 join-item btn-danger "
                                     onClick={(e) => { handleDeletePost(e, initialData.postId) }}>
                                     delete
                                 </button>
@@ -230,13 +230,13 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                             <section className="  mx-2 join w-full max-w-sm">
                                 <button
                                     id={`editBtnReadOnly ${initialData.postId}`}
-                                    className="btn btn-outline btn-ghost w-1/2 join-item"
+                                    className="btn btn-outline border-gray-700  btn-ghost w-1/2 join-item"
                                     onClick={(e) => editMode(e)}>
                                     edit
                                 </button>
                                 <button
                                     id={`deleteBtnReadOnly ${initialData.postId}`}
-                                    className="btn btn-outline w-1/2 join-item btn-danger"
+                                    className="btn btn-outline border-gray-700  w-1/2 join-item btn-danger"
                                     onClick={(e) => { handleDeletePost(e, postInfo.postId) }}
                                 >
                                     delete

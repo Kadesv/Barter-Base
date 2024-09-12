@@ -42,12 +42,12 @@ export default function AccountPage() {
   return (
     <>
 
-      <section className="menu flex flex-row items-center  justify-around w-screen  p-4  min-h-full text-base-content">
+      <section className="menu flex flex-row relative w-screen p-4  min-h-full text-base-content">
         <div className="carousel carousel-vertical lg:w-2/3 sm:w-full min-w-min rounded-box ">
-          {userPosts.length !== 0 ? userPosts : 'create a post and it will appear here'}
+          {userPosts.length !== 0 ? userPosts : <h1 className="text-size-xl">Create A Post And It Will Appear Here!</h1>}
         </div>
-        <div className="flex  w-1/3 rounded-xl justify-center h-1/2">
-        {/* <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} /> */}
+        <div className="flex fixed top-20 right-12 w-1/3 rounded-xl justify-center">
+        <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>
     </>
