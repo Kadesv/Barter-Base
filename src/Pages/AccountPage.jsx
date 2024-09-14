@@ -46,7 +46,7 @@ export default function AccountPage() {
         <div className="carousel carousel-vertical lg:w-2/3 sm:w-full min-w-min rounded-box ">
           {userPosts.length !== 0 ? userPosts : <h1 className="text-size-xl">Create A Post And It Will Appear Here!</h1>}
         </div>
-        <div className="flex fixed top-20 right-12 w-1/3 rounded-xl justify-center">
+        <div className="flex fixed top-20 right-10 w-1/3 rounded-xl justify-center">
         <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>

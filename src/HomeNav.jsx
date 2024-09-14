@@ -89,7 +89,7 @@ export default function HomeNav({ props }) {
 
   return (
     <>
-      <nav className="navbar bg-base-300 sticky top-0 z-20">
+      <nav className="lg:navbar btm-nav bg-base-300 lg:sticky rounded-xl lg:top-0 z-20">
         <section className="navbar-start">
           <article className="dropdown">
             <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">

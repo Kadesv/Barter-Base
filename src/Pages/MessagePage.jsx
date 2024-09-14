@@ -60,7 +60,7 @@ export default function MessagePage() {
   const chatMap = messageList.map(({ messageText, createdAt, userId, messageId }) => (
     <div key={messageId + "-messageKey"} className={userId === id ? "chat m-2 chat-start" : "chat m-2 chat-end"}>
       <div className="chat-header">
-        <div>{userId === chatInfo.user1Id ? chatInfo.user1Name : chatInfo.user2Name}</div>
+        <div>{userId === chatInfo.user1Id ? 'You' : chatInfo.user2Name}</div>
         <time className="text-xs ">{dateFormat(createdAt)}</time>
       </div>
       <p className="chat-bubble break-words ">{messageText}</p>
@@ -69,10 +69,10 @@ export default function MessagePage() {
 
   return (
     <div className="flex flex-row w-full relative">
-      <div className="w-2/3 mb-16 h-full " ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
+      <div className="w-full mb-16 h-full " ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
         {chatMap} {/* Render messages */}
       </div>
-      <form className="z-10 w-2/3 fixed bottom-2" onSubmit={handleNewChat}>
+      <form className="z-10 w-full fixed bottom-2" onSubmit={handleNewChat}>
         <label className="flex input input-bordered relative items-center">
           <input
             className="  w-full"
@@ -81,9 +81,9 @@ export default function MessagePage() {
             placeholder="message"
           />
           <button type="submit">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="  size-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-          </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="  size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+            </svg>
           </button>
         </label>
       </form>
