@@ -81,8 +81,8 @@ export default function NewPostForm({ categories, authUser, setShowPost }) {
 
     return (
         <>
-            <form id="newPostForm"
-                className="grid "
+            <form id="newPostForm "
+                className="grid w-full"
                 onSubmit={(e) => {
                     handleSubmit(e)
                 }}>
