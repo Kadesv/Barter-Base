@@ -89,7 +89,7 @@ export default function HomeNav({ props }) {
 
   return (
     <>
-      <nav className="lg:navbar btm-nav bg-base-300 lg:sticky rounded-xl lg:top-0 z-20">
+      <nav className="navbar bg-base-300 sticky top-0 z-20">
         <section className="navbar-start">
           <article className="dropdown">
             <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -98,7 +98,7 @@ export default function HomeNav({ props }) {
 
             <ul tabIndex={0} className="menu menu-sm bg-base-200 dropdown-content mt-3 z-[1] p-2 shadow  rounded-box w-52">
               <li><a href='/'>Homepage</a></li>
-              <li><AccountLink /></li>
+              <li><a href={authUser ? "/account" : "/signIn"} >Account</a></li>
               <li><a href='/favorites'>Favorites</a></li>
               <LogButton handleLogOut={(e) => handleLogout(e)} authUser={authUser} />
               {/* <li><a href='/about'>About</a></li> */}

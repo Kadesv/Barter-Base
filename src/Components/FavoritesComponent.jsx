@@ -15,7 +15,7 @@ export default function FavoritesComponent({ authUser, favorites, setFavorites }
 
   const favMap = favorites.map(({ post: { image, context, title, price }, postId }) => {
     return (
-      <div key={postId + 'favorite'} className=" bg-base-100 my-2  rounded-xl flex flex-row p-0 h-40">
+      <div key={postId + 'favorite'} className=" bg-base-100 my-2 shadow-lg rounded-xl flex flex-row p-0 h-40">
         <figure >
           <img onClick={() => document.getElementById(`model-popup${postId}`).showModal()} src={image[0]} alt="IMAGE NOT FOUND" className=" h-full rounded-xl w-full " />
         </figure>

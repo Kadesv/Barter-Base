@@ -3,7 +3,7 @@ export default function ImageMap({ images, userId, user, isEditing }) {
             return (
                   images.map((image, index) => {
                         return (
-                              <div key={index} className='carousel-item w-full'>
+                              <div key={index} className='carousel-item bg-transparent w-full'>
                                     <img src={image} alt="image" className=" w-full" />
                               </div>
                         )
@@ -15,7 +15,7 @@ export default function ImageMap({ images, userId, user, isEditing }) {
                   images.map((image, index) => {
                         return (
                               userId !== user.userId || !isEditing ?
-                                    <div key={index} className='carousel-item inline-block w-full min-w-min'>
+                                    <div key={index} className='carousel-item inline-block bg-transparent w-full min-w-min'>
                                           <img src={image} alt="image" className="w-full" />
                                     </div>
 

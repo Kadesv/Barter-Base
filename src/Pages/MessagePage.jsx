@@ -59,9 +59,17 @@ export default function MessagePage() {
   // Render chat messages
   const chatMap = messageList.map(({ messageText, createdAt, userId, messageId }) => (
     <div key={messageId + "-messageKey"} className={userId === id ? "chat m-2 chat-start" : "chat m-2 chat-end"}>
-      <div className="chat-header">
-        <div>{userId === chatInfo.user1Id ? 'You' : chatInfo.user2Name}</div>
-        <time className="text-xs ">{dateFormat(createdAt)}</time>
+      <div className="chat-header flex items-center gap-2">
+        {userId === chatInfo.user1Id ?
+          <>
+            <div className="text-lg">{userId === chatInfo.user1Id ? 'You' : chatInfo.user2Name}</div>
+            <time className="text-xs ">{dateFormat(createdAt)}</time>
+          </>
+          :
+          <>
+            <time className="text-xs ">{dateFormat(createdAt)}</time>
+            <div className="text-lg">{chatInfo.user2Name}</div>
+          </>}
       </div>
       <p className="chat-bubble break-words ">{messageText}</p>
     </div>
@@ -73,7 +81,7 @@ export default function MessagePage() {
         {chatMap} {/* Render messages */}
       </div>
       <form className="z-10 w-full fixed bottom-2" onSubmit={handleNewChat}>
-        <label className="flex input input-bordered relative items-center">
+        <label className="flex input input-bordered relative items-center mx-3">
           <input
             className="  w-full"
             value={message}
