@@ -60,28 +60,28 @@ export default function MessagePage() {
   const chatMap = messageList.map(({ messageText, createdAt, userId, messageId }) => (
     <div key={messageId + "-messageKey"} className={userId === id ? "chat m-2 chat-start" : "chat m-2 chat-end"}>
       <div className="chat-header flex items-center gap-2">
-        {userId === chatInfo.user1Id ?
+        {userId === id ?
           <>
-            <div className="text-lg">{userId === chatInfo.user1Id ? 'You' : chatInfo.user2Name}</div>
-            <time className="text-xs ">{dateFormat(createdAt)}</time>
+            <div className="text-lg text-base-100">You</div>
+            <time className="text-xs text-base-100">{dateFormat(createdAt)}</time>
           </>
           :
           <>
-            <time className="text-xs ">{dateFormat(createdAt)}</time>
-            <div className="text-lg">{chatInfo.user2Name}</div>
+            <time className="text-xs text-base-100">{dateFormat(createdAt)}</time>
+            <div className="text-lg text-base-100">{userId === chatInfo.user1Id ? chatInfo.user1Id: chatInfo.user2Name}</div>
           </>}
       </div>
-      <p className="chat-bubble break-words ">{messageText}</p>
+      <p className="chat-bubble bg-base-100 break-words ">{messageText}</p>
     </div>
   ));
 
   return (
     <div className="flex flex-row w-full relative">
-      <div className="w-full mb-16 h-full " ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
+      <div className="w-full mb-16 h-screen " ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
         {chatMap} {/* Render messages */}
       </div>
       <form className="z-10 w-full fixed bottom-2" onSubmit={handleNewChat}>
-        <label className="flex input input-bordered relative items-center mx-3">
+        <label className={`flex input input-bordered relative items-center mx-3 `}>
           <input
             className="  w-full"
             value={message}

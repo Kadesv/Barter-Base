@@ -10,9 +10,9 @@ export default function BrowsePostsPage() {
     const [filterOpen, setFilterOpen] = useState(false);
 
     return (
-        <div>
+        <div className="flex flex-col items-center">
             <FilterComponent filterOpen={filterOpen} setFilterOpen={setFilterOpen} />
-            <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-20">
+            <div className="grid w-4/5 grid-cols-2 my-10 gap-5 ">
                 {posts.map(post => (
                     <PostCard 
                         key={post.postId}

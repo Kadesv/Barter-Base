@@ -3,13 +3,18 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script>
+    try {
+      document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"))
+    } catch (e) {}
+  </script>
   <link rel="stylesheet" 
    />
-  <title>LSK</title>
+  <title>Barter Base</title>
 </head>
 
 <body 
-style="width: 100%;"
+style="width: 100%; height: 100vh"
 >
   <div id="root" class="relative"></div>
   <script type="module" src="/src/main.jsx"></script>

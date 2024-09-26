@@ -35,7 +35,7 @@ export default function FavoritesComponent({ authUser, favorites, setFavorites }
                     <div className="collapse-title ">
                       Message Seller
                     </div>
-                    <form id={'messageForm' + postId + 'side'} onSubmit={(event) => {handleNewChat(event, { user, message }) }} className="collapse-content">
+                    <form id={'messageForm' + postId + 'side'} onSubmit={(event) => { handleNewChat(event, { user, message }) }} className="collapse-content">
                       <input id={'messageInput' + postId + 'side'} onChange={(e) => (setMessage(e.target.value))} className="input" placeholder="Type Here..." />
                       <button className="btn btn-ghost">Send</button>
                     </form>
