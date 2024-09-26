@@ -204,7 +204,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                                 <button
                                     id={`saveBtn ${initialData.postId}`}
                                     type="submit"
-                                    className="btn btn-outline border-gray-700  w-1/3 join-item "
+                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  "
                                     onClick={(e) => {
                                         viewMode(e)
                                     }}>
@@ -214,13 +214,13 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                                 <button
                                     id={`cancelBtn ${initialData.postId}`}
                                     onClick={(e) => { handleCancel(e, initialData) }}
-                                    className="btn btn-outline border-gray-700  w-1/3  join-item">
+                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item ">
                                     cancel
                                 </button>
 
                                 <button
                                     id={`deleteBtn ${initialData.postId}`}
-                                    className="btn btn-outline border-gray-700  w-1/3 join-item btn-danger "
+                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  btn-danger "
                                     onClick={(e) => { handleDeletePost(e, initialData.postId) }}>
                                     delete
                                 </button>
@@ -230,13 +230,13 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                             <section className="  mx-2 join w-full max-w-sm">
                                 <button
                                     id={`editBtnReadOnly ${initialData.postId}`}
-                                    className="btn btn-outline border-gray-700  btn-ghost w-1/2 join-item"
+                                    className="btn opacity-95 border-base-300 w-1/2 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item "
                                     onClick={(e) => editMode(e)}>
                                     edit
                                 </button>
                                 <button
                                     id={`deleteBtnReadOnly ${initialData.postId}`}
-                                    className="btn btn-outline border-gray-700  w-1/2 join-item btn-danger"
+                                    className="btn opacity-95 border-base-300 w-1/2 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  btn-danger"
                                     onClick={(e) => { handleDeletePost(e, postInfo.postId) }}
                                 >
                                     delete

@@ -27,8 +27,8 @@ export default function Root() {
     <>
       <HomeNav props={{ setAuthUser, categories, chatRooms, setChatRooms, authUser, favorites, setFavorites }} className="" />
       <main
-        style={{ "backgroundImage": "linear-gradient(to top, #304352 0%, #d7d2cc 100%)" }}
-        className='flex justify-center min-h-full'>
+        style={{ "backgroundImage": "linear-gradient(to top, #304352 0%, #d7d2cc 100%)", "height": "100%" }}
+        className='flex justify-center '>
         <Outlet
           context={{ categories, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites }}
         />

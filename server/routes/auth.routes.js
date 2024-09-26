@@ -14,9 +14,10 @@ authRoutes.post('/api/auth', async (req, res) => {
         userId: user.userId
       },
       include: {
-        model: Post
+        model: Post 
       }
     })
+    
     const rooms = await Chat.findAll({
       where: {
         [Op.or]: [{ user1Id: user.userId }, { user2Id: user.userId }],

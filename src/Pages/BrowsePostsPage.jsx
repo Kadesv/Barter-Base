@@ -10,7 +10,7 @@ export default function BrowsePostsPage() {
     const [filterOpen, setFilterOpen] = useState(false);
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex min-h-full flex-col items-center">
             <FilterComponent filterOpen={filterOpen} setFilterOpen={setFilterOpen} />
             <div className="grid w-4/5 grid-cols-2 my-10 gap-5 ">
                 {posts.map(post => (

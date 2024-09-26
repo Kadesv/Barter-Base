@@ -25,8 +25,8 @@ export default function SignUpPage() {
     };
 
     return (
-        <div className="justify-center h-full my-20 flex flex-col items-center text-center">
-            <h2 className="text-xl p-2 bg-base-100 rounded-lg mb-5 w-3/4 ">Please fill this out.</h2>
+        <div className="justify-center h-screen flex flex-col items-center text-center">
+            <h2 className="text-2xl text-base-300 rounded-lg mb-3 max-w-max ">Account Creation</h2>
             <form
                 onSubmit={(e) => {
                     handleRegister(e, {
@@ -116,6 +116,8 @@ export default function SignUpPage() {
 
                     </label>
                     <button className="btn opacity-95 border-base-300 m-1 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center" type="submit">Create Account</button>
+                    <div className=" divider opacity-95 text-base-100 col-span-2 before:bg-base-100 after:bg-base-100">or</div>
+                    <a className="btn opacity-95 mb-3 border-base-300 m-1 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center" href="/signIn">Have an account?</a>
                 </div>
 
 

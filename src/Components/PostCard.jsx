@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import { PostModal } from "./PostModal";
+import axios from "axios";
 export function PostCard({ post, categories, favorites, authUser, setFavorites }) {
     const navigate = useNavigate();
 
