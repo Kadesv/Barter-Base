@@ -1,10 +1,12 @@
-export default function ImageMap({ images, userId, user, isEditing }) {
+export default function ImageMap({ images, userId, user, isEditing, handleDeleteImage}) {
+
+      
       if (!user) {
             return (
                   images.map((image, index) => {
                         return (
                               <div key={index} className='carousel-item bg-transparent w-full'>
-                                    <img src={image} alt="image" className=" w-full" />
+                                    <img src={image} alt="image" className="h-full " />
                               </div>
                         )
                   })
@@ -15,14 +17,14 @@ export default function ImageMap({ images, userId, user, isEditing }) {
                   images.map((image, index) => {
                         return (
                               userId !== user.userId || !isEditing ?
-                                    <div key={index} className='carousel-item inline-block bg-transparent w-full min-w-min'>
-                                          <img src={image} alt="image" className="w-full" />
+                                    <div key={index} className='carousel-item inline-block bg-transparent w-full h-full min-w-min'>
+                                          <img src={image} alt="image" className="w-full " />
                                     </div>
 
                                     :
                                     
                                     <div key={index} className='carousel-item relative w-full inline-block'>
-                                          <img src={image} alt="image" className=" w-full " />
+                                          <img src={image} alt="image" className="h-full" />
                                           <div
                                                 className="dropdown dropdown-bottom dropdown-end absolute top-1 right-1 flex content-center">
                                                 <p

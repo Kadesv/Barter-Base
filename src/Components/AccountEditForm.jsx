@@ -1,4 +1,4 @@
-export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAccount, setIsEditingAccount }) {
+export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAccount, setIsEditingAccount, onAccSaveClick}) {
     const onEditClick=(e) =>{
         e.preventDefault();
         setIsEditingAccount(true)
@@ -10,7 +10,7 @@ export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAc
                     id='accountInfoForm'
                     onSubmit={(e) => handleUserUpdate(e)}
                     className="flex flex-col h-96 items-center justify-center w-full">
-                        <h1 className="text-2xl text-base-200">Account Information</h1>
+                        <h1 className="text-3xl flex justify-center text-base-200">Account Information</h1>
                         <input
                         id="accountFNameInput"
                         value={userInfo.firstName === null ? '' : userInfo.firstName}

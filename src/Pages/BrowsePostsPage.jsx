@@ -1,7 +1,7 @@
 import {PostCard} from "../Components/PostCard"; // Component for each post
 import { FilterComponent } from "../Components/FilterComponent";
 import Footer from "../Components/Footer";
-import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom"
+import { useLoaderData, useOutletContext } from "react-router-dom"
 import { useState } from 'react';
 
 export default function BrowsePostsPage() {
@@ -10,9 +10,9 @@ export default function BrowsePostsPage() {
     const [filterOpen, setFilterOpen] = useState(false);
 
     return (
-        <div className="flex min-h-full flex-col items-center">
+        <div className="flex min-h-full w-full flex-col items-center">
             <FilterComponent filterOpen={filterOpen} setFilterOpen={setFilterOpen} />
-            <div className="grid w-4/5 grid-cols-2 my-10 gap-5 ">
+            <div className="grid w-5/6 grid-cols-2 lg:grid-cols-3 my-10 gap-5 ">
                 {posts.map(post => (
                     <PostCard 
                         key={post.postId}

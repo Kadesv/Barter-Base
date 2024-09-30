@@ -80,14 +80,28 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
     const handleCancel = (e, initialData) => {
         e.preventDefault();
+        setPostInfo({
+            postId: initialData.postId,
+            title: initialData.title,
+            context: initialData.context,
+            image: initialData.image,
+            price: initialData.price,
+            selectedCategory: initialData.categoryId,
+            selectedSubCategory: initialData.subCategoryId
+        })
+        setIsEditing(false)
 
+
+    }
+
+    const handleDeleteImage = (e, postId, )=>{
 
     }
     return (
 
         <>
             <article id={`accountPost ${initialData.postId}`}
-                className="m-14 flex flex-row max-h-96 carousel-item min-w-min "
+                className="m-14 flex flex-row  bg-base-200 rounded-xl object-contain max-h-max p-5 overflow-auto carousel-item min-w-min "
                 onSubmit={(e) => {
                     handleSubmit(e)
                 }}>
@@ -99,7 +113,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                     <div className="col-span-1" >
 
                         <figure className="carousel w-full">
-                            <ImageMap images={postInfo.image} user={user} userId={initialData.userId} isEditing={isEditing} />
+                            <ImageMap images={postInfo.image} user={user} userId={initialData.userId} handleDeleteImage={handleDeleteImage} isEditing={isEditing} />
                         </figure>
 
                     </div>
@@ -146,6 +160,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                                 <input
                                     id={`catSelect ${initialData.postId}`}
                                     className="select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    readOnly
                                     onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
                                     name="category"
                                     value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).categoryName}
@@ -155,7 +170,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                                 <input
                                     id={`subCatSelect ${initialData.postId}`}
                                     className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
-                                    disabled={!postInfo.selectedCategory}
+                                    readOnly
                                     onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
                                     name="subCategory"
                                     value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).subcategories.find((subCat) => subCat.subCategoryId === postInfo.selectedSubCategory).subCategoryName}

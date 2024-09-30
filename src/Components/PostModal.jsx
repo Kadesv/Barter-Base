@@ -17,8 +17,8 @@ export function PostModal({ post, categories, location, authUser }) {
     }
     return (
         viewImage ?
-            <dialog id={`model-popup${post.postId}`} className="modal shadow-2xl">
-                    <figure onClick={(e) => onImageClick(e)} className=" carousel modal-box w-fit rounded-2xl overflow-visible scale-150 bg-base-200 p-3 max-h-96 max-w-2xl">
+            <dialog id={`model-popup${post.postId}`} className="modal scale-150 shadow-2xl">
+                    <figure onClick={(e) => onImageClick(e)} className=" carousel modal-box  w-fit max-w-2xl scale-150 rounded-2xl h-fit object-contain  bg-base-200 p-3 max-h-96 ">
                         <ImageMap images={post.image} userId={post.userId} setIsWide={setIsWide} handleImageLoad={handleImageLoad} user={authUser} />
                     </figure>
                 
@@ -27,7 +27,7 @@ export function PostModal({ post, categories, location, authUser }) {
                 </form>
             </dialog>
             :
-            <dialog id={`model-popup${post.postId}`} className="modal shadow-2xl">
+            <dialog id={`model-popup${post.postId}`} className="modal shadow-2xl object-contain">
                 <div className="modal-box card card-side ">
                 <div className="mr-3 bg-transparent">
                         <figure onClick={(e) => onImageClick(e)} className="carousel flex items-center bg-transparent ">
@@ -35,7 +35,7 @@ export function PostModal({ post, categories, location, authUser }) {
                         </figure>
                     </div>
                     <div className="flex flex-col ">
-                        <h2 className="flex justify-end">${post.price}</h2>
+                        <p className="flex text-xl justify-end">${post.price}</p>
                         <h1 className="text-5xl font-bold ">{post.title}</h1>
                         <p className="py-6">{post.context}</p>
                         <LikeButton postId={post.postId} authUser={authUser} />

@@ -126,6 +126,7 @@ export default function NewPostForm({ categories, authUser, setShowPost }) {
                         onValueChange={(price) => setPrice(price)}
                         intlConfig={{ locale: "en-US", currency: 'USD' }}
                         allowDecimals={true}
+                        maxLength={6}
                         allowNegativeValue={false}
                     />
                 </div>
