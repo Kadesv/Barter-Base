@@ -12,7 +12,7 @@ export default function BrowsePostsPage() {
     return (
         <div className="flex min-h-full w-full flex-col items-center">
             <FilterComponent filterOpen={filterOpen} setFilterOpen={setFilterOpen} />
-            <div className="grid w-5/6 grid-cols-2 lg:grid-cols-3 my-10 gap-5 ">
+            <div className="grid w-5/6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-10 gap-5 ">
                 {posts.map(post => (
                     <PostCard 
                         key={post.postId}

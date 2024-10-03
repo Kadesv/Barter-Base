@@ -18,7 +18,7 @@ export function PostModal({ post, categories, location, authUser }) {
     return (
         viewImage ?
             <dialog id={`model-popup${post.postId}`} className="modal scale-150 shadow-2xl">
-                    <figure onClick={(e) => onImageClick(e)} className=" carousel modal-box  w-fit max-w-2xl scale-150 rounded-2xl h-fit object-contain  bg-base-200 p-3 max-h-96 ">
+                    <figure onClick={(e) => onImageClick(e)} className=" carousel modal-box  w-fit max-w-2xl scale-150 rounded-2xl h-full object-contain  bg-base-200 p-3 max-h-96 ">
                         <ImageMap images={post.image} userId={post.userId} setIsWide={setIsWide} handleImageLoad={handleImageLoad} user={authUser} />
                     </figure>
                 

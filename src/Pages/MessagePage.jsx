@@ -11,7 +11,7 @@ export default function MessagePage() {
   const [messageList, setMessageList] = useState(chatInfo.messages); // Message list state
   const [message, setMessage] = useState(""); // Input message state
   const { authUser } = useOutletContext();
-
+console.log(authUser)
   // Handle new message submission
   const handleNewChat = async (e) => {
     e.preventDefault();

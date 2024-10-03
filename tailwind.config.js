@@ -1,17 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    './index.html', // Path to your HTML file(s)
+    './src/**/*.{js,ts,jsx,tsx}', // Path to all source files that use Tailwind classes
+  ],
   theme: {
-    extend: {},
+    extend: {}, // Extend Tailwind's default theme (optional)
   },
-  plugins: [require("daisyui")],
+  plugins: [require('daisyui')], // DaisyUI plugin for Tailwind
   daisyui: {
     themes: [
-      "dark"
-      ,
-      "light",
-    ]
-  }
-}
-
+      'dark', // Add predefined DaisyUI themes here
+      'light',
+      'cupcake',
+      'emerald',
+      'sunset',
+      'nord',
+      'black',
+    ],
+  },
+};

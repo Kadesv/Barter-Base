@@ -7,6 +7,8 @@ import axios from "axios";
 export function PostCard({ post, categories, favorites, authUser, setFavorites }) {
     const navigate = useNavigate();
     const [isWide, setIsWide] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false)
+    const backupLink = "https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FYour%20paragraph%20text%20(1).png?alt=media&token=776ac434-702f-456a-b0f0-15eb6f388e1a"
 
     const handleFavorite = async (e) => {
         e.preventDefault();
@@ -18,26 +20,20 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
         }
     };
 
-    const handleLoad = (e) => {
-        e.preventDefault();
-        if (e.target.naturalHeight < e.target.naturalWidth) {
-            setIsWide(true);
-        }
-    };
-
     return (
         <div className="m-3 flex justify-center w-full">
-            <div className="card card-normal hover:scale-105 w-5/6 items-center ease-in-out duration-300 bg-base-100 shadow-xl flex content-between object-contain rounded-lg">
+            <div
+                onClick={() => document.getElementById(`model-popup${post.postId}`).showModal()}
+                className="card card-normal hover:scale-105 w-5/6 lg:min-h-96 items-center ease-in-out duration-300 bg-base-100 shadow-xl flex content-between object-contain rounded-lg">
                 <figure
-                    onClick={() => document.getElementById(`model-popup${post.postId}`).showModal()}
-                    className={`flex justify-center w-full h-full rounded overflow-hidden ${isWide ? '' : 'w-full'}`}
+                    className={`flex justify-center w-full h-full rounded overflow-x-clip ${isWide ? '' : 'w-full'}`}
                 >
                     <img
                         src={post.image[0]}
                         alt="IMAGE"
-                        onLoad={(e) => handleLoad(e)}
-                        onError={(e) => e.target.src = 'https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FYour%20paragraph%20text%20(1).png?alt=media&token=776ac434-702f-456a-b0f0-15eb6f388e1a'}
-                        className="max-h-full w-full max-w-full p-1 min-h-max rounded-lg"
+                        onLoad={() => setImageLoaded(true)}
+                        onError={(e) => e.target.src !== backupLink ? e.target.src = backupLink : ''}
+                        className={`max-h-full w-full max-w-full p-1 min-h-max rounded-lg ${imageLoaded ? '': 'skeleton w-full h-full'}`}
                     />
                 </figure>
 
