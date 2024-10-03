@@ -1,24 +1,29 @@
 import axios from "axios";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import ImageMap from "./ImageMap";
+import storage from "../services/firebase.config";
 import CurrencyInput from "react-currency-input-field";
 const currencyFormat = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
 });
-export default function PostTemplate({ initialData, authStatus, initialIsEditing, categories }) {
+export default function PostTemplate({ initialData, user, initialIsEditing, categories }) {
 
     const navigate = useNavigate();
-    const [title, setTitle] = useState(initialData.title);
-    const [context, setContext] = useState(initialData.context);
-    const [images, setImage] = useState(initialData.image);
-    const [price, setPrice] = useState(initialData.price);
-    const [selectedCategory, setSelectedCategory] = useState(initialData.categoryId);
-    const [selectedSubCategory, setSelectedSubCategory] = useState(initialData.subCategoryId);
-    //  createdDate, price, categoryId, subCategoryId
-
     const [isEditing, setIsEditing] = useState(initialIsEditing);
+    const [newImageFile, setNewImageFile] = useState(null)
+    const [postInfo, setPostInfo] = useState({
+        postId: initialData.postId,
+        title: initialData.title,
+        context: initialData.context,
+        image: initialData.image,
+        price: initialData.price,
+        selectedCategory: initialData.categoryId,
+        selectedSubCategory: initialData.subCategoryId
+    })
 
     const catMap = categories.map(({ categoryId, categoryName }) => {
         return (
@@ -28,9 +33,9 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
     );
 
     const subCatMap = () => {
-        if (selectedCategory) {
+        if (postInfo.selectedCategory) {
             return (
-                categories[selectedCategory - 1].subcategories.map(({ subCategoryId, subCategoryName }) => {
+                categories[postInfo.selectedCategory - 1].subcategories.map(({ subCategoryId, subCategoryName }) => {
                     return (
                         <option key={subCategoryId} value={subCategoryId}>{subCategoryName}</option>
                     )
@@ -45,15 +50,24 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
         setIsEditing(true);
     }
 
-    const viewMode = async (event, formData) => {
-        event.preventDefault();
 
-        const res = await axios.put('/api/posts/save/', formData);
-        if (!res.data.success) {
-            setTitle(data.title);
-            setContext(data.context);
+    const viewMode = async (e) => {
+        e.preventDefault();
+        if (newImageFile !== null) {
+            for (let file of newImageFile) {
+                const imgRef = ref(storage, `posts/${file.name}_${uuidv4()}`);
+                try {
+                    await uploadBytes(imgRef, file);
+                    const url = await getDownloadURL(imgRef);
+                    setPostInfo({ ...postInfo, image: [...postInfo.image, url] })
+                } catch (error) {
+                }
+            }
         }
-        setIsEditing(false);
+        const res = await axios.put('/api/posts/save/', postInfo);
+        if (res.data.success) {
+            setIsEditing(false);
+        }
     };
 
     const handleDeletePost = async (event, postId) => {
@@ -63,140 +77,191 @@ export default function PostTemplate({ initialData, authStatus, initialIsEditing
         setIsEditing(false);
         navigate('/account');
     };
+
+    const handleCancel = (e, initialData) => {
+        e.preventDefault();
+        setPostInfo({
+            postId: initialData.postId,
+            title: initialData.title,
+            context: initialData.context,
+            image: initialData.image,
+            price: initialData.price,
+            selectedCategory: initialData.categoryId,
+            selectedSubCategory: initialData.subCategoryId
+        })
+        setIsEditing(false)
+
+
+    }
+
+    const handleDeleteImage = (e, postId, )=>{
+
+    }
     return (
-        !isEditing ?
 
-            <>
-                <div
-                    className="carousel-item"
-                    key={`postForm ${initialData.postId}`}>
-                    <div>{title}</div>
-                    <div className="card card-body">
-                        <div>{initialData.context}</div>
-                        <div>{initialData.price}</div>
-                        <div>{categories.find((cat) => cat.categoryId === initialData.categoryId).categoryName}</div>
-                        <div>{categories.find((cat) => cat.categoryId === initialData.categoryId).subcategories.find((subCat) => subCat.subCategoryId === initialData.subCategoryId).subCategoryName}</div>
-                        <div>{initialData.createdDate}</div>
+        <>
+            <article id={`accountPost ${initialData.postId}`}
+                className="m-14 flex flex-row  bg-base-200 rounded-xl object-contain max-h-max p-5 overflow-auto carousel-item min-w-min "
+                onSubmit={(e) => {
+                    handleSubmit(e)
+                }}>
+
+                <form
+                    className="grid grid-cols-3 h-auto w-full"
+                    id={`editPostForm ${initialData.postId}`}>
+
+                    <div className="col-span-1" >
+
+                        <figure className="carousel w-full">
+                            <ImageMap images={postInfo.image} user={user} userId={initialData.userId} handleDeleteImage={handleDeleteImage} isEditing={isEditing} />
+                        </figure>
+
                     </div>
-
-                    <div className="card card-actions">
-                        <button
-                            className="btn"
-                            onClick={(e) => editMode(e)}>
-                            edit
-                        </button>
-                    </div>
-                </div>
-            </>
-
-            :
-
-            <>
-                <form id="newPostForm"
-                    className="grid carousel-item"
-                    onSubmit={(e) => {
-                        handleSubmit(e)
-                    }}>
-                    <section className="carousel">
-                        <ImageMap images={images} />
-                    </section>
-
-                    <select className=" categorySelect
-                 select my-2 select-bordered w-full max-w-xs"
-                        disabled={!authStatus}
-                        onChange={(e) => { setSelectedCategory(e.target.value) }}
-                        name="category" id="category"
-                        defaultValue={initialData.categoryId}>
-                        <option disabled value={''} hidden>Category</option>
-                        {catMap}
-                    </select>
-                    <select
-                        className=" subCategorySelect select my-2 select-bordered w-full max-w-xs"
-                        disabled={!selectedCategory}
-                        onChange={(e) => { setSelectedSubCategory(e.target.value) }}
-                        name="subCategory" id="subCategory"
-                        defaultValue={initialData.subCategoryId}>
-                        <option disabled value={''} hidden >Sub Category</option>
-                        {subCatMap()}
-                    </select>
-                    <div className="titleInput">
+                    <div className="col-span-2">
                         <input
-                            id="titleInput"
+                            id={`titleInput ${initialData.postId}`}
                             maxLength={25}
-                            disabled={!authStatus}
-                            className="input my-2 input-bordered w-full max-w-xs"
+                            className="input mb-1 mx-2 input-bordered w-full max-w-sm"
                             placeholder="Title"
-                            value={title}
-                            onChange={(e) => { setTitle(e.target.value) }}
+                            readOnly={!isEditing}
+                            value={postInfo.title}
+                            onChange={(e) => { setPostInfo({ ...postInfo, title: e.target.value }) }}
                         />
-                    </div>
-                    <div className="priceInput">
+
+                        {isEditing ?
+                            <>
+                                <select
+                                    id={`catSelect ${initialData.postId}`}
+                                    className="select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
+                                    name="category"
+                                    defaultValue={postInfo.selectedCategory}>
+                                    <option disabled value={''} hidden>Category</option>
+                                    {catMap}
+                                </select>
+
+                                <select
+                                    id={`subCatSelect ${initialData.postId}`}
+                                    className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    disabled={!postInfo.selectedCategory}
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
+                                    name="subCategory"
+                                    defaultValue={postInfo.selectedSubCategory}>
+
+                                    <option disabled value={''} hidden >Sub Category</option>
+
+                                    {subCatMap()}
+
+                                </select>
+                            </>
+
+                            :
+                            <>
+                                <input
+                                    id={`catSelect ${initialData.postId}`}
+                                    className="select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    readOnly
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedCategory: e.target.value }) }}
+                                    name="category"
+                                    value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).categoryName}
+                                />
+
+
+                                <input
+                                    id={`subCatSelect ${initialData.postId}`}
+                                    className=" subCategorySelect select my-1 mx-2 select-bordered w-full max-w-sm"
+                                    readOnly
+                                    onChange={(e) => { setPostInfo({ ...postInfo, selectedSubCategory: e.target.value }) }}
+                                    name="subCategory"
+                                    value={categories.find((cat) => cat.categoryId === postInfo.selectedCategory).subcategories.find((subCat) => subCat.subCategoryId === postInfo.selectedSubCategory).subCategoryName}
+                                />
+                            </>
+                        }
 
                         <CurrencyInput
-                            id="currencyInput"
-                            disabled={!authStatus}
-                            value={price}
+                            id={`priceInput ${initialData.postId}`}
+                            readOnly={!isEditing}
+                            value={postInfo.price}
                             placeholder={currencyFormat.format("")}
-                            className="input my-2  input-bordered w-full max-w-xs"
-                            onValueChange={(price) => setPrice(price)}
+                            className="input my-1 mx-2 select-bordered w-full max-w-sm"
+                            onValueChange={(e) => setPostInfo({ ...postInfo, price: e })}
                             intlConfig={{ locale: "en-US", currency: 'USD' }}
                             allowDecimals={true}
                             allowNegativeValue={false}
                         />
-                    </div>
-                    <div className="contextInput">
                         <input
-                            id="contextInput"
-                            disabled={!authStatus}
-                            maxLength={250}
-                            className="textarea textarea-md my-2 textarea-bordered w-full max-w-xs"
-                            placeholder="Details"
-                            value={context}
-                            onChange={(e) => { setContext(e.target.value) }}
-                        />
-                    </div>
-                    <div className="imageInput">
-                        <input
-                            disabled={!authStatus}
-                            className="file-input my-2 file-input-bordered w-full max-w-xs"
-                            placeholder="image"
+                            id={`imageInput ${initialData.postId}`}
+                            disabled={!isEditing}
+                            className="file-input mx-2 my-1 file-input-bordered w-full max-w-sm"
                             multiple
                             type="file"
                             accept=".png, .jpg, .heic"
                             onChange={(e) => {
-                                setPostImages(e.target.files)
+                                setNewImageFile(e.target.files)
                             }}
                         />
+
+                        <textarea
+                            id={`contextInput ${initialData.postId}`}
+                            maxLength={250}
+                            readOnly={!isEditing}
+                            className="textarea textarea-lg my-1 mx-2 input-bordered w-full max-w-sm"
+                            placeholder="Details"
+                            value={postInfo.context}
+                            onChange={(e) => { setPostInfo({ ...postInfo, context: e.target.value }) }}
+                        />
+
+
+                        {isEditing ?
+                            <section
+                                className=" mx-2 join w-full max-w-sm">
+
+                                <button
+                                    id={`saveBtn ${initialData.postId}`}
+                                    type="submit"
+                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  "
+                                    onClick={(e) => {
+                                        viewMode(e)
+                                    }}>
+                                    save
+                                </button>
+
+                                <button
+                                    id={`cancelBtn ${initialData.postId}`}
+                                    onClick={(e) => { handleCancel(e, initialData) }}
+                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item ">
+                                    cancel
+                                </button>
+
+                                <button
+                                    id={`deleteBtn ${initialData.postId}`}
+                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  btn-danger "
+                                    onClick={(e) => { handleDeletePost(e, initialData.postId) }}>
+                                    delete
+                                </button>
+
+                            </section>
+                            :
+                            <section className="  mx-2 join w-full max-w-sm">
+                                <button
+                                    id={`editBtnReadOnly ${initialData.postId}`}
+                                    className="btn opacity-95 border-base-300 w-1/2 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item "
+                                    onClick={(e) => editMode(e)}>
+                                    edit
+                                </button>
+                                <button
+                                    id={`deleteBtnReadOnly ${initialData.postId}`}
+                                    className="btn opacity-95 border-base-300 w-1/2 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  btn-danger"
+                                    onClick={(e) => { handleDeletePost(e, postInfo.postId) }}
+                                >
+                                    delete
+                                </button>
+                            </section>
+                        }
                     </div>
-                    <button
-                        className="btn btn-success join-item"
-                        onClick={(e) => {
-                            viewMode(e, {
-                                title: title,
-                                context: context,
-                                price: price,
-                                categoryId: selectedCategory,
-                                subCategoryId: setSelectedSubCategory,
-
-                                postId: initialData.postId
-                            })
-                        }}>
-                        save
-
-                    </button>
-                    <button
-                        className="btn btn-danger join-item"
-                        onClick={(e) => { handleDeletePost(e, initialData.postId) }}
-                    >
-                        delete
-                    </button>
-                    <button
-                        onClick={() => { onCancelClick() }}
-                        className="btn btn-warning join-item">
-                        cancel
-                    </button>
                 </form>
-            </>
+            </article>
+        </>
 
     )
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ref, uploadBytes, getDownloadURL, } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,7 +10,7 @@ const currencyFormat = new Intl.NumberFormat("en-US", {
     currency: "USD"
 });
 
-export default function NewPostForm({ categories, authStatus, setShowPost }) {
+export default function NewPostForm({ categories, authUser, setShowPost }) {
     const navigate = useNavigate()
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [postImages, setPostImages] = useState(null);
@@ -32,7 +32,6 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
                 const url = await getDownloadURL(imgRef);
                 urlArr.push(url)
             } catch (error) {
-                // console.log(error);
             }
         }
         const dbObject = {
@@ -43,7 +42,6 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
             selectedSubCategory: selectedSubCategory,
             image: urlArr,
         }
-        // console.log(dbObject)
         const res = await axios.post('/api/posts/create', dbObject);
         urlArr = [];
         if (res.data.success) {
@@ -83,14 +81,14 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
 
     return (
         <>
-            <form id="newPostForm"
-                className="grid "
+            <form id="newPostForm "
+                className="grid w-full"
                 onSubmit={(e) => {
                     handleSubmit(e)
                 }}>
                 <select className=" categorySelect
                  select my-2 select-bordered w-full max-w-xs"
-                    disabled={!authStatus}
+                    disabled={!authUser}
                     onChange={(event) => { setSelectedCategory(event.target.value) }}
                     name="category" id="category"
                     defaultValue={''}>
@@ -110,7 +108,7 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
                     <input
                         id="titleInput"
                         maxLength={25}
-                        disabled={!authStatus}
+                        disabled={!authUser}
                         className="input my-2 input-bordered w-full max-w-xs"
                         placeholder="Title"
                         value={title}
@@ -121,20 +119,21 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
 
                     <CurrencyInput
                         id="currencyInput"
-                        disabled={!authStatus}
+                        disabled={!authUser}
                         value={price}
                         placeholder={currencyFormat.format("")}
                         className="input my-2  input-bordered w-full max-w-xs"
                         onValueChange={(price) => setPrice(price)}
                         intlConfig={{ locale: "en-US", currency: 'USD' }}
                         allowDecimals={true}
+                        maxLength={6}
                         allowNegativeValue={false}
                     />
                 </div>
                 <div className="contextInput">
                     <input
                         id="contextInput"
-                        disabled={!authStatus}
+                        disabled={!authUser}
                         maxLength={250}
 
                         className="textarea textarea-md my-2 textarea-bordered w-full max-w-xs"
@@ -145,7 +144,7 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
                 </div>
                 <div className="imageInput">
                     <input
-                        disabled={!authStatus}
+                        disabled={!authUser}
                         className="file-input my-2 file-input-bordered w-full max-w-xs"
                         placeholder="image"
                         multiple
@@ -158,7 +157,7 @@ export default function NewPostForm({ categories, authStatus, setShowPost }) {
                 </div>
                 <button
                     className='submitButton drawer-button btn btn-neutral '
-                    disabled={!authStatus}
+                    disabled={!authUser}
                     type="submit">
                     submit
                 </button>

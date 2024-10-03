@@ -1,87 +1,124 @@
-export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAccount, setIsEditingAccount }) {
+export default function AccountEditableForm({ userInfo, setUserInfo, isEditingAccount, setIsEditingAccount, onAccSaveClick}) {
+    const onEditClick=(e) =>{
+        e.preventDefault();
+        setIsEditingAccount(true)
+    }
     return (
         isEditingAccount ?
             <>
                 <form
                     id='accountInfoForm'
                     onSubmit={(e) => handleUserUpdate(e)}
-                    className="grid">
-                    <label className="input flex items-center gap-2">
+                    className="flex flex-col h-96 items-center justify-center w-full">
+                        <h1 className="text-3xl flex justify-center text-base-200">Account Information</h1>
                         <input
-                            id="accountFNameInput"
-                            value={userInfo.firstName === null ? '' : userInfo.firstName}
-                            onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
-                            className="input m-1 input-ghost"
-                            placeholder="First Name" />
-                    </label>
+                        id="accountFNameInput"
+                        value={userInfo.firstName === null ? '' : userInfo.firstName}
+                        onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
+                        className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                        placeholder="First Name" />
 
-                    <label className="input flex items-center gap-2">
-                        <input
-                            id="accountLNameInput"
-                            value={userInfo.lastName === null ? '' : userInfo.lastName}
-                            onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
-                            className="input m-1 input-ghost"
-                            placeholder="Last Name" />
-                    </label>
+                    <input
+                        id="accountLNameInput"
+                        value={userInfo.lastName === null ? '' : userInfo.lastName}
+                        onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
+                        className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                        placeholder="Last Name" />
 
-                    <label className="input flex items-center gap-2">
-                        <input
-                            id="accountEmailInput"
-                            value={userInfo.email === null ? '' : userInfo.email}
-                            onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-                            className="input m-1 input-ghost"
-                            placeholder="Email" />
-                    </label>
+                    <input
+                        id="accountEmailInput"
+                        value={userInfo.email === null ? '' : userInfo.email}
+                        onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+                        className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                        placeholder="Email" />
 
-                    <label className="input flex items-center gap-2">
-                        <input
-                            id="accountCityInput"
-                            value={userInfo.city === null ? '' : userInfo.city}
-                            onChange={(e) => setUserInfo({ ...userInfo, city: e.target.value })}
-                            className="input m-1 input-ghost"
-                            placeholder="City" />
-                    </label>
+                    <input
+                        id="accountCityInput"
+                        value={userInfo.city === null ? '' : userInfo.city}
+                        onChange={(e) => setUserInfo({ ...userInfo, city: e.target.value })}
+                        className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                        placeholder="City" />
 
-                    <label className="input flex items-center gap-2">
-                        <input
-                            id="accountStateInput"
-                            value={userInfo.state === null ? '' : userInfo.state}
-                            onChange={(e) => setUserInfo({ ...userInfo, state: e.target.value })}
-                            className="input m-1 input-ghost"
-                            placeholder="State" />
-                    </label>
+                    <input
+                        id="accountStateInput"
+                        value={userInfo.state === null ? '' : userInfo.state}
+                        onChange={(e) => setUserInfo({ ...userInfo, state: e.target.value })}
+                        className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                        placeholder="State" />
 
-                    <label className="input flex items-center gap-2">
-                        <input
-                            id="accountZipCodeInput"
-                            value={userInfo.zipCode === null ? '' : userInfo.zipCode}
-                            onChange={(e) => setUserInfo({ ...userInfo, zipCode: e.target.value })}
-                            className="input m-1 input-ghost"
-                            placeholder="Zipcode" />
-                    </label>
+                    <input
+                        id="accountZipCodeInput"
+                        value={userInfo.zipCode === null ? '' : userInfo.zipCode}
+                        onChange={(e) => setUserInfo({ ...userInfo, zipCode: e.target.value })}
+                        className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                        placeholder="Zip Code" />
 
-                    <button 
-                        className="btn btn-success" 
-                        onClick={() => onSaveClick}>Save</button>
-                    <button
-                        className="btn btn-error"
-                        onClick={() => onCancelClick}>cancel</button>
+                    <div className=" w-2/3 join m-1 ">
+                        <button
+                            id="accountSaveBtn"
+                            className=" btn opacity-95 border-base-300 join-item border-2 hover:bg-base-100 bg-base-200 w-1/2 rounded-lg grid h-10 place-items-center"
+                            onClick={(e) => onAccSaveClick(e)}>Save</button>
+
+                        <button
+                            id="accountCancelBtn"
+                            className=" btn opacity-95 border-base-300 join-item border hover:bg-base-100 bg-base-200 w-1/2 rounded-lg grid h-10 place-items-center"
+                            onClick={(e) => onAccCancelClick(e)}>cancel</button>
+
+                    </div>
                 </form>
             </>
             :
-            <>
-            <p>{userInfo.firstName}</p>
-            <p>{userInfo.lastName}</p>
-            <p>{userInfo.email}</p>
-            <p>{userInfo.city}</p>
-            <p>{userInfo.state}</p>
-            <p>{userInfo.zipCode}</p>
 
+            <form
+                className="flex flex-col h-96 items-center justify-center w-full">
+                        <h1 className="text-2xl text-base-200">Account Information</h1>
 
+                <input
+                    readOnly
+                    id="accountReadOnlyFName"
+                    placeholder="First Name"
+                    className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                    value={userInfo.firstName ? userInfo.firstName : ''} />
 
-                <button className="btn btn-info">edit</button>
+                <input
+                    readOnly
+                    id="accountReadOnlyLName"
+                    placeholder="Last Name"
+                    className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                    value={userInfo.lastName ? userInfo.lastName : ''} />
 
-            </>
+                <input
+                    readOnly
+                    id="accountReadOnlyEmail"
+                    placeholder="Email"
+                    className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                    value={userInfo.email ? userInfo.email : ''} />
+
+                <input
+                    readOnly
+                    id="accountReadOnlyCity"
+                    placeholder="City"
+                    className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                    value={userInfo.city ? userInfo.city : ''} />
+
+                <input
+                    readOnly id="accountReadOnlyState"
+                    placeholder="State"
+                    className="input bg-base-200 opacity-95 focus-within:bg-base-100  flex items-center m-1"
+                    value={userInfo.state ? userInfo.state : ''} />
+                <input
+                    readOnly
+                    id="accountReadOnlyZipCode"
+                    placeholder="Zip Code"
+                    className="input bg-base-200 opacity-95 focus-within:bg-base-100 flex items-center m-1"
+                    value={userInfo.zipCode ? userInfo.zipCode : ''} />
+
+                <button
+                    id="accountEditBtn"
+                    className="btn opacity-95 border-base-300 m-1 border-2 hover:bg-base-100 bg-base-200 w-2/3 rounded-lg grid h-10 place-items-center"
+                    onClick={(e) => onEditClick(e)}>edit</button>
+
+            </form>
 
     )
 }

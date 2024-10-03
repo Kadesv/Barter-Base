@@ -10,7 +10,7 @@ export function dateFormat(rawValue) {
 
   hours = hours % 12 || 12; // Convert to 12-hour format and handle midnight as 12
 
-  const paddedHours = hours.toString().padStart(2, '0');
+  const paddedHours = hours.toString().padStart(2, '');
 
   return `${month}/${day}/${year} ${paddedHours}:${minutes}${ampm}`;
 }
