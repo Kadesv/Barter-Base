@@ -21,12 +21,12 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
     };
 
     return (
-        <div className="m-3 flex justify-center w-full">
+        <div className="m-3 flex  justify-center w-full">
             <div
                 onClick={() => document.getElementById(`model-popup${post.postId}`).showModal()}
                 className="card card-normal hover:scale-105 w-5/6 lg:min-h-96 items-center ease-in-out duration-300 bg-base-100 shadow-xl flex content-between object-contain rounded-lg">
                 <figure
-                    className={`flex justify-center w-full h-full rounded overflow-x-clip ${isWide ? '' : 'w-full'}`}
+                    className={` justify-center flex w-full h-full rounded overflow-x-clip ${isWide ? '' : 'w-full'}`}
                 >
                     <img
                         src={post.image[0]}

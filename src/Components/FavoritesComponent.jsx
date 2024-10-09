@@ -13,7 +13,7 @@ export default function FavoritesComponent({ authUser, categories, favorites, se
     await axios.post(`/api/posts/favorite/${postId}`);
   }
 
-  const favMap = favorites.map(({ post, postId, post: { title } }) => {
+  const favMap = favorites.map(({ post, postId }) => {
     return (
       <div key={postId + 'favorite'} className=" bg-base-100 my-2 shadow-lg rounded-xl flex flex-row p-0 h-40">
         <figure >
@@ -26,7 +26,7 @@ export default function FavoritesComponent({ authUser, categories, favorites, se
           />
         </figure>
         <section className="flex flex-col">
-          <h4 className="card-title" >{title}</h4>
+          <h4 className="card-title" >{post.title}</h4>
           <div className="card-actions ">
             <PostModal post={post} categories={categories} location={'sideComponent'}/>
             <LikeButton authUser={authUser} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />

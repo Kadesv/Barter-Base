@@ -1,8 +1,8 @@
 export default function ChatRoomList({ chatRooms, user }) {
 
-    const handleDelete = (e) => {
+    const handleDelete = async (e) => {
         e.preventDefault();
-            
+        await axios.put('/api/chat/delete')
     }
 
     return(chatRooms.map(({ chatId, user1Id, user2Name, user1Name }) => {
@@ -13,7 +13,7 @@ export default function ChatRoomList({ chatRooms, user }) {
                     <div
                         className="dropdown flex content-center dropdown-bottom dropdown-end">
                         <button
-                            className=" text-white bg-transparent opacity-50 hover:opacity-100 max-w-min rounded-xs bg-base-100 "
+                            className=" text-white  bg-transparent opacity-50 hover:opacity-100 max-w-min rounded-xs bg-base-100 "
                             tabIndex={0}
                             role="button">
                             <svg

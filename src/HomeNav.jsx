@@ -73,19 +73,6 @@ export default function HomeNav({ props }) {
     setShowFavorites(false)
     setShowPost(false)
   }
-  const AccountLink = () => {
-    return (
-      authUser ?
-        <>
-          <a href='/account'>Account</a>
-        </>
-        :
-        <>
-
-          <a href='/signIn'>Account</a>
-        </>
-    )
-  }
 
   return (
     <>
@@ -97,9 +84,8 @@ export default function HomeNav({ props }) {
             </button>
 
             <ul tabIndex={0} className="menu menu-sm bg-base-200 dropdown-content mt-3 z-[1] p-2 shadow  rounded-box w-52">
-              <li><a href='/'>Homepage</a></li>
+              <li><a href='/'>Home</a></li>
               <li><a href={authUser ? "/account" : "/signIn"} >Account</a></li>
-              <li><a href='/favorites'>Favorites</a></li>
               <LogButton handleLogOut={(e) => handleLogout(e)} authUser={authUser} />
               {/* <li><a href='/about'>About</a></li> */}
             </ul>

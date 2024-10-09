@@ -6,7 +6,7 @@ export default function LogButton({ authUser, handleLogOut }) {
       </li>
       :
       <li>
-        <button as="a"onClick={handleLogOut}>Logout</button>
+        <button onClick={handleLogOut}>Logout</button>
       </li>
   );
 }
