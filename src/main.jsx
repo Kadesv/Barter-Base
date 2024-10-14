@@ -4,12 +4,16 @@ import App from './App.jsx';
 import io from "socket.io-client";
 import './index.css';
 
+// Socket connection initialization
 export const socket = io("localhost:3000", {
   transports: ["websocket"],
 });
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement);
+
+root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

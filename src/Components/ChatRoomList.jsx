@@ -1,11 +1,13 @@
+import axios from "axios";
 export default function ChatRoomList({ chatRooms, user }) {
-
-    const handleDelete = async (e) => {
+    console.log(chatRooms)
+    const handleDelete = async (e, { chatId }) => {
         e.preventDefault();
-        await axios.put('/api/chat/delete')
+        console.log(chatId)
+        await axios.put(`/api/chat/delete/${chatId}` )
     }
 
-    return(chatRooms.map(({ chatId, user1Id, user2Name, user1Name }) => {
+    return (chatRooms.map(({ chatId, user1Id, user2Id, user2Name, user1Name, user1DelDate, user2DelDate }) => {
         return (
             <div key={chatId} className=" bg-base-300 my-1 w-4/5 rounded-xl ">
                 <div className="btn btn-ghost btn-sm justify-between card-title   ">
@@ -24,9 +26,9 @@ export default function ChatRoomList({ chatRooms, user }) {
                                     d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
                             </svg>
                         </button>
-                        <ul tabIndex={0} className=" bg-transparent dropdown-content p-0 z-[1]  mt-3 shadow  rounded-box ">
-                            <li><p 
-                                onClick={(e) => handleDelete(e)}>delete</p></li>
+                        <ul tabIndex={0} className=" bg-base-200 dropdown-content p-0 z-[1]  mt-3 shadow  rounded-box ">
+                            <li><p
+                                onClick={(e) => handleDelete(e, { chatId, user1DelDate, user2DelDate, user1Id, user2Id })}>delete</p></li>
 
                         </ul>
                     </div>

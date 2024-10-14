@@ -51,6 +51,7 @@ const router = createBrowserRouter(
         element={<MessagePage />}
         loader={async ({ params }) => {
           const res = await axios.get(`/api/chat/${params.chatId}`);
+          console.log(res.data)
           return res.data
         }}
       />
