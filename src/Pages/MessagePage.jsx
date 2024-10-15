@@ -11,6 +11,8 @@ export default function MessagePage() {
   const [messageList, setMessageList] = useState(chatMessages); // Message list state
   const [messageInput, setMessageInput] = useState(""); // Input message state
   const { authUser } = useOutletContext();
+  const [isVisible, setIsVisible] = useState(true); // State to control input visibility
+  const [lastScrollTop, setLastScrollTop] = useState(0); // Track last scroll position
 
   // Handle new message submission
   const handleNewChat = async (e) => {
@@ -36,7 +38,36 @@ export default function MessagePage() {
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;  // Scroll to bottom after messages update
     }
-  }, [messageList]); // Trigger when messageList changes (new message arrives)
+  }, [messageList]);
+
+  // Handle scroll behavior to show/hide input field based on scroll direction
+  useEffect(() => {
+    const chatContainer = chatContainerRef.current;
+    
+    const handleScroll = () => {
+      const scrollTop = chatContainer.scrollTop;
+
+      if (scrollTop > lastScrollTop) {
+        // User is scrolling down
+        setIsVisible(true);  // Show input
+      } else if (scrollTop < lastScrollTop) {
+        // User is scrolling up
+        setIsVisible(false); // Hide input
+      }
+
+      setLastScrollTop(scrollTop); // Update last scroll position
+    };
+
+    if (chatContainer) {
+      chatContainer.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (chatContainer) {
+        chatContainer.removeEventListener("scroll", handleScroll); // Clean up event listener on component unmount
+      }
+    };
+  }, [lastScrollTop]);
 
   // Fetch initial chat messages when chatInfo changes
   useEffect(() => {
@@ -70,7 +101,6 @@ export default function MessagePage() {
     };
   }, [chatInfo.chatId]);
 
-
   // Render chat messages from messageList
   const chatMap = messageList.map((chatMessage) => (
     <div key={chatMessage.messageId + "-messageKey"} className={chatMessage.userId === userId ? "chat m-2 chat-start" : "chat m-2 chat-end"}>
@@ -83,7 +113,7 @@ export default function MessagePage() {
         ) : (
           <>
             <time className="text-xs text-base-100">{dateFormat(chatMessage.createdAt)}</time>
-            <div className="text-lg text-base-100">{chatMessage.userId === chatInfo.user1Id ? chatInfo.user1Id : chatInfo.user2Name}</div>
+            <div className="text-lg text-base-100">{chatMessage.userId === chatInfo.user1Id ? chatInfo.user1Name : chatInfo.user2Name}</div>
           </>
         )}
       </div>
@@ -92,11 +122,11 @@ export default function MessagePage() {
   ));
 
   return (
-    <div className="flex flex-col w-full h-screen relative">
-      <div className="flex-grow overflow-y-auto p-4 mb-12" ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
+    <div className="flex flex-col w-full max-h-screen min-h-full relative">
+      <div className={`flex-grow overflow-y-auto scroll-smooth p-4 mt-2 h-full ${isVisible ? "mb-8" : "mb-0"} `} ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
         {chatMap} {/* Render messages */}
       </div>
-      <form className="z-10 w-full fixed bottom-2 " onSubmit={handleNewChat}>
+      <form className={`z-10 w-full fixed bottom-2 bg-transparent transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`} onSubmit={handleNewChat}>
         <label className={`flex input input-bordered items-center mx-3 `}>
           <input
             className="w-full"
