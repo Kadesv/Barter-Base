@@ -5,7 +5,11 @@ export default {
     './src/**/*.{js,ts,jsx,tsx}', // Path to all source files that use Tailwind classes
   ],
   theme: {
-    extend: {}, // Extend Tailwind's default theme (optional)
+    extend: {
+      fontFamily: {
+        aerospace: ['Aerospace Bold', 'sans-serif'],
+      },
+    }, // Extend Tailwind's default theme (optional)
   },
   plugins: [require('daisyui')], // DaisyUI plugin for Tailwind
   daisyui: {

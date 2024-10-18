@@ -17,10 +17,10 @@ export function MessageSellerForm({ post, authUser, location }) {
   };
 
   return (
-    <div className="collapse bg-base-200 mt-3">
+    <div className="collapse bg-base-300 mt-3">
       <input 
       id={'dropDownInput' + `${location === 'sideComponent'? 'side': ''}` +post.postId + 'component'} type="checkbox" />
-      <div className="collapse-title ">
+      <div className="collapse-title bg-base-300 ">
         Message Seller
       </div>
 
