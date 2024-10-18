@@ -24,7 +24,7 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
         <div className="m-3 flex  justify-center w-full">
             <div
                 onClick={() => document.getElementById(`model-popup${post.postId}`).showModal()}
-                className="card card-normal border-4 border-gray-700 transition-all duration-300 w-5/6 lg:min-h-96 items-center ease-in-out  bg-base-100 shadow-black shadow-xl hover:shadow-2xl flex content-between object-contain rounded-lg">
+                className="card card-normal border-4 border-gray-700 w-5/6 lg:min-h-96 items-center ease-in-out transition-all duration-300 bg-base-100 shadow-black shadow-xl hover:shadow-2xl hover:shadow-black flex content-between object-contain rounded-lg">
                 <figure
                     className={` justify-center flex w-full h-full rounded overflow-x-clip ${isWide ? '' : 'w-full'}`}
                 >
