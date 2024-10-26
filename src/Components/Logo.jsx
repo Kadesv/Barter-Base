@@ -3,7 +3,7 @@ const Logo = () => {
       <>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-        className=" w-full h-full hover:scale-105 transition-all duration-150"
+        className=" h-20  hover:scale-105 transition-all duration-150"
           viewBox="80 150 200 100"
         >
           <defs>

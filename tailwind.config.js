@@ -1,20 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './index.html', // Path to your HTML file(s)
-    './src/**/*.{js,ts,jsx,tsx}', // Path to all source files that use Tailwind classes
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}', 
   ],
   theme: {
     extend: {
       fontFamily: {
         aerospace: ['Aerospace Bold', 'sans-serif'],
       },
-    }, // Extend Tailwind's default theme (optional)
+    }, 
   },
-  plugins: [require('daisyui')], // DaisyUI plugin for Tailwind
+  plugins: [require('daisyui')], 
   daisyui: {
     themes: [
-      'dark', // Add predefined DaisyUI themes here
+      'dark', 
       'light',
       'cupcake',
       'emerald',

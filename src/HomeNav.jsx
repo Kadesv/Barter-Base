@@ -76,7 +76,6 @@ export default function HomeNav({ props }) {
   }
 
   return (
-    <>
       <nav className="navbar bg-base-300 sticky w-full top-0 z-20">
         <section className="navbar-start">
           <article className="dropdown">
@@ -97,8 +96,6 @@ export default function HomeNav({ props }) {
             <Logo/>
           </a>
         </button>
-
-
 
         <section className="navbar-end">
           <section style={{ height: '60px', width: '60px' }} className="drawer z-10 drawer-end fixed right-0">
@@ -157,6 +154,5 @@ export default function HomeNav({ props }) {
           </section>
         </section>
       </nav>
-    </>
   );
 }

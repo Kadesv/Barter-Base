@@ -6,34 +6,45 @@ import axios from "axios";
 
 export function PostCard({ post, categories, favorites, authUser, setFavorites }) {
     const navigate = useNavigate();
-    const [isWide, setIsWide] = useState(false);
-    const [imageLoaded, setImageLoaded] = useState(false)
-    const backupLink = "https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FYour%20paragraph%20text%20(1).png?alt=media&token=776ac434-702f-456a-b0f0-15eb6f388e1a"
+    const [isWide] = useState(false); // Removed unused setter
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const backupLink = "https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FYour%20paragraph%20text%20(1).png?alt=media&token=776ac434-702f-456a-b0f0-15eb6f388e1a";
 
     const handleFavorite = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
+
         if (!authUser) {
             navigate('/signIn');
         } else {
-            const res = await axios.post(`/api/posts/favorite/${post.postId}`);
-            setFavorites(res.data);
+            try {
+                const res = await axios.post(`/api/posts/favorite/${post.postId}`);
+                setFavorites(res.data);
+            } catch (error) {
+                console.error("Error favoriting post", error);
+            }
+        }
+    };
+
+    const showModal = (e) => {
+        if (e.target.tagName !== "BUTTON" && e.target.tagName !== "svg") {
+            document.getElementById(`model-popup${post.postId}`).showModal();
         }
     };
 
     return (
-        <div className="m-3 flex  justify-center w-full">
+        <div className="m-3 flex justify-center w-full ">
             <div
-                onClick={() => document.getElementById(`model-popup${post.postId}`).showModal()}
-                className="card card-normal border-4 border-gray-700 w-5/6 lg:min-h-96 items-center ease-in-out transition-all duration-300 bg-base-100 shadow-black shadow-xl hover:shadow-2xl hover:shadow-black flex content-between object-contain rounded-lg">
-                <figure
-                    className={` justify-center flex w-full h-full rounded overflow-x-clip ${isWide ? '' : 'w-full'}`}
-                >
+                onClick={showModal}
+                className="card card-normal w-5/6 border-4 border-base-300 lg:min-h-96 ease-in-out tems-center transition-all duration-300 bg-base-100 shadow-black shadow-lg hover:shadow-xl hover:shadow-black flex content-between object-contain rounded-lg cursor-pointer"
+            >
+                <figure className={`justify-center border-b-4 border-base-300 flex w-full h-full rounded overflow-x-clip ${isWide ? '' : 'w-full'}`}>
                     <img
                         src={post.image[0]}
                         alt="IMAGE"
                         onLoad={() => setImageLoaded(true)}
                         onError={(e) => e.target.src !== backupLink ? e.target.src = backupLink : ''}
-                        className={`max-h-full w-full max-w-full p-1 min-h-max rounded-lg ${imageLoaded ? '': 'skeleton w-full h-full'}`}
+                        className={`max-h-full w-full max-w-full  min-h-max rounded-lg ${imageLoaded ? '' : 'skeleton w-full h-full bg-gray-300 animate-pulse'}`}
                     />
                 </figure>
 
@@ -47,7 +58,7 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
                                 {categories.find(cat => cat.categoryId === post.categoryId).subcategories.find(sub => sub.subCategoryId === post.subCategoryId).subCategoryName}
                             </span>
                         </div>
-                        <h2 className={"card-title mt-3 text-2xl max-w-full flex-wrap break-words whitespace-normal min-w-0"}> {/* Add min-w-0 here */}
+                        <h2 className="card-title mt-3 text-2xl max-w-full flex-wrap break-words whitespace-normal min-w-0">
                             {post.title}
                         </h2>
                     </div>
