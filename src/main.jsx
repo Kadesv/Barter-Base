@@ -14,6 +14,8 @@ const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <App 
+        style={{ "backgroundImage": "linear-gradient(to top, #304352 0%, #d7d2cc 100%)" }}
+    />
   </React.StrictMode>
 );

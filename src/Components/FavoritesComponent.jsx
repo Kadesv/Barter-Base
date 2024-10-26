@@ -1,17 +1,24 @@
 import axios from "axios";
 import { PostModal } from "./PostModal";
 import LikeButton from "./LikeButton";
-import ImageMap from "./ImageMap";
 
 export default function FavoritesComponent({ authUser, categories, favorites, setFavorites }) {
+console.log(favorites)
+  const handleFavorite = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  const handleFavorite = async ({ postId }) => {
-    const i = favorites.findIndex((favorite) => favorite.postId === postId);
-    const favCopy = [...favorites]
-    favCopy.splice(i, 1)
-    setFavorites(favCopy)
-    await axios.post(`/api/posts/favorite/${postId}`);
-  }
+    if (!authUser) {
+      navigate('/signIn');
+    } else {
+      try {
+        const res = await axios.post(`/api/posts/favorite/${post.postId}`);
+        setFavorites(res.data);
+      } catch (error) {
+        console.error("Error favoriting post", error);
+      }
+    }
+  };
 
   const favMap = favorites.map(({ post, postId }) => {
     return (
@@ -28,7 +35,7 @@ export default function FavoritesComponent({ authUser, categories, favorites, se
         <section className="flex flex-col">
           <h4 className="card-title" >{post.title}</h4>
           <div className="card-actions ">
-            <PostModal post={post} categories={categories} location={'sideComponent'}/>
+            <PostModal post={post} categories={categories} location={'sideComponent'} />
             <LikeButton authUser={authUser} postId={postId} favorites={favorites} handleFavorite={handleFavorite} />
           </div>
         </section>

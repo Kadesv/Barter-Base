@@ -6,7 +6,7 @@ import axios from "axios";
 
 export function PostCard({ post, categories, favorites, authUser, setFavorites }) {
     const navigate = useNavigate();
-    const [isWide] = useState(false); // Removed unused setter
+    const [isWide] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const backupLink = "https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FYour%20paragraph%20text%20(1).png?alt=media&token=776ac434-702f-456a-b0f0-15eb6f388e1a";
 
@@ -26,6 +26,12 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
         }
     };
 
+    const handleImageLoad = (e) => {
+        e.preventDefault();
+        // console.log(e.target)
+        setImageLoaded();
+    }
+
     const showModal = (e) => {
         if (e.target.tagName !== "BUTTON" && e.target.tagName !== "svg") {
             document.getElementById(`model-popup${post.postId}`).showModal();
@@ -38,13 +44,13 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
                 onClick={showModal}
                 className="card card-normal w-5/6 border-4 border-base-300 lg:min-h-96 ease-in-out tems-center transition-all duration-300 bg-base-100 shadow-black shadow-lg hover:shadow-xl hover:shadow-black flex content-between object-contain rounded-lg cursor-pointer"
             >
-                <figure className={`justify-center border-b-4 border-base-300 flex w-full h-full rounded overflow-x-clip ${isWide ? '' : 'w-full'}`}>
+                <figure className={`justify-center flex w-full h-full rounded overflow-x-clip ${isWide ? '' : ''}`}>
                     <img
                         src={post.image[0]}
                         alt="IMAGE"
-                        onLoad={() => setImageLoaded(true)}
+                        onLoad={(e) => handleImageLoad(e)}
                         onError={(e) => e.target.src !== backupLink ? e.target.src = backupLink : ''}
-                        className={`max-h-full w-full max-w-full  min-h-max rounded-lg ${imageLoaded ? '' : 'skeleton w-full h-full bg-gray-300 animate-pulse'}`}
+                        className={`max-h-full w-full  border-b-4 border-base-300 max-w-full h-full min-h-max rounded-lg ${imageLoaded ? '' : 'skeleton w-full h-full '}`}
                     />
                 </figure>
 

@@ -1,6 +1,4 @@
 export default function LikeButton({ authUser, postId, favorites, handleFavorite }) {
-  const isFavorited = favorites.find((favorite) => favorite.postId === postId);
-
   const handleClick = (e) => {
     handleFavorite(e, { postId });
   };
@@ -9,7 +7,7 @@ export default function LikeButton({ authUser, postId, favorites, handleFavorite
     <div className="w-full flex flex-row-reverse">
       {authUser ? (
         <button className="" onClick={handleClick}>
-          {isFavorited ? (
+          {favorites.find((favorite) => favorite.postId === postId) ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
