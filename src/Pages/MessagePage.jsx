@@ -122,7 +122,7 @@ export default function MessagePage() {
   ));
 
   return (
-    <div className="flex flex-col w-full max-h-screen min-h-full relative">
+    <div className="flex flex-col w-full h-screen relative">
       <div className={`flex-grow overflow-y-auto scroll-smooth p-4 mt-2 h-full ${isVisible ? "mb-8" : "mb-0"} `} ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
         {chatMap} {/* Render messages */}
       </div>

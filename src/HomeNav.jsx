@@ -77,8 +77,7 @@ export default function HomeNav({ props }) {
 
   return (
       <nav className="navbar bg-base-300 sticky w-full top-0 z-20">
-        <section className="navbar-start">
-          <article className="dropdown">
+          <div className="dropdown">
             <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">
               <svg xmlns="http://www.w3.org/2000/svg" className="size-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
             </button>
@@ -89,15 +88,14 @@ export default function HomeNav({ props }) {
               <LogButton handleLogOut={(e) => handleLogout(e)} authUser={authUser} />
               {/* <li><a href='/about'>About</a></li> */}
             </ul>
-          </article>
-        </section>
-        <button className="navbar-center">
+          </div>
+        <button className="r">
           <a href='/' className=" overflow-clip ">
             <Logo/>
           </a>
         </button>
 
-        <section className="navbar-end">
+        <section className="">
           <section style={{ height: '60px', width: '60px' }} className="drawer z-10 drawer-end fixed right-0">
             <input id="my-drawer-2" readOnly type="checkbox" className="drawer-toggle" checked={!!showDrawer} />
             <section className="drawer-content flex justify-end">
