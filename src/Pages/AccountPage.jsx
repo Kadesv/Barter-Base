@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import AccountEditableForm from "../Components/AccountEditForm.jsx";
-import NoSignAlert from "../Components/NoSignAlert.jsx";
 import PostTemplate from "../Components/PostTemplate.jsx";
 export default function AccountPage() {
   const { categories } = useOutletContext();
@@ -31,12 +30,15 @@ export default function AccountPage() {
   });
   const handleUserUpdate = async (e) => {
     e.preventDefault()
-    const res = await axios.put('/api/update', userInfo);
+     await axios.put('/api/update', userInfo);
+     setIsEditingAccount(false)
   }
 
   const handleCancelClick = (e) => {
     e.preventDefault();
 
+    setUserInfo({firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode})
+    setIsEditingAccount(false)
   }
 
   return (
@@ -48,7 +50,7 @@ export default function AccountPage() {
           {userPosts.length !== 0 ? userPosts : <h1 className="text-3xl flex justify-center text-base-200">Create A Post And It Will Appear Here!</h1>}
         </div>
         <div className="flex fixed top-20 right-10 w-1/3 rounded-xl justify-center">
-        <AccountEditableForm isEditingAccount={isEditingAccount}  setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
+        <AccountEditableForm isEditingAccount={isEditingAccount}  onAccSaveClick={handleUserUpdate} onAccCancelClick={handleCancelClick} setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>
     </>

@@ -46,7 +46,8 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
     };
 
     return (
-        <div className='m-3 flex h-full w-full justify-center '>
+        <div className='m-3 flex h-full w-full justify-center '
+        >
             <div
                 onClick={showModal}
                 className='card card-normal border-4 border-base-300 w-full h-fit ease-in-out transition-all duration-300 bg-base-100 shadow-black shadow-lg hover:shadow-xl hover:shadow-black flex rounded-lg cursor-pointer'
@@ -61,7 +62,7 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
                         className={`${imageLoaded ? '' : 'skeleton h-full'} w-full border-b-4 border-base-300`}
                     />
                 </figure>
-
+            
                 <div className='flex flex-col w-full justify-between px-2 m-1'>
                     <div className='flex flex-col justify-between'>
                         <div className='flex flex-row min-w-0 gap-1'>
