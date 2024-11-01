@@ -22,10 +22,6 @@ Image.init(
     imageName: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    imageData: {
-        type: DataTypes.BLOB('long'),
-        allowNull: false
     }, 
     postId: {
         type: DataTypes.INTEGER,

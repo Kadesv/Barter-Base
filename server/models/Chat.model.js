@@ -28,6 +28,14 @@ Chat.init(
     user2Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    user1DelDate: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    user2DelDate: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   },
   {

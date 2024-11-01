@@ -235,7 +235,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
                                 <button
                                     id={`deleteBtn ${initialData.postId}`}
-                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  btn-danger "
+                                    className="btn opacity-95 border-base-300 w-1/3 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  "
                                     onClick={(e) => { handleDeletePost(e, initialData.postId) }}>
                                     delete
                                 </button>
@@ -251,7 +251,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
                                 </button>
                                 <button
                                     id={`deleteBtnReadOnly ${initialData.postId}`}
-                                    className="btn opacity-95 border-base-300 w-1/2 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item  btn-danger"
+                                    className="btn opacity-95 border-base-300 w-1/2 border-2 hover:bg-base-100 bg-base-200 col-span-2 rounded-lg grid h-10 place-items-center join-item "
                                     onClick={(e) => { handleDeletePost(e, postInfo.postId) }}
                                 >
                                     delete

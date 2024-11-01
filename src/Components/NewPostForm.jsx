@@ -135,7 +135,6 @@ export default function NewPostForm({ categories, authUser, setShowPost }) {
                         id="contextInput"
                         disabled={!authUser}
                         maxLength={250}
-
                         className="textarea textarea-md my-2 textarea-bordered w-full max-w-xs"
                         placeholder="Details"
                         value={context}
