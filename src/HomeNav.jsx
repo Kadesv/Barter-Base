@@ -3,6 +3,7 @@ import NewPostForm from './Components/NewPostForm.jsx';
 import ChatRoomList from './Components/ChatRoomList.jsx';
 import NoSignAlert from './Components/NoSignAlert.jsx';
 import axios from 'axios';
+import TabComponent from './Components/TabComponent.jsx';
 import Logo from './Components/Logo.jsx';
 import { useNavigate } from 'react-router-dom';
 import LogButton from './Components/LogButton.jsx';
@@ -86,7 +87,6 @@ export default function HomeNav({ props }) {
       <section className='nav-center gap-3'>
       <LogButton handleLogOut={(e) => handleLogout(e)} authUser={authUser} />
       </section>
-      <section className="">
         <section style={{ height: '60px', width: '60px' }} className="drawer z-10 drawer-end fixed right-0">
           <input id="my-drawer-2" readOnly type="checkbox" className="drawer-toggle" checked={!!showDrawer} />
           <section className="drawer-content flex justify-end">
@@ -115,11 +115,7 @@ export default function HomeNav({ props }) {
             <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => { closeAllClick() }} className="drawer-overlay"></label>
             <section className="menu flex items-center bg-base-200 p-4 w-80 min-h-full text-base-content">
               {/* Sidebar content here */}
-              <div className='tabs tabs-bordered'>
-                <button onClick={() => { onFavoriteClick() }} className={showFavorites ? 'tab tab-active' : 'tab'}>Favorites</button>
-                <button onClick={() => { onNewPostClick() }} className={showPost ? 'tab tab-active' : 'tab'}>New Post</button>
-                <button onClick={() => { onChatClick() }} className={showChat ? 'tab tab-active' : 'tab'}>Chats</button>
-              </div>
+             <TabComponent onFavoriteClick={onFavoriteClick} onNewPostClick={onNewPostClick} onChatClick={onChatClick} showFavorites={showFavorites} showPost={showPost} showChat={showChat}/>
               {showFavorites ?
                 <FavoritesComponent authUser={authUser} setFavorites={setFavorites} favorites={favorites} categories={categories} />
                 : null
@@ -141,7 +137,6 @@ export default function HomeNav({ props }) {
             </section>
           </section>
         </section>
-      </section>
     </nav>
   );
 }
