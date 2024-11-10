@@ -77,10 +77,10 @@ export default function HomeNav({ props }) {
   }
 
   return (
-    <nav className="navbar bg-base-300 sticky w-full top-0 z-20">
+    <nav className="navbar bg-base-300 sticky h-20 w-full top-0 z-20">
 
-      <button className="r">
-        <a href='/' className=" overflow-clip ">
+      <button className="">
+        <a href='/' className="overflow-clip ">
           <Logo/>
         </a>
       </button>
