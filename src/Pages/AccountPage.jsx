@@ -49,7 +49,7 @@ export default function AccountPage() {
         <h2 className="text-3xl flex justify-center text-base-200">Posts</h2>
           {userPosts.length !== 0 ? userPosts : <h1 className="text-3xl flex justify-center text-base-200">Create A Post And It Will Appear Here!</h1>}
         </div>
-        <div className="flex fixed top-20 right-10 w-1/3 rounded-xl justify-center">
+        <div className="flex fixed top-24 right-10 w-fit h-5/6 rounded-xl justify-center">
         <AccountEditableForm isEditingAccount={isEditingAccount}  onAccSaveClick={handleUserUpdate} onAccCancelClick={handleCancelClick} setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>

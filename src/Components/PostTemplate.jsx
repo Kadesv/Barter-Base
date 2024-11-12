@@ -112,7 +112,7 @@ export default function PostTemplate({ initialData, user, initialIsEditing, cate
 
                     <div className="col-span-1" >
 
-                        <figure className="carousel w-full">
+                        <figure className="carousel w-fit">
                             <ImageMap images={postInfo.image} user={user} userId={initialData.userId} handleDeleteImage={handleDeleteImage} isEditing={isEditing} />
                         </figure>
 
