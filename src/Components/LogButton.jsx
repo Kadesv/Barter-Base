@@ -33,7 +33,7 @@ export default function LogButton({ authUser, setAuthUser, setChatRooms, setFavo
     ) : (
       <>
         <button
-          className={`${isLoading ? 'underline-animation' : ''} text-sm transition-all duration-150 bg-transparent hover:text-base flex items-center`}
+          className={`${isLoading ? '':'underline-animation'} text-sm transition-all duration-150 bg-transparent hover:text-base flex items-center`}
           onClick={handleLogout}
           disabled={isLoading} // Disable button during loading
         >
