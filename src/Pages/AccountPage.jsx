@@ -7,13 +7,10 @@ export default function AccountPage() {
   const { categories } = useOutletContext();
   const { user } = useLoaderData();
   const [showAccount, setShowAccount] = useState(true)
-  const [isEditingAccount, setIsEditingAccount] = useState(false)
   const [showPosts, setShowPosts] = useState(false)
+  const [isEditingAccount, setIsEditingAccount] = useState(false)
   const navigate = useNavigate()
-
-  if (user === undefined) {
-    navigate('/')
-  }
+  
   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
 
   const userPosts = user.posts.map(({ userId, image, postId, title, context, createdDate, price, categoryId, subCategoryId }) => {

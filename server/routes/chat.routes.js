@@ -1,10 +1,20 @@
 import { Router } from "express";
 import { User, Chat, Message } from '../models/index.js';
 import { Op } from "sequelize";
-const chatRouter = Router()
+const chatRouter = Router();
 
-//create new chat
-chatRouter.post('/new', async (req, res) => {
+// Authentication middleware
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.userId) {
+    return next();
+  }
+  res.status(401).json({ message: "Unauthorized" });
+}
+
+// Protect each route using isAuthenticated
+
+// Create new chat
+chatRouter.post('/new', isAuthenticated, async (req, res) => {
   const { userId } = req.session;
   const { message, postOwner } = req.body;
 
@@ -12,18 +22,15 @@ chatRouter.post('/new', async (req, res) => {
     where: {
       [Op.or]: [{ user1Id: userId, user2Id: postOwner.userId }, { user1Id: postOwner.userId, user2Id: userId }],
     }
-  })
+  });
   if (checkForChat) {
     const newMessage = await Message.create({
       chatId: checkForChat.chatId,
       userId: userId,
       messageText: message
-    })
-    if (checkForChat && newMessage) {
-      res.json({
-        success: true,
-        newMessage
-      })
+    });
+    if (newMessage) {
+      res.json({ success: true, newMessage });
     }
   } else {
     const findUser = await User.findByPk(userId);
@@ -32,116 +39,86 @@ chatRouter.post('/new', async (req, res) => {
       user1Id: userId,
       user2Name: postOwner.firstName,
       user2Id: postOwner.userId
-    })
+    });
     const newMessage = await Message.create({
       chatId: newChat.chatId,
       userId: userId,
       messageText: message
-    })
+    });
 
     if (newChat && newMessage) {
-      res.json({
-        success: true,
-        newChat,
-        newMessage
-      })
+      res.json({ success: true, newChat, newMessage });
     }
   }
 });
 
-//delete message/s
-chatRouter.put('/delete/:chatId', async (req, res) => {
-  const { userId } = req.session
-  const { chatId, user1DelDate, user2DelDate, user1Id, user2Id } = req.params
+// Delete message(s)
+chatRouter.put('/delete/:chatId', isAuthenticated, async (req, res) => {
+  const { userId } = req.session;
+  const { chatId, user1DelDate, user2DelDate, user1Id, user2Id } = req.params;
   const newDate = new Date();
 
   if (userId === user1Id) {
-    await Chat.update({ user1DelDate: newDate }, {
-      where: {
-        chatId
-      }
-    })
+    await Chat.update({ user1DelDate: newDate }, { where: { chatId } });
 
     if (user2DelDate !== null) {
-      //delete data if the other user already deleted chat data
       await Message.destroy({
-        where: {
-          createdAt: { [Op.lt]: { user2DelDate } }
-        }
-      })
+        where: { createdAt: { [Op.lt]: user2DelDate } }
+      });
     }
 
-    res.json({ success: true })
-  } else if (user2Id === userId) {
-    await Chat.update({ user2DelDate: newDate }, {
-      where: {
-        chatId
-      }
-    })
-  }
-  if (user1DelDate !== null) {
-    //delete data if the other user already deleted chat data
-    await Message.destroy({
-      where: {
-        createdAt: { [Op.lt]: { user1DelDate } }
-      }
-    })
-  }
-  res.json({ success: true })
+    res.json({ success: true });
+  } else if (userId === user2Id) {
+    await Chat.update({ user2DelDate: newDate }, { where: { chatId } });
+    
+    if (user1DelDate !== null) {
+      await Message.destroy({
+        where: { createdAt: { [Op.lt]: user1DelDate } }
+      });
+    }
 
-})
+    res.json({ success: true });
+  } else {
+    res.status(403).json({ message: "Forbidden" });
+  }
+});
 
-//open chat page
-chatRouter.get('/:chatId', async (req, res) => {
+// Open chat page
+chatRouter.get('/:chatId', isAuthenticated, async (req, res) => {
   const { chatId } = req.params;
   const { userId } = req.session;
 
-  // retrieve the chat to access the deletedDate
   const chatInfo = await Chat.findByPk(chatId);
   if (!chatInfo) {
     return res.status(404).json({ error: 'Chat not found' });
   }
-  //find the last deleted date of the session user
 
   const userDelDate = chatInfo.user1Id === userId ? chatInfo.user1DelDate : chatInfo.user2DelDate;
-  //find the messages after the deletedDate
 
-  if (userDelDate !== null) {
-    const chatMessages = await Message.findAll({
-      where: {
-        chatId: chatId,
-        createdAt: {
-          [Op.gt]: userDelDate // Only include messages after the deleted date
-        }
-      }
-    });
+  const chatMessages = await Message.findAll({
+    where: {
+      chatId: chatId,
+      ...(userDelDate ? { createdAt: { [Op.gt]: userDelDate } } : {})
+    }
+  });
 
-    res.json({ chatInfo, chatMessages, userId })
-  } else {
-
-    const chatMessages = await Message.findAll({
-      where: {
-        chatId: chatId
-      }
-    });
-    res.json({ chatInfo, chatMessages, userId });
-  }
+  res.json({ chatInfo, chatMessages, userId });
 });
 
-
-//send message
-chatRouter.post('/msg', async (req, res) => {
+// Send message
+chatRouter.post('/msg', isAuthenticated, async (req, res) => {
   const { chatId, messageInput } = req.body;
-  const { userId } = req.session
-  console.log('hit')
+  const { userId } = req.session;
+
   const newMessage = await Message.create({
     chatId: chatId,
     userId: userId,
     messageText: messageInput
-  })
+  });
+  
   if (newMessage) {
-    res.json({ success: true, newMessage })
+    res.json({ success: true, newMessage });
   }
-})
+});
 
 export default chatRouter;
