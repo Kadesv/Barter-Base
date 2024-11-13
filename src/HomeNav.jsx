@@ -16,16 +16,6 @@ export default function HomeNav({ props }) {
   const [showPost, setShowPost] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    const res = await axios.post('/api/logout');
-    if (res.data.success) {
-      setFavorites([]);
-      setChatRooms([])
-      setAuthUser(null)
-      navigate('/');
-    }
-  };
 
   const onFavoriteClick = () => {
     setShowDrawer(true)
@@ -79,14 +69,20 @@ export default function HomeNav({ props }) {
   return (
     <nav className="navbar  bg-base-300 sticky h-20 w-full top-0 z-20">
       <section className='navbar-start gap-3'>
-      <button className="">
-        <a href='/' className="overflow-clip ">
-          <Logo />
-        </a>
-      </button>
-        <LogButton handleLogOut={(e) => handleLogout(e)} authUser={authUser} />
+        <button className="">
+          <a href='/' className="overflow-clip ">
+            <Logo />
+          </a>
+        </button>
+        <LogButton
+          setFavorites={setFavorites}
+          setChatRooms={setChatRooms}
+          setAuthUser={setAuthUser}
+          authUser={authUser}
+        />
+
       </section>
-      <section  className="drawer z-10 drawer-end">
+      <section className="drawer z-10 drawer-end">
         <input id="my-drawer-2" readOnly type="checkbox" className="drawer-toggle" checked={!!showDrawer} />
         <section className="drawer-content flex justify-end">
 
