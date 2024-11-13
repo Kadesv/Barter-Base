@@ -56,10 +56,10 @@ export function PostCard({ post, categories, favorites, authUser, setFavorites }
                 <div className='flex flex-col w-full justify-between px-2 m-1'>
                     <div className='flex flex-col justify-between'>
                         <div className='flex flex-row min-w-0 gap-1'>
-                            <span data-tip="Sub-Category" className='badge lg:tooltip lg:tooltip-bottom bg-transparent border-transparent badge-xs'>
+                            <span data-tip="Category" className='badge lg:tooltip lg:tooltip-bottom bg-transparent border-transparent badge-xs'>
                                 {categories.find(cat => cat.categoryId === post.categoryId).categoryName}
                             </span>
-                            <span data-tip="Sub-Category" className='badge lg:tooltip lg: tooltip-bottom bg-transparent border-transparent badge-xs'>
+                            <span data-tip="Sub-Category" className='badge lg:tooltip lg:tooltip-bottom bg-transparent border-transparent badge-xs'>
                                 {categories.find(cat => cat.categoryId === post.categoryId).subcategories.find(sub => sub.subCategoryId === post.subCategoryId).subCategoryName}
                             </span>
                         </div>
