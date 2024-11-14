@@ -17,7 +17,6 @@ export const useAuth = () => {
       try {
         const res = await axios.post('/api/authCheck');
         if (res.data.success) {
-          console.log(res.data)
           setFavorites(res.data.favorites);
           setChatRooms(res.data.rooms);
           socket.emit('join_room', res.data.rooms);

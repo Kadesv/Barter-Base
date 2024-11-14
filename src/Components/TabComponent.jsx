@@ -1,33 +1,28 @@
-import { useState } from 'react';
+import NewPostForm from './NewPostForm.jsx';
+import ChatRoomList from './ChatRoomList.jsx';
+import NoSignAlert from './NoSignAlert';
+import FavoritesComponent from './FavoritesComponent.jsx';
 
-export default function TabComponent({ onFavoriteClick, onNewPostClick, onChatClick}) {
-    const [activeTab, setActiveTab] = useState('Favorites');
-
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-        if (tab === 'Favorites') onFavoriteClick();
-        if (tab === 'NewPost') onNewPostClick();
-        if (tab === 'Chats') onChatClick();
-    };
+export default function TabComponent({ activeTab, setActiveTab, onTabClick, setFavorites, favorites, authUser, setShowDrawer, chatRooms, categories }) {
 
     return (
-        <div className="relative">
+        <div className="relative w-full">
             {/* Tab Headers with Sliding Indicator */}
-            <div className="tabs tabs-bordered relative">
+            <div className="tabs tabs-bordered relative max-w-full">
                 <button
-                    onClick={() => handleTabClick('Favorites')}
+                    onClick={() => onTabClick('Favorites')}
                     className='tab text-gray-50'
                 >
                     Favorites
                 </button>
                 <button
-                    onClick={() => handleTabClick('NewPost')}
+                    onClick={() => onTabClick('NewPost')}
                     className='tab text-gray-50'
                 >
                     New Post
                 </button>
                 <button
-                    onClick={() => handleTabClick('Chats')}
+                    onClick={() => onTabClick('Chats')}
                     className='tab text-gray-50'
                 >
                     Chats
@@ -45,9 +40,18 @@ export default function TabComponent({ onFavoriteClick, onNewPostClick, onChatCl
 
             {/* Tab Content with Fade Animation */}
             <div className="mt-4 transition-opacity duration-300 ease-in-out">
-                {activeTab === 'Favorites' && <div className="fade-in"></div>}
-                {activeTab === 'NewPost' && <div className="fade-in"></div>}
-                {activeTab === 'Chats' && <div className="fade-in"></div>}
+                {activeTab === 'Favorites' && <div className="fade-in">
+                    <FavoritesComponent authUser={authUser} setFavorites={setFavorites} favorites={favorites} categories={categories} />
+                </div>}
+                {activeTab === 'NewPost' && <div className="fade-in">
+                    <NewPostForm categories={categories} authUser={authUser} setActiveTab={setActiveTab} setShowDrawer={setShowDrawer} />
+                </div>}
+                {activeTab === 'Chats' && <div className="fade-in">
+                    <ChatRoomList chatRooms={chatRooms} user={authUser} />
+                </div>}
+                {!authUser && <div className="fade-in">
+                    <NoSignAlert />
+                </div>}
             </div>
         </div>
     );
