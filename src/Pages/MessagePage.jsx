@@ -1,7 +1,7 @@
 import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import axios from "axios";
-import { socket } from "../main";
+import { socket } from "../socket";
 import { dateFormat } from "../Components/dateFormat";
 
 export default function MessagePage() {
@@ -17,6 +17,12 @@ export default function MessagePage() {
   // Handle new message submission
   const handleNewChat = async (e) => {
     e.preventDefault();
+    console.log("Socket connected status in handleNewChat:", socket.connected); // Check connection status
+    if (!socket.connected) {
+      console.warn("Socket is not connected, unable to send message.");
+      return;
+    }
+
     if (messageInput === "") return;
 
     const chatObj = {
@@ -24,12 +30,16 @@ export default function MessagePage() {
       messageInput,
     };
 
-    const res = await axios.post(`/api/chat/msg`, chatObj);
-    if (res.data.success) {
-      socket.emit("send_message", res.data.newMessage); // Emit new message via socket
+    try {
+      const res = await axios.post(`/api/chat/msg`, chatObj);
+      if (res.data.success) {
+        socket.emit("send_message", res.data.newMessage);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
 
-    setMessageInput(""); // Clear input after sending message
+    setMessageInput("");
   };
 
   // Scroll to the bottom when a new message is received or when the messageList changes
@@ -40,10 +50,34 @@ export default function MessagePage() {
     }
   }, [messageList]);
 
+  // Check connection to socket and reconnect if needed
+  useEffect(() => {
+    if (socket.connected) {
+      console.log("Socket is connected:", socket.id);
+    } else {
+      console.log("Socket is not connected. Attempting to reconnect...");
+      socket.connect(); // Manually attempt to reconnect
+    }
+
+    // Log connection events for debugging
+    socket.on("connect", () => {
+      console.log("Connected to Socket.IO server in MessagePage:", socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from Socket.IO server");
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+    };
+  }, []);
+
   // Handle scroll behavior to show/hide input field based on scroll direction
   useEffect(() => {
     const chatContainer = chatContainerRef.current;
-    
+
     const handleScroll = () => {
       const scrollTop = chatContainer.scrollTop;
 

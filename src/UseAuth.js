@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { socket } from './main';
+import { socket } from './socket';
 
 export const useAuth = () => {
   const [authUser, setAuthUser] = useState(null);
@@ -23,7 +23,9 @@ export const useAuth = () => {
           setAuthUser(res.data.user);
         }
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        if (error.response?.status !== 401) {
+          console.error("Error fetching user info:", error);
+        }
       } finally {
         clearTimeout(loadingTimeout); // Clear timeout if fetch completes quickly
         setLoading(false);

@@ -1,15 +1,13 @@
 import axios from "axios";
 export default function ChatRoomList({ chatRooms, user }) {
-    console.log(chatRooms)
     const handleDelete = async (e, { chatId }) => {
         e.preventDefault();
-        console.log(chatId)
         await axios.put(`/api/chat/delete/${chatId}` )
     }
 
     return (chatRooms.map(({ chatId, user1Id, user2Id, user2Name, user1Name, user1DelDate, user2DelDate }) => {
         return (
-            <div key={chatId} className=" bg-base-300 my-1 w-4/5 rounded-xl ">
+            <div key={chatId} className=" bg-base-300 my-1 w-full rounded-xl ">
                 <div className="btn btn-ghost btn-sm justify-between card-title   ">
                     <a className="flex flex-grow" href={`/chats/${chatId}`}>{user.userId === user1Id ? user2Name : user1Name}</a>
                     <div

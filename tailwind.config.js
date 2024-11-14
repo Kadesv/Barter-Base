@@ -9,9 +9,43 @@ export default {
       fontFamily: {
         aerospace: ['Aerospace Bold', 'sans-serif'],
       },
-    }, 
+      // Define the custom utility here
+      animation: {
+        'underline-animation': 'underline-slide-in 0.3s ease-out forwards',
+      },
+      keyframes: {
+        'underline-slide-in': {
+          '0%': { width: '0' },
+          '100%': { width: '100%' },
+        },
+      },
+    },
   },
-  plugins: [require('daisyui')], 
+  plugins: [
+    require('daisyui'),
+    function ({ addComponents }) {
+      addComponents({
+        '.underline-animation': {
+          position: 'relative',
+          display: 'inline-block',
+          overflow: 'hidden',
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            left: '0',
+            bottom: '0',
+            width: '0',
+            height: '2px', // Adjust height for underline thickness
+            backgroundColor: 'currentColor',
+            transition: 'width 0.3s ease-out',
+          },
+          '&:hover::after': {
+            width: '100%',
+          },
+        },
+      });
+    },
+  ],
   daisyui: {
     themes: [
       'dark', 

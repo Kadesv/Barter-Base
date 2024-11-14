@@ -7,13 +7,10 @@ export default function AccountPage() {
   const { categories } = useOutletContext();
   const { user } = useLoaderData();
   const [showAccount, setShowAccount] = useState(true)
-  const [isEditingAccount, setIsEditingAccount] = useState(false)
   const [showPosts, setShowPosts] = useState(false)
+  const [isEditingAccount, setIsEditingAccount] = useState(true)
   const navigate = useNavigate()
-
-  if (user === undefined) {
-    navigate('/')
-  }
+  
   const [userInfo, setUserInfo] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email, state: user.state, city: user.city, zipCode: user.zipCode })
 
   const userPosts = user.posts.map(({ userId, image, postId, title, context, createdDate, price, categoryId, subCategoryId }) => {
@@ -49,7 +46,7 @@ export default function AccountPage() {
         <h2 className="text-3xl flex justify-center text-base-200">Posts</h2>
           {userPosts.length !== 0 ? userPosts : <h1 className="text-3xl flex justify-center text-base-200">Create A Post And It Will Appear Here!</h1>}
         </div>
-        <div className="flex fixed top-20 right-10 w-1/3 rounded-xl justify-center">
+        <div className="flex fixed top-24 right-10 w-fit h-4/5 rounded-xl justify-center">
         <AccountEditableForm isEditingAccount={isEditingAccount}  onAccSaveClick={handleUserUpdate} onAccCancelClick={handleCancelClick} setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>
