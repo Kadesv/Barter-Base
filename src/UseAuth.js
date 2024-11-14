@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { socket } from './main';
+import { socket } from './socket';
 
 export const useAuth = () => {
   const [authUser, setAuthUser] = useState(null);
@@ -17,13 +17,16 @@ export const useAuth = () => {
       try {
         const res = await axios.post('/api/authCheck');
         if (res.data.success) {
+          console.log(res.data)
           setFavorites(res.data.favorites);
           setChatRooms(res.data.rooms);
           socket.emit('join_room', res.data.rooms);
           setAuthUser(res.data.user);
         }
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        if (error.response?.status !== 401) {
+          console.error("Error fetching user info:", error);
+        }
       } finally {
         clearTimeout(loadingTimeout); // Clear timeout if fetch completes quickly
         setLoading(false);
