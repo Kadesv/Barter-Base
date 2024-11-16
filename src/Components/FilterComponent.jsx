@@ -18,16 +18,7 @@ export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
   // Function to update button position based on container width and styles
   const updateButtonPosition = () => {
     if (containerRef.current) {
-      const containerWidth = containerRef.current.offsetWidth;
-      const computedStyle = getComputedStyle(containerRef.current);
-
-      // Extract padding and border values
-      const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
-      const borderRightWidth = parseFloat(computedStyle.borderRightWidth) || 0;
-
-      // Calculate the total width including padding and border
-      const totalWidth = containerWidth + paddingRight + borderRightWidth;
-      setButtonPosition(containerWidth);
+      setButtonPosition(containerRef.current.offsetWidth);
     }
   };
 
@@ -111,8 +102,8 @@ export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
           <div
             style={{
               position: 'absolute',
-              left: buttonPosition, // Now uses exact width of container with padding and border
-              top: navHeight, // Adjust top position based on navbar height
+              left: buttonPosition, // Now uses exact width of container
+              top:  navHeight, // Adjust top position based on navbar height
               zIndex: 20,
             }}
           >

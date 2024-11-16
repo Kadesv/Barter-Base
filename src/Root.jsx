@@ -10,11 +10,24 @@ export default function Root() {
   const navRef = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
 
-  // Set the height of the navbar after the component mounts
-  useEffect(() => {
+  // Function to update the navHeight
+  const updateNavHeight = () => {
     if (navRef.current) {
       setNavHeight(navRef.current.offsetHeight);
     }
+  };
+
+  useEffect(() => {
+    // Set initial navHeight
+    updateNavHeight();
+
+    // Update navHeight on window resize
+    window.addEventListener('resize', updateNavHeight);
+
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener('resize', updateNavHeight);
+    };
   }, []);
 
   if (showLoading && loading) {
@@ -26,7 +39,6 @@ export default function Root() {
       {/* Pass navHeight to HomeNav */}
       <HomeNav
         navRef={navRef}
-        navHeight={navHeight}
         props={{ setAuthUser, categories, chatRooms, setChatRooms, authUser, favorites, setFavorites }}
       />
       <main
