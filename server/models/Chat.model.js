@@ -40,6 +40,7 @@ Chat.init(
   },
   {
     modelName: 'chat',
+    tableName: 'chats',
     sequelize: db,
   },
 );

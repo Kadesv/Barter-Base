@@ -3,7 +3,7 @@ import TabComponent from './Components/TabComponent.jsx';
 import Logo from './Components/Logo.jsx';
 import LogButton from './Components/LogButton.jsx';
 
-export default function HomeNav({ props }) {
+export default function HomeNav({ props, navRef}) {
   const { authUser, setAuthUser, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
   const [activeTab, setActiveTab] = useState(null)
@@ -23,7 +23,7 @@ export default function HomeNav({ props }) {
   }
 
   return (
-    <nav className="navbar  bg-base-300 sticky h-20 w-full top-0 z-20">
+    <nav ref={navRef} className="navbar  bg-base-300 sticky h-20 w-full top-0 z-20">
       <section className='navbar-start gap-3'>
         <button className="">
           <a href='/' className="overflow-clip ">

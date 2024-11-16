@@ -31,6 +31,7 @@ Notification.init(
   },
   {
     modelName: 'notification',
+    tableName: 'notifications',
     sequelize: db,
   },
 );

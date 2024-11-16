@@ -19,7 +19,7 @@ app.use(
     secret: "ssshhhhh",
     saveUninitialized: true,
     resave: false,
-    cookie: { secure: false, httpOnly: true },
+    cookie: { secure: true, httpOnly: true },
   })
 );
 

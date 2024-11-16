@@ -1,11 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo, useReducer, memo } from 'react';
+import debounce from 'lodash.debounce';
+
+function expandedCategoryReducer(state, action) {
+  return state === action ? null : action;
+}
 
 export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
-  const [expandedCategory, setExpandedCategory] = useState(null);
-  const containerRef = useRef(null); // Ref is now on the container
+  const [expandedCategory, dispatch] = useReducer(expandedCategoryReducer, null);
+  const containerRef = useRef(null);
   const [buttonPosition, setButtonPosition] = useState(0);
 
-  const allCategories = [
+  const allCategories = useMemo(() => [
     { categoryName: 'Apparel', subcategories: ['Services', 'Children', 'Men', 'Women', 'Baby'] },
     { categoryName: 'Automotive', subcategories: ['Services', 'Parts', 'Equipment', 'Rentals'] },
     { categoryName: 'Home', subcategories: ['Services', 'Furniture', 'Outdoors', 'Equipment', 'Appliances'] },
@@ -13,34 +18,21 @@ export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
     { categoryName: 'Sports', subcategories: ['Water', 'Biking', 'Running', 'Winter', 'General'] },
     { categoryName: 'Outdoors', subcategories: ['Services', 'Resources', 'Equipment'] },
     { categoryName: 'Animals', subcategories: ['Services', 'Livestock', 'Exotic', 'Pets'] },
-  ];
+  ], []);
 
-  // Function to update button position based on container width and styles
   const updateButtonPosition = () => {
     if (containerRef.current) {
-      const containerWidth = containerRef.current.offsetWidth;
-      const computedStyle = getComputedStyle(containerRef.current);
-
-      // Extract padding and border values
-      const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
-      const borderRightWidth = parseFloat(computedStyle.borderRightWidth) || 0;
-
-      // Calculate the total width including padding and border
-      const totalWidth = containerWidth + paddingRight + borderRightWidth;
-      setButtonPosition(containerWidth);
+      setButtonPosition(containerRef.current.offsetWidth);
     }
   };
 
   useEffect(() => {
-    // Set initial button position based on container width
-    updateButtonPosition();
+    const debouncedUpdate = debounce(updateButtonPosition, 200);
+    debouncedUpdate(); // Set initial button position
+    window.addEventListener('resize', debouncedUpdate);
 
-    // Update position on window resize
-    window.addEventListener('resize', updateButtonPosition);
-
-    // Clean up event listener on unmount
     return () => {
-      window.removeEventListener('resize', updateButtonPosition);
+      window.removeEventListener('resize', debouncedUpdate);
     };
   }, []);
 
@@ -53,66 +45,59 @@ export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
         className="drawer-toggle"
         checked={!!filterOpen}
       />
-
-      {/* Drawer Side with Overlay and Content */}
       <section className="drawer-side min-h-full">
-        {/* Overlay to close drawer */}
         <label
           htmlFor="filter-component"
           className="drawer-overlay"
           onClick={() => setFilterOpen(false)}
         />
-
-        {/* Drawer Content with Ref on the Container */}
         <section ref={containerRef} className="bg-base-200 p-4 lg:w-80 min-h-full flex flex-col">
-          {/* Filter Form Content */}
           <form id="filterForm" className="relative">
             <div className="form-control mt-8">
               <label className="label">Zip Code</label>
               <input type="text" placeholder="Enter zip code" className="input input-bordered" />
             </div>
-
             <div className="form-control mt-4">
               <label className="label">Mile Range</label>
               <input type="text" placeholder="Enter mile range" className="input input-bordered" />
             </div>
-
             <div className="mt-6">
               <h3 className="font-bold">Categories</h3>
               {allCategories.map((category, index) => (
                 <div key={index} className="mt-2">
-                  <div className={`collapse collapse-arrow ${expandedCategory === index ? 'collapse-open' : 'collapse-close'}`}>
+                  <div
+                    className={`collapse collapse-arrow ${expandedCategory === index ? 'collapse-open' : 'collapse-close'}`}
+                    aria-expanded={expandedCategory === index}
+                  >
                     <input
                       type="checkbox"
                       className="peer"
-                      checked={expandedCategory === index}
-                      onChange={() => setExpandedCategory(expandedCategory === index ? null : index)}
+                      onChange={() => dispatch(index)}
                     />
                     <div className="collapse-title text-lg font-medium text-left">
                       {category.categoryName}
                     </div>
                     <div className="collapse-content ml-4 mt-2">
-                      {category.subcategories.map((subcategory, subIndex) => (
-                        <div key={subIndex} className="form-control">
-                          <label className="cursor-pointer label">
-                            <span className="label-text">{subcategory}</span>
-                            <input type="checkbox" className="checkbox" />
-                          </label>
-                        </div>
-                      ))}
+                      {expandedCategory === index &&
+                        category.subcategories.map((subcategory, subIndex) => (
+                          <div key={subIndex} className="form-control">
+                            <label className="cursor-pointer label">
+                              <span className="label-text">{subcategory}</span>
+                              <input type="checkbox" className="checkbox" />
+                            </label>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </form>
-
-          {/* Toggle Button Positioned to the Right of Container */}
           <div
             style={{
               position: 'absolute',
-              left: buttonPosition, // Now uses exact width of container with padding and border
-              top: navHeight, // Adjust top position based on navbar height
+              left: buttonPosition,
+              top: navHeight,
               zIndex: 20,
             }}
           >
@@ -120,9 +105,8 @@ export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
               <button
                 aria-label="toggle sidebar"
                 onClick={() => setFilterOpen(!filterOpen)}
-                className={`pointer-events-auto transition-colors duration-100 border-r-2 border-b-2 border-base-300 px-2 rounded-br-lg flex ${
-                  filterOpen ? 'bg-base-200' : 'bg-base-300'
-                } hover:bg-base-200`}
+                className={`pointer-events-auto transition-colors duration-100 border-r-2 border-b-2 border-base-300 px-2 rounded-br-lg flex ${filterOpen ? 'bg-base-200' : 'bg-base-300'
+                  } hover:bg-base-200`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -130,9 +114,8 @@ export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
                   viewBox="0 0 48 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className={`transition-all duration-300 size-20 md:size-16 lg:size-12 ${
-                    filterOpen ? 'opacity-100' : 'opacity-80'
-                  } hover:opacity-100`}
+                  className={`transition-all duration-300 size-20 md:size-16 lg:size-12 ${filterOpen ? 'opacity-100' : 'opacity-80'
+                    } hover:opacity-100`}
                 >
                   <path
                     strokeLinecap="round"
@@ -155,3 +138,5 @@ export function FilterComponent({ filterOpen, setFilterOpen, navHeight }) {
     </section>
   );
 }
+
+export default memo(FilterComponent);

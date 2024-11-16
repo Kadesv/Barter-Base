@@ -1,157 +1,194 @@
 import { Router } from 'express';
-import { Post, User, Favorites, Category, SubCategory } from '../models/index.js';
+import { Post, User, Favorite, Category, SubCategory } from '../models/index.js';
+
 const postRouter = Router();
 
+// Middleware to check user authentication
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.userId) {
+    next();
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+}
+
+// Get all posts and user favorites (if logged in)
 postRouter.get('/browse', async (req, res) => {
   const { userId } = req.session;
 
-  const posts = await Post.findAll({
-    include: {
-      model: User
+  try {
+    // Fetch all posts
+    const posts = await Post.findAll({
+      include: {
+        model: User,
+        attributes: ['userId'], // Include only necessary fields
+      },
+    });
+    // If user is logged in, fetch their favorites
+    let userFavorites = [];
+    if (userId) {
+      userFavorites = await Favorite.findAll({
+        where: { userId },
+        include: { model: Post },
+      });
     }
-  })
-  if (userId) {
-    const userFavorites = await Favorites.findAll({
-      where: {
-        userId: userId
-      }
-    })
-    res.json({ posts, userFavorites })
 
-  } else {
-    res.json({ posts })
+    // Always return posts; include favorites if user is logged in
+    res.status(200).json({ posts, userFavorites });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
   }
 });
 
 
+// Get all categories and subcategories
 postRouter.get('/getCategories', async (req, res) => {
-
-  res.json(await Category.findAll({
-    include: {
-      model: SubCategory
-    }
-  }));
-
-})
-postRouter.get('/getFavorites', async (req, res) => {
-  const { userId } = req.session
-  if(userId){
-res.json( await Favorites.findAll({
-    where: {
-      userId: userId
-    },
-    include:{
-      model: Post
-    }
-  }))}
-
-  else{
-    res.json({message: 'no user'})
+  try {
+    const categories = await Category.findAll({
+      include: { model: SubCategory },
+    });
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch categories' });
   }
-})
+});
 
+// Get user's favorites
+postRouter.get('/getFavorites', isAuthenticated, async (req, res) => {
+  const { userId } = req.session;
+
+  try {
+    const favorites = await Favorite.findAll({
+      where: { userId },
+      include: { model: Post },
+    });
+    res.status(200).json(favorites);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch favorites' });
+  }
+});
+
+// Get a single post by ID
 postRouter.get('/:postId', async (req, res) => {
   const { postId } = req.params;
-  res.json(await Post.findByPk(postId));
+
+  try {
+    const post = await Post.findByPk(postId);
+    if (post) {
+      res.status(200).json(post);
+    } else {
+      res.status(404).json({ error: 'Post not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch post' });
+  }
 });
 
-postRouter.post('/create', async (req, res) => {
+// Create a new post
+postRouter.post('/create', isAuthenticated, async (req, res) => {
   const { userId } = req.session;
   const { title, context, price, image, selectedCategory, selectedSubCategory } = req.body;
-  const cat = JSON.parse(selectedCategory);
-  const subCat = JSON.parse(selectedSubCategory);
-  const numPrice = JSON.parse(price)
-  if(title && context && price && image && selectedCategory && selectedSubCategory){
-  const newPost = await Post.create({
-    title: title,
-    price: numPrice,
-    context: context,
-    image: image,
-    userId: userId,
-    categoryId: cat,
-    subCategoryId: subCat
-  })
-  if (newPost) {
-    res.json({ success: true })
+
+  if (!title || !context || !price || !image || !selectedCategory || !selectedSubCategory) {
+    return res.status(400).json({ success: false, error: 'Missing required fields' });
   }
-  else {
-    res.json({ success: false });
+
+  try {
+    const newPost = await Post.create({
+      title,
+      price: parseFloat(price),
+      context,
+      image,
+      userId,
+      categoryId: selectedCategory,
+      subCategoryId: selectedSubCategory,
+    });
+    res.status(201).json({ success: true, post: newPost });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Failed to create post' });
   }
-}else {
-  res.json({ success: false });
-}
 });
 
-postRouter.put('/save', async (req, res) => {
-  const { userId } = req.session;
-  const { title, context, postId, image, selectedCategory, selectedSubCategory  } = req.body;
-  if (title && context && userId && postId) {
-     await Post.update({ title, context, image, categoryId: selectedCategory, subCategoryId: selectedSubCategory }, {
-      where: {
-        postId
-      }
-    })
-    const updatedPost = await Post.findByPk(postId);
+// Update an existing post
+postRouter.put('/save', isAuthenticated, async (req, res) => {
+  const { title, context, postId, image, selectedCategory, selectedSubCategory } = req.body;
 
-    res.json({ success: true, updatedPost})
+  if (!title || !context || !postId) {
+    return res.status(400).json({ success: false, error: 'Missing required fields' });
   }
-  else {
-    res.json({ success: false })
-  }
-}
-)
 
-postRouter.post('/favorite/:postId', async (req, res) => {
+  try {
+    const updatedPost = await Post.update(
+      { title, context, image, categoryId: selectedCategory, subCategoryId: selectedSubCategory },
+      { where: { id: postId }, returning: true }
+    );
+
+    if (updatedPost[0] > 0) {
+      res.status(200).json({ success: true, post: updatedPost[1][0] });
+    } else {
+      res.status(404).json({ success: false, error: 'Post not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Failed to update post' });
+  }
+});
+
+// Add or remove a favorite
+postRouter.post('/favorite/:postId', isAuthenticated, async (req, res) => {
   const { userId } = req.session;
   const { postId } = req.params;
-  const parsedPostId = JSON.parse(postId);
-  const checkFavorite = await Favorites.findOne({
-    where: {
-      userId: userId,
-      postId: parsedPostId
-    }
-  })
-  if (checkFavorite === null) {
-  await Favorites.create({
-      postId: parsedPostId,
-      userId: userId
-    })
-    res.json(await Favorites.findAll({
-      where:{
-        userId: userId
-      },
-      include:{
-        model: Post
-      }
-    }))
 
-  } else {
-   await Favorites.destroy({
-      where: {
-        postId: parsedPostId,
-        userId: userId
+  try {
+    await sequelize.transaction(async (transaction) => {
+      const favorite = await Favorite.findOne({
+        where: { userId, postId },
+        transaction,
+      });
+
+      if (favorite) {
+        await favorite.destroy({ transaction });
+      } else {
+        await Favorite.create({ userId, postId }, { transaction });
       }
-    })
-    res.json(await Favorites.findAll({
-      where:{
-        userId: userId
-      },
-      include:{
-        model: Post
-      }
-    }))
+
+      const userFavorites = await Favorite.findAll({
+        where: { userId },
+        include: { model: Post },
+        transaction,
+      });
+
+      res.status(200).json(userFavorites);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update favorites' });
   }
-})
+});
 
-
-postRouter.delete('/delete/:postId', async (req, res) => {
+// Delete a post
+postRouter.delete('/delete/:postId', isAuthenticated, async (req, res) => {
   const { postId } = req.params;
-  await Post.destroy({
-    where: {
-      postId
+
+  try {
+    const deleted = await Post.destroy({
+      where: { id: postId },
+    });
+
+    if (deleted) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(404).json({ success: false, error: 'Post not found' });
     }
-  })
-  res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Failed to delete post' });
+  }
 });
 
 export default postRouter;

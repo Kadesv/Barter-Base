@@ -27,6 +27,7 @@ SubCategory.init(
   },
   {
     modelName: 'subcategory',
+    tableName: 'subcategories',
     sequelize: db,
   },
 );

@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import './index.css'; // Import your styles
+import './index.css'; // Optimized and minified CSS
+
+// Lazy load the App component
+const App = lazy(() => import('./App.jsx'));
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <App 
-      style={{ backgroundImage: "linear-gradient(to top, #304352 0%, #d7d2cc 100%)" }}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <App />
+    </Suspense>
   </React.StrictMode>
 );
