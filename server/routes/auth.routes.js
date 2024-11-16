@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { User, Favorites, Post, Chat, Message } from "../models/index.js";
+import { User, Favorite, Post, Chat, Message } from "../models/index.js";
 import { Op } from 'sequelize';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
@@ -22,7 +22,7 @@ authRoutes.post('/api/auth', async (req, res) => {
     if (user && await bcrypt.compare(password, user.password)) {
       req.session.userId = user.userId;
 
-      const favorites = await Favorites.findAll({
+      const favorites = await Favorite.findAll({
         where: { userId: user.userId },
         include: { model: Post },
       });
@@ -96,7 +96,7 @@ authRoutes.post('/api/authCheck', async (req, res) => {
       include: { model: Post },
     });
 
-    const favorites = await Favorites.findAll({
+    const favorites = await Favorite.findAll({
       where: { userId },
       include: { model: Post },
     });

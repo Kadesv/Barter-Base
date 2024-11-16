@@ -116,7 +116,6 @@ export default function MessagePage() {
   // Handle receiving new messages via socket
   useEffect(() => {
     const handleMessage = (data) => {
-      console.log(data);
       setMessageList((prevMessageList) => {
         // Check if the new message is already in the list (avoid duplicates)
         if (!prevMessageList.some((message) => message.messageId === data.messageId)) {

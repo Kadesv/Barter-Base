@@ -5,7 +5,7 @@ import SubCategory from "./SubCategory.model.js";
 import Chat from "./Chat.model.js";
 import Category from "./Category.model.js";
 import Notification from "./Notification.model.js";
-import Favorites from "./Favorites.model.js";
+import Favorite from "./Favorite.model.js";
 import Image from "./Image.model.js";
 
 
@@ -14,8 +14,8 @@ import Image from "./Image.model.js";
 Notification.hasMany(Message, { foreignKey: 'notificationId' });
 Message.belongsTo(Notification, { foreignKey: 'notificationId' });
 
-User.hasMany(Favorites, {foreignKey: 'userId'});
-Favorites.belongsTo(User, {foreignKey: 'userId'});
+User.hasMany(Favorite, {foreignKey: 'userId'});
+Favorite.belongsTo(User, {foreignKey: 'userId'});
 
 User.hasMany(Notification, { foreignKey: 'userId' });
 Notification.belongsTo(User, { foreignKey: 'userId' });
@@ -23,8 +23,8 @@ Notification.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Post, { foreignKey: 'userId' });
 Post.belongsTo(User, { foreignKey: 'userId' });
 
-Post.hasMany(Favorites, { foreignKey: 'postId' });
-Favorites.belongsTo(Post, { foreignKey: 'postId' });
+Post.hasMany(Favorite, { foreignKey: 'postId' });
+Favorite.belongsTo(Post, { foreignKey: 'postId' });
 
 Post.hasMany(Image, { foreignKey: 'postId' });
 Image.belongsTo(Post, { foreignKey: 'postId' });
@@ -42,4 +42,4 @@ Category.hasMany(SubCategory, { foreignKey: 'categoryId' });
 SubCategory.belongsTo(Category, { foreignKey: 'categoryId' });
 
 
-export { Chat, User, SubCategory, Post, Message, Category, Notification, Favorites };
+export { Chat, User, SubCategory, Post, Message, Category, Notification, Favorite };

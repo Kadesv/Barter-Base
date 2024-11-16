@@ -36,6 +36,7 @@ Message.init(
   {
     timestamps: false,
     modelName: 'message',
+    tableName: 'messages',
     sequelize: db,
   },
 );

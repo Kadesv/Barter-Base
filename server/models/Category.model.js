@@ -22,6 +22,7 @@ Category.init(
   },
   {
     modelName: 'category',
+    tableName: 'categories',
     sequelize: db,
   },
 );

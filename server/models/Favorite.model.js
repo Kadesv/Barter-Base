@@ -2,15 +2,15 @@ import { DataTypes, Model } from "sequelize";
 import util from 'util';
 import { db } from "../config/db.js";
 
-export default class Favorites extends Model {
+export default class Favorite extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-Favorites.init(
+Favorite.init(
   {
-    favoritesId: {
+    favoriteId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -26,7 +26,9 @@ Favorites.init(
 
   },
   {
-    modelName: 'favorites',
+    modelName: 'favorite',
+    tableName: 'favorites',
+
     sequelize: db,
   },
 );

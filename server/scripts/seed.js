@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { Category, User, SubCategory, Post, Message, Chat, Notification, Favorites } from '../models/index.js';
+import { Category, User, SubCategory, Post, Message, Chat, Notification, Favorite } from '../models/index.js';
 import { db } from '../config/db.js';
 import postData from './data/posts.json' assert { type: 'json' };
 
@@ -115,7 +115,7 @@ const favoriteData = [
     { userId: 2, postId: 1 },
     { userId: 3, postId: 1 },
 ];
-const favoritesInDB = await Favorites.bulkCreate(favoriteData);
+const favoritesInDB = await Favorite.bulkCreate(favoriteData);
 console.log('Favorites seeded!');
 
 // Closing database
