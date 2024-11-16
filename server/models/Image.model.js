@@ -31,6 +31,7 @@ Image.init(
   },
   {
     modelName: 'image',
+    tableName: 'images',
     sequelize: db,
   },
 );

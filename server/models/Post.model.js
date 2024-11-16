@@ -51,6 +51,7 @@ Post.init(
   },
   {
     modelName: 'post',
+    tableName: 'posts',
     sequelize: db,
     timestamps: true,    
   },

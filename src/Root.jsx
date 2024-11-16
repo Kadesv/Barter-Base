@@ -16,7 +16,7 @@ export default function Root() {
       setNavHeight(navRef.current.offsetHeight);
     }
   };
-
+  // Use Effect to change ref if window changes
   useEffect(() => {
     // Set initial navHeight
     updateNavHeight();
@@ -42,8 +42,7 @@ export default function Root() {
         props={{ setAuthUser, categories, chatRooms, setChatRooms, authUser, favorites, setFavorites }}
       />
       <main
-        style={{ backgroundImage: "linear-gradient(to top, #304352 0%, #d7d2cc 100%)" }}
-        className='flex justify-center w-full'
+        className='flex justify-center bg-gray-200 w-full'
       >
         <Outlet
           context={{ categories, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites, navHeight }}
