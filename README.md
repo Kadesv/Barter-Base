@@ -1,4 +1,4 @@
-It looks like there were still some formatting issues with the Markdown. Here’s the fully cleaned-up and properly formatted version of your README file. You can now copy and paste this directly into your `README.md` file:
+
 
 # Barter Base
 
