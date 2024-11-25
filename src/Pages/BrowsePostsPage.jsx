@@ -6,7 +6,7 @@ import axios from 'axios';
 import { FilterComponent } from "../Components/FilterComponent";
 
 const PostCard = lazy(async () => {
-    console.log("Loading PostCard...");
+    // console.log("Loading PostCard...");
     return import("../Components/PostCard");
 });
 

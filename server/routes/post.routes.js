@@ -1,18 +1,10 @@
 import { Router } from 'express';
 import { Post, User, Favorite, Category, SubCategory } from '../models/index.js';
+import { isAuthenticated } from "../middlewares/auth.middleware.js";
 
 const postRouter = Router();
 
-// Middleware to check user authentication
-function isAuthenticated(req, res, next) {
-  if (req.session && req.session.userId) {
-    next();
-  } else {
-    res.status(401).json({ error: 'Unauthorized' });
-  }
-}
-
-// Get all posts and user favorites (if logged in)
+//get all posts for browser page
 postRouter.get('/browse', async (req, res) => {
   const { userId } = req.session;
 

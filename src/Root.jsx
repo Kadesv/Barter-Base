@@ -5,8 +5,16 @@ import { useAuth } from './UseAuth';
 
 export default function Root() {
   const { categories } = useLoaderData();
-  const { authUser, setAuthUser, favorites, setFavorites, chatRooms, setChatRooms, loading, showLoading } = useAuth();
-  
+  const {
+    authUser,
+    setAuthUser,
+    favorites,
+    setFavorites,
+    chatRooms,
+    setChatRooms,
+    loading,
+  } = useAuth();
+
   const navRef = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
 
@@ -16,21 +24,18 @@ export default function Root() {
       setNavHeight(navRef.current.offsetHeight);
     }
   };
-  // Use Effect to change ref if window changes
-  useEffect(() => {
-    // Set initial navHeight
-    updateNavHeight();
 
-    // Update navHeight on window resize
+  // useEffect to update navHeight on window resize
+  useEffect(() => {
+    updateNavHeight();
     window.addEventListener('resize', updateNavHeight);
 
-    // Clean up event listener on unmount
     return () => {
       window.removeEventListener('resize', updateNavHeight);
     };
   }, []);
 
-  if (showLoading && loading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
@@ -41,9 +46,7 @@ export default function Root() {
         navRef={navRef}
         props={{ setAuthUser, categories, chatRooms, setChatRooms, authUser, favorites, setFavorites }}
       />
-      <main
-        className='flex justify-center bg-gray-200 w-full'
-      >
+      <main className="flex justify-center bg-gray-200 w-full">
         <Outlet
           context={{ categories, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites, navHeight }}
         />
