@@ -47,7 +47,9 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     console.log("join_room event received with data:", data);
-    for (let room of data) {
+    const roomsToJoin = data.filter(room => !socket.rooms.has(room.chatId));
+
+    for (let room of roomsToJoin) {
       socket.join(room.chatId);
       console.log(`User joined room ${room.chatId}`);
     }

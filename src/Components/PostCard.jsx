@@ -13,9 +13,8 @@ export default function PostCard({ post, categories, favorites, authUser, setFav
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const backupLink =
-    "https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FYour%20paragraph%20text%20(1).png?alt=media&token=776ac434-702f-456a-b0f0-15eb6f388e1a";
-
+  const backupLink = "https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FYour%20paragraph%20text%20(1).png?alt=media&token=776ac434-702f-456a-b0f0-15eb6f388e1a";
+  
   const handleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -33,8 +32,10 @@ export default function PostCard({ post, categories, favorites, authUser, setFav
   };
 
   const handleModalOpen = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!["BUTTON", "SVG"].includes(e.target.tagName)) {
-      setModalOpen(true);
+      setModalOpen(true)
     }
   };
 
@@ -44,10 +45,10 @@ export default function PostCard({ post, categories, favorites, authUser, setFav
   );
 
   return (
-    <div className="m-3 flex h-full w-full justify-center">
+    <div className="m-3 flex h-full w-full justify-center gap-10">
       <div
-        onClick={handleModalOpen}
-        className="card card-normal border-4 border-base-300 w-full h-fit ease-in-out transition-all duration-300 bg-base-100 shadow-black shadow-lg hover:shadow-xl hover:shadow-black flex rounded-lg cursor-pointer"
+        onClick={(e)=>handleModalOpen(e)}
+        className="card card-normal border-4 border-base-300 w-full h-fit max-h-full max-w-64 ease-in-out transition-all duration-300 bg-base-100 shadow-black shadow-lg hover:shadow-xl hover:shadow-black flex rounded-lg  cursor-pointer"
       >
         <figure className="w-full h-fit rounded overflow-hidden">
           <img
@@ -98,8 +99,8 @@ export default function PostCard({ post, categories, favorites, authUser, setFav
           </div>
 
           <PostModal
-            open={modalOpen}
-            setOpen={setModalOpen}
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
             post={post}
             favorites={favorites}
             categories={categories}

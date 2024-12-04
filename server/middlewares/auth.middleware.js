@@ -1,8 +1,5 @@
-import session from "express-session";
-
 // Middleware for route protection
 export const isAuthenticated = (req, res, next) => {
-  console.log(req.session.userId, 'isAuth')
   if (req.session.userId) {
     return next();
   } else {
