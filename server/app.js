@@ -13,13 +13,13 @@ const socketPort = 3000; // Port for Socket.IO server
 // Configure middlewares for ViteExpress server
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:8000", credentials: true }));
+app.use(cors({ origin: "http://localhost:8000", credentials: false }));
 app.use(
   session({
     secret: "ssshhhhh",
     saveUninitialized: true,
     resave: false,
-    cookie: { secure: true, httpOnly: true },
+    cookie: { secure: false, httpOnly: true },
   })
 );
 
@@ -37,7 +37,7 @@ const io = new SocketIOServer(ioServer, {
   cors: {
     origin: "http://localhost:8000", // Make sure this matches the ViteExpress port
     methods: ["GET", "POST"],
-    credentials: true,
+    credentials: false,
   },
 });
 
@@ -47,7 +47,9 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     console.log("join_room event received with data:", data);
-    for (let room of data) {
+    const roomsToJoin = data.filter(room => !socket.rooms.has(room.chatId));
+
+    for (let room of roomsToJoin) {
       socket.join(room.chatId);
       console.log(`User joined room ${room.chatId}`);
     }

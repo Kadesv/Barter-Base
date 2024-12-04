@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import TabComponent from './Components/TabComponent.jsx';
 import Logo from './Components/Logo.jsx';
 import LogButton from './Components/LogButton.jsx';
 
-export default function HomeNav({ props, navRef}) {
+function HomeNav({ props, navRef }) {
   const { authUser, setAuthUser, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
   const [activeTab, setActiveTab] = useState(null)
@@ -82,3 +82,4 @@ export default function HomeNav({ props, navRef}) {
     </nav>
   );
 }
+export default memo(HomeNav);

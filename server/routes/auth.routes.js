@@ -3,6 +3,7 @@ import { User, Favorite, Post, Chat, Message } from "../models/index.js";
 import { Op } from 'sequelize';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+import { isAuthenticated } from "../middlewares/auth.middleware.js";
 
 const authRoutes = Router();
 const saltRounds = 10;  // for bcrypt
@@ -11,9 +12,7 @@ const saltRounds = 10;  // for bcrypt
 authRoutes.post('/api/auth', async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if email and password are provided and in the correct format
   if (!email || !password || !validator.isEmail(email)) {
-    console.log('email or password are invalid')
     return res.status(400).json({ success: false, message: "Invalid email or password format" });
   }
 
@@ -21,19 +20,20 @@ authRoutes.post('/api/auth', async (req, res) => {
     const user = await User.findOne({ where: { email } });
     if (user && await bcrypt.compare(password, user.password)) {
       req.session.userId = user.userId;
+      console.log(req.session.userId)
 
       const favorites = await Favorite.findAll({
         where: { userId: user.userId },
         include: { model: Post },
       });
-      
+
       const rooms = await Chat.findAll({
         where: { [Op.or]: [{ user1Id: user.userId }, { user2Id: user.userId }] },
         include: { model: Message },
       });
 
       const posts = await Post.findAll({ where: { userId: user.userId } });
-      
+
       return res.json({ success: true, user, favorites, rooms, posts });
     } else {
       return res.status(401).json({ success: false, message: "Invalid credentials" });
@@ -48,7 +48,6 @@ authRoutes.post('/api/auth', async (req, res) => {
 authRoutes.post('/api/register', async (req, res) => {
   const { email, password, firstName, lastName, city, state, zipCode } = req.body;
 
-  // Basic input validation
   if (!email || !password || !firstName || !lastName) {
     return res.status(400).json({ success: false, message: "All fields are required" });
   }
@@ -83,12 +82,8 @@ authRoutes.post('/api/register', async (req, res) => {
 });
 
 // Auth check route
-authRoutes.post('/api/authCheck', async (req, res) => {
+authRoutes.post('/api/authCheck', isAuthenticated, async (req, res) => {
   const { userId } = req.session;
-
-  if (!userId) {
-    return res.status(401).json({ success: false, message: "Not authenticated" });
-  }
 
   try {
     const user = await User.findOne({
@@ -125,11 +120,10 @@ authRoutes.post('/api/logout', (req, res) => {
 });
 
 // Update user details route
-authRoutes.put('/api/update', async (req, res) => {
+authRoutes.put('/api/update', isAuthenticated, async (req, res) => {
   const { userId } = req.session;
   const { firstName, lastName, email, state, city, zipCode } = req.body;
 
-  if (!userId) return res.status(401).json({ success: false, message: "Not authenticated" });
   if (!firstName || !lastName || !email || !validator.isEmail(email)) {
     return res.status(400).json({ success: false, message: "Invalid data provided" });
   }
@@ -144,10 +138,9 @@ authRoutes.put('/api/update', async (req, res) => {
 });
 
 // Account info route
-authRoutes.get('/api/accountInfo', async (req, res) => {
+authRoutes.get('/api/accountInfo', isAuthenticated, async (req, res) => {
   const { userId } = req.session;
-
-  if (!userId) return res.status(401).json({ success: false, message: "Not authenticated" });
+  
 
   try {
     const user = await User.findOne({

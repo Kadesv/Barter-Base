@@ -3,18 +3,22 @@ import ImageMap from "./ImageMap";
 import { useState, useRef } from "react";
 import { MessageSellerForm } from "./MessageSellerForm";
 
-export function PostModal({ post, categories, location, authUser, handleFavorite, favorites }) {
+export function PostModal({ post, categories, location, authUser, modalOpen, setModalOpen, handleFavorite, favorites }) {
     const [viewImage, setViewImage] = useState(false);
     const [figureSize, setFigureSize] = useState({ width: "auto", height: "auto" });
     const figureRef = useRef(null);
     const [imageLoaded, setImageLoaded] = useState(false);
-
+   
     const category = categories?.find((cat) => cat.categoryId === post.categoryId);
     const subCategory = category?.subcategories?.find((sub) => sub.subCategoryId === post.subCategoryId);
 
     const handleImageLoad = () => setImageLoaded(true);
-
-    const onImageClick = () => setViewImage(!viewImage);
+    
+    const handleModalClose = (e)=> {
+        e.preventDefault();
+        setModalOpen(false);
+        setViewImage(false)
+    }
 
     const startResizing = (e, direction) => {
         const initialWidth = figureRef.current.offsetWidth;
@@ -53,7 +57,7 @@ export function PostModal({ post, categories, location, authUser, handleFavorite
         <dialog
             id={`model-popup${post.postId}`}
             className="modal shadow-2xl"
-            open
+            open={modalOpen}
         >
             <figure
                 ref={figureRef}
@@ -88,7 +92,7 @@ export function PostModal({ post, categories, location, authUser, handleFavorite
                     onMouseDown={(e) => startResizing(e, "bottom-right")}
                 ></div>
                 <svg
-                    onClick={onImageClick}
+                    onClick={()=>setViewImage(false)}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
@@ -102,11 +106,14 @@ export function PostModal({ post, categories, location, authUser, handleFavorite
                 </svg>
             </figure>
             <form method="dialog" className="modal-backdrop">
-                <button onClick={() => setViewImage(false)}></button>
+                <button onClick={(e) => handleModalClose(e)}></button>
             </form>
         </dialog>
     ) : (
-        <dialog id={`model-popup${post.postId}`} className="modal">
+        <dialog
+            open={modalOpen}
+            id={`model-popup${post.postId}`}
+            className="modal">
             <div className="modal-box border-4 m-3 border-base-300 bg-base-200 shadow-black shadow-lg p-4 card card-side">
                 <div className="flex flex-col items-center m-auto justify-center bg-transparent">
                     <figure className="carousel border-2 border-base-300 h-fit relative shadow-black shadow-lg flex items-center bg-transparent">
@@ -114,7 +121,7 @@ export function PostModal({ post, categories, location, authUser, handleFavorite
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
-                            onClick={onImageClick}
+                            onClick={()=> setViewImage(true)}
                             fill="currentColor"
                             className="hover:scale-105 hover:bg-opacity-75 absolute bottom-0 right-0 bg-black bg-opacity-50 w-6 h-6"
                         >
@@ -143,7 +150,7 @@ export function PostModal({ post, categories, location, authUser, handleFavorite
                 </div>
             </div>
             <form method="dialog" className="modal-backdrop">
-                <button></button>
+                <button onClick={(e)=>handleModalClose(e)}></button>
             </form>
         </dialog>
     );
