@@ -8,13 +8,13 @@ export function PostModal({ post, categories, location, authUser, modalOpen, set
     const [figureSize, setFigureSize] = useState({ width: "auto", height: "auto" });
     const figureRef = useRef(null);
     const [imageLoaded, setImageLoaded] = useState(false);
-   
+
     const category = categories?.find((cat) => cat.categoryId === post.categoryId);
     const subCategory = category?.subcategories?.find((sub) => sub.subCategoryId === post.subCategoryId);
 
     const handleImageLoad = () => setImageLoaded(true);
-    
-    const handleModalClose = (e)=> {
+
+    const handleModalClose = (e) => {
         e.preventDefault();
         setModalOpen(false);
         setViewImage(false)
@@ -92,7 +92,7 @@ export function PostModal({ post, categories, location, authUser, modalOpen, set
                     onMouseDown={(e) => startResizing(e, "bottom-right")}
                 ></div>
                 <svg
-                    onClick={()=>setViewImage(false)}
+                    onClick={() => setViewImage(false)}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
@@ -114,14 +114,14 @@ export function PostModal({ post, categories, location, authUser, modalOpen, set
             open={modalOpen}
             id={`model-popup${post.postId}`}
             className="modal">
-            <div className="modal-box border-4 m-3 border-base-300 bg-base-200 shadow-black shadow-lg p-4 card card-side">
-                <div className="flex flex-col items-center m-auto justify-center bg-transparent">
+            <div className="modal-box border-4 m-3 border-base-300 bg-base-200 shadow-black shadow-lg p-4 flex flex-col">
+                <div className="flex flex-1">
                     <figure className="carousel border-2 border-base-300 h-fit relative shadow-black shadow-lg flex items-center bg-transparent">
                         <ImageMap images={post.image?.length ? post.image : ["path/to/default/image.jpg"]} userId={post.userId} user={authUser} />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
-                            onClick={()=> setViewImage(true)}
+                            onClick={() => setViewImage(true)}
                             fill="currentColor"
                             className="hover:scale-105 hover:bg-opacity-75 absolute bottom-0 right-0 bg-black bg-opacity-50 w-6 h-6"
                         >
@@ -132,25 +132,27 @@ export function PostModal({ post, categories, location, authUser, modalOpen, set
                             />
                         </svg>
                     </figure>
-                </div>
-                <div className="flex flex-col rounded-2xl pl-3">
-                    <div className="flex gap-1">
-                        <span className="badge border-transparent bg-transparent flex-shrink badge-xs">
-                            {category?.categoryName || "Unknown Category"}
-                        </span>
-                        <span className="badge border-transparent bg-transparent flex-shrink badge-xs">
-                            {subCategory?.subCategoryName || "Unknown Subcategory"}
-                        </span>
+                    <div className="flex flex-1 flex-col">
+                        <div className="flex gap-1">
+                            <span className="badge border-transparent bg-transparent flex-shrink badge-xs">
+                                {category?.categoryName || "Unknown Category"}
+                            </span>
+                            <span className="badge border-transparent bg-transparent flex-shrink badge-xs">
+                                {subCategory?.subCategoryName || "Unknown Subcategory"}
+                            </span>
+                        </div>
+                        <p className="flex text-xl justify-end m-1 mr-2">${post.price}</p>
+                        <h1 className="font-bold">{post.title}</h1>
+                        <p className="py-6">{post.context}</p>
                     </div>
-                    <p className="flex text-xl justify-end m-1 mr-2">${post.price}</p>
-                    <h1 className="text-5xl font-bold">{post.title}</h1>
-                    <p className="py-6">{post.context}</p>
+                </div>
+                <div className="flex justify-between ">
                     <LikeButton postId={post.postId} authUser={authUser} handleFavorite={handleFavorite} favorites={favorites} />
                     <MessageSellerForm post={post} location={location} authUser={authUser} />
                 </div>
             </div>
             <form method="dialog" className="modal-backdrop">
-                <button onClick={(e)=>handleModalClose(e)}></button>
+                <button onClick={(e) => handleModalClose(e)}></button>
             </form>
         </dialog>
     );

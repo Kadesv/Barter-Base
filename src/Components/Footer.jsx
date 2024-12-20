@@ -1,8 +1,9 @@
 import { memo } from 'react';
 function Footer() {
   return (
-    <footer className="footer footer-center bg-base-200 text-base-content p-10">
-      <nav className="flex gap-10">
+    <div>
+    <footer className="footer footer-center bg-base-200 w-full text-base-content ">
+      <nav className="grid grid-cols-3 ">
         <a href="#" onClick={(e) => e.preventDefault()}>About us</a>
         <a href="#" onClick={(e) => e.preventDefault()}>Contact</a>
         <a href="#" onClick={(e) => e.preventDefault()}>FAQ</a>
@@ -39,7 +40,7 @@ function Footer() {
         </label>
       </form>
     </footer>
+    </div>
   );
 }
-
-export default memo(Footer);
+export default memo(Footer)

@@ -3,7 +3,7 @@ import ChatRoomList from './ChatRoomList.jsx';
 import NoSignAlert from './NoSignAlert';
 import FavoritesComponent from './FavoritesComponent.jsx';
 
-export default function TabComponent({ activeTab, setActiveTab, onTabClick, setFavorites, favorites, authUser, setShowDrawer, chatRooms, categories }) {
+export default function TabComponent({ props:{activeTab, setActiveTab, onTabClick, setFavorites, favorites, authUser, setShowDrawer, chatRooms, categories} }) {
 
     return (
         <div className="relative w-full">

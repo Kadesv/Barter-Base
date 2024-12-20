@@ -40,10 +40,10 @@ export default function SignUpPage() {
     };
 
     return (
-        <div className="mt-20 h-screen flex flex-col items-center text-center">
+        <div className="mt-24 md:mt-28 h-screen flex flex-col items-center w-full text-center">
             <h2 className="text-2xl text-base-300 rounded-lg mb-3 max-w-max ">Account Creation</h2>
             <form onSubmit={handleRegister}>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 m-3 gap-2">
                     {/* First Name */}
                     <label className="input bg-base-200 border-2 border-base-300 focus-within:border-base-200 flex items-center shadow-lg">
                         <input type="text" required placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />

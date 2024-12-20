@@ -11,26 +11,17 @@
     body, #root {
       margin: 0;
       padding: 0;
-      height: 100%;
       font-family: Arial, sans-serif;
     }
   </style>
-
-  <!-- Theme Setup -->
-  <script>
-    const theme = localStorage.getItem("theme");
-    if (theme) document.documentElement.setAttribute("data-theme", theme);
-  </script>
 
   <title>Barter Base – Simplify Your Trades</title>
 </head>
 
 <body>
-  <!-- React Root -->
-  <div id="root" class="relative" style="height: 100%;"></div>
+  <div id="root" ></div>
 
-  <!-- Load React App -->
   <script type="module" src="/src/main.jsx" defer></script>
 </body>
-
+<footer id="footer"></footer>
 </html>

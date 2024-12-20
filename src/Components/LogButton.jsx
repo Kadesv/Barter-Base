@@ -27,7 +27,7 @@ export default function LogButton({ authUser, setAuthUser, setChatRooms, setFavo
 
   return (
     !authUser ? (
-      <a className="underline-animation text-sm transition-all duration-150 bg-transparent hover:text-base" href="/signIn">
+      <a className="underline-animation text-md md:text-lg lg:text-xl transition-all duration-150 bg-transparent hover:text-base" href="/signIn">
         Login
       </a>
     ) : (

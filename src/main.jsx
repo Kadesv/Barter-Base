@@ -7,7 +7,6 @@ const App = lazy(() => import('./App.jsx'));
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
-
 root.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>

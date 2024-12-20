@@ -2,7 +2,7 @@ import { Outlet, useLoaderData } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import HomeNav from './HomeNav';
 import { useAuth } from './UseAuth';
-
+import Footer from './Components/Footer.jsx'
 export default function Root() {
   const { categories } = useLoaderData();
   const {
@@ -40,17 +40,17 @@ export default function Root() {
   }
 
   return (
-    <>
-      {/* Pass navHeight to HomeNav */}
+    <div className='w-full'>
       <HomeNav
         navRef={navRef}
         props={{ setAuthUser, categories, chatRooms, setChatRooms, authUser, favorites, setFavorites }}
       />
-      <main className="flex justify-center bg-gray-200 w-full">
+      <main className=" w-full bg-gray-200" style={{ paddingTop: `${navHeight}px` }}>
         <Outlet
-          context={{ categories, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites, navHeight }}
+          context={{ categories, authUser, setAuthUser, favorites, chatRooms, setChatRooms, setFavorites, navHeight, updateNavHeight }}
         />
       </main>
-    </>
+      <Footer/>
+    </div>
   );
 }

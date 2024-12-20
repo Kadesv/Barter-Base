@@ -14,7 +14,7 @@ export default function ImageMap({ images = [], userId, user, isEditing, handleD
         src={image}
         alt="image"
         onLoad={() => handleLoadedImage(index)}
-        onError={(e) => (e.target.src = '/path-to-fallback-image.jpg')}
+        onError={(e) => (e.target.src = 'https://firebasestorage.googleapis.com/v0/b/mytradingproject-6.appspot.com/o/posts%2FNo_image_available.svg.png_32ba6f2f-9782-418a-a630-a0c435c308ff?alt=media&token=844a4faa-51e2-4379-a5fc-2f835d2f11cb')}
         className={commonImageClass}
       />
     );
