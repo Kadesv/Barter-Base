@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
-import AccountEditableForm from "../Components/AccountEditForm.jsx";
-import PostTemplate from "../Components/PostTemplate.jsx";
+import AccountEditableForm from "../Components/Editable/AccountEditForm.jsx";
+import EditablePostTemplate from "../Components/Editable/EditablePostTemplate.jsx";
 export default function AccountPage() {
   const { categories } = useOutletContext();
   const { user } = useLoaderData();
@@ -15,7 +15,7 @@ export default function AccountPage() {
 
   const userPosts = user.posts.map(({ userId, image, postId, title, context, createdDate, price, categoryId, subCategoryId }) => {
     return (
-      <PostTemplate
+      <EditablePostTemplate
         key={postId}
         initialData={{ image, postId, userId, title, context, createdDate, price, categoryId, subCategoryId }}
         initialIsEditing={false}
@@ -47,7 +47,7 @@ export default function AccountPage() {
           {userPosts.length !== 0 ? userPosts : <h1 className="text-3xl flex justify-center text-base-200">Create A Post And It Will Appear Here!</h1>}
         </div>
         <div className="flex fixed top-24 right-10 w-fit h-4/5 rounded-xl justify-center">
-        <AccountEditableForm isEditingAccount={isEditingAccount}  onAccSaveClick={handleUserUpdate} onAccCancelClick={handleCancelClick} setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
+        <AccountEditableForm isEditingAccount={isEditingAccount} onAccSaveClick={handleUserUpdate} onAccCancelClick={handleCancelClick} setIsEditingAccount={setIsEditingAccount} userInfo={userInfo} setUserInfo={setUserInfo} />
         </div>
       </section>
     </>

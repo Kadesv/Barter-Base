@@ -1,8 +1,8 @@
 import axios from "axios";
-import { PostModal } from "./PostModal";
-import LikeButton from "./LikeButton";
+import { PostModal } from "../PostModal";
+import LikeButton from "../Reuseable/LikeButton";
 
-export default function FavoritesComponent({ authUser, categories, favorites, setFavorites }) {
+export default function FavoritesComponent({ props:{authUser, categories, favorites, setFavorites} }) {
 console.log(favorites)
   const handleFavorite = async (e) => {
     e.preventDefault();

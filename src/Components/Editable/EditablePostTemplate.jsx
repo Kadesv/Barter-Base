@@ -3,17 +3,17 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import ImageMap from "./ImageMap";
-import storage from "../services/firebase.config";  
+import ImageMap from "../Reuseable/ImageMap";
+import storage from "../../services/firebase.config";  
 import CurrencyInput from "react-currency-input-field";
-import CategoryDropdown from "./CategoryDropdown";
+import CategoryDropdown from "../Reuseable/CategoryDropdown";
 
 const currencyFormat = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
 });
 
-export default function PostTemplate({ initialData, user, initialIsEditing, categories }) {
+export default function EditablePostTemplate({ initialData, user, initialIsEditing, categories }) {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(initialIsEditing);
   const [newImageFile, setNewImageFile] = useState(null);

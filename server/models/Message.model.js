@@ -23,6 +23,10 @@ Message.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    image: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true
+    },
     chatId: {
       type: DataTypes.INTEGER,
       allowNull: false,

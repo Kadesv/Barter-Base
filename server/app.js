@@ -53,7 +53,6 @@ io.on("connection", (socket) => {
       socket.join(room.chatId);
       console.log(`User joined room ${room.chatId}`);
     }
-    socket.emit("join_room_success"); // Confirm room join to client
   });
 
   socket.on("send_message", (data) => {

@@ -7,7 +7,6 @@ function expandedCategoryReducer(state, action) {
 export default function FilterComponent({ filterOpen, setFilterOpen, updateNavHeight, navHeight }) {
   const [expandedCategory, dispatch] = useReducer(expandedCategoryReducer, null);
   const containerRef = useRef(null);
-  const [buttonPosition, setButtonPosition] = useState(0);
 
   const allCategories = useMemo(() => [
     { categoryName: 'Apparel', subcategories: ['Services', 'Children', 'Men', 'Women', 'Baby'] },
@@ -19,29 +18,13 @@ export default function FilterComponent({ filterOpen, setFilterOpen, updateNavHe
     { categoryName: 'Animals', subcategories: ['Services', 'Livestock', 'Exotic', 'Pets'] },
   ], []);
 
-  const updateButtonPosition = () => {
-    if (containerRef.current && containerRef.current.offsetWidth > 0) {
-      setButtonPosition(containerRef.current.offsetWidth);
-    }
-  };
-
-  useLayoutEffect(() => {
-    updateButtonPosition();
-  
-    window.addEventListener('resize', updateButtonPosition);
-  
-    return () => {
-      window.removeEventListener('resize', updateButtonPosition);
-    };
-  }, [containerRef]);
-
 
   useEffect(()=> {
       updateNavHeight()
   }, [navHeight, filterOpen])
 
   return (
-    <section className="relative z-10 drawer">
+    <section className="relative text-base z-10 drawer">
       <input
         id="filter-component"
         readOnly
@@ -88,7 +71,7 @@ export default function FilterComponent({ filterOpen, setFilterOpen, updateNavHe
                         category.subcategories.map((subcategory, subIndex) => (
                           <div key={subIndex} className="form-control">
                             <label className="cursor-pointer label">
-                              <span className="label-text">{subcategory}</span>
+                              <span className="">{subcategory}</span>
                               <input type="checkbox" className="checkbox" />
                             </label>
                           </div>
@@ -102,9 +85,9 @@ export default function FilterComponent({ filterOpen, setFilterOpen, updateNavHe
           <div
             style={{
               position: 'absolute',
-              left: buttonPosition-1,
+              left: '100%' ,
               top: navHeight-1,
-              zIndex: 20,
+              zIndex: 30,
             }}
           >
 
@@ -113,7 +96,7 @@ export default function FilterComponent({ filterOpen, setFilterOpen, updateNavHe
               <button
                 aria-label="toggle sidebar"
                 onClick={() => setFilterOpen(!filterOpen)}
-                className={`pointer-events-auto transition-colors duration-100 border-r-2 border-b-2 border-base-300 px-3 py-2 size-auto min-h-fit min-w-fit rounded-br-lg flex ${filterOpen ? 'bg-base-200' : 'bg-base-300'
+                className={`pointer-events-auto transition-colors duration-100 border-r-2 border-b-2 border-base-300 px-3 py-2  min-h-fit min-w-fit  rounded-br-lg flex ${filterOpen ? 'bg-base-200' : 'bg-base-300'
                   } hover:bg-base-200`}
               >
                 <svg

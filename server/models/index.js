@@ -6,10 +6,6 @@ import Chat from "./Chat.model.js";
 import Category from "./Category.model.js";
 import Notification from "./Notification.model.js";
 import Favorite from "./Favorite.model.js";
-import Image from "./Image.model.js";
-
-
-
 
 Notification.hasMany(Message, { foreignKey: 'notificationId' });
 Message.belongsTo(Notification, { foreignKey: 'notificationId' });
@@ -25,9 +21,6 @@ Post.belongsTo(User, { foreignKey: 'userId' });
 
 Post.hasMany(Favorite, { foreignKey: 'postId' });
 Favorite.belongsTo(Post, { foreignKey: 'postId' });
-
-Post.hasMany(Image, { foreignKey: 'postId' });
-Image.belongsTo(Post, { foreignKey: 'postId' });
 
 User.hasMany(Message, { foreignKey: 'userId' });
 Message.belongsTo(User, { foreignKey: 'userId' });

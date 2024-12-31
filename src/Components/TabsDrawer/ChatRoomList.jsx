@@ -1,5 +1,5 @@
 import axios from "axios";
-export default function ChatRoomList({ chatRooms, user }) {
+export default function ChatRoomList({ props:{chatRooms, authUser} }) {
     const handleDelete = async (e, { chatId }) => {
         e.preventDefault();
         await axios.put(`/api/chat/delete/${chatId}` )
@@ -9,7 +9,7 @@ export default function ChatRoomList({ chatRooms, user }) {
         return (
             <div key={chatId} className=" bg-base-300 my-1 w-full rounded-xl ">
                 <div className="btn btn-ghost btn-sm justify-between card-title   ">
-                    <a className="flex flex-grow" href={`/chats/${chatId}`}>{user.userId === user1Id ? user2Name : user1Name}</a>
+                    <a className="flex flex-grow" href={`/chats/${chatId}`}>{authUser.userId === user1Id ? user2Name : user1Name}</a>
                     <div
                         className="dropdown flex content-center dropdown-bottom dropdown-end">
                         <button

@@ -1,7 +1,7 @@
 import { useState, memo } from 'react';
-import TabComponent from './Components/TabComponent.jsx';
-import LogButton from './Components/LogButton.jsx';
-import Logo from './Components/Logo.jsx';
+import TabComponent from './Components/TabsDrawer/TabComponent.jsx';
+import LogButton from './Components/Reuseable/LogButton.jsx';
+import Logo from './Components/Reuseable/Logo.jsx'
 function HomeNav({ props, navRef }) {
   const { authUser, setAuthUser, chatRooms, setChatRooms, categories, favorites, setFavorites } = props;
   const [showDrawer, setShowDrawer] = useState(false);
@@ -62,7 +62,7 @@ function HomeNav({ props, navRef }) {
         {/*drawer content */}
         <section className=" drawer-side h-screen min-h-full">
           <label htmlFor="my-drawer-2" aria-label="close sidebar" onClick={() => onTabClick('Close')} className="drawer-overlay  min-h-full h-screen"/>
-          <section className="menu flex items-center bg-base-200 p-4  w-80 min-h-full drawer-content">
+          <section className="menu flex items-center bg-base-200 p-4 w-1/3 min-h-full object-contain drawer-content">
             {/* Sidebar content here */}
             <TabComponent
             props={{activeTab, setActiveTab, onTabClick, chatRooms, authUser, setShowDrawer, favorites, setFavorites, categories}} />

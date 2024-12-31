@@ -1,7 +1,8 @@
-export default function CategoryDropdown({ categories, postInfo, setPostInfo }) {
+export default function CategoryDropdown({ props:{categories, postInfo, setPostInfo, authUser} }) {
   return (
     <>
       <select
+        disabled={!authUser}
         className="select my-1 mx-2 focus:outline-none select-bordered w-full max-w-sm"
         onChange={(e) => setPostInfo({ ...postInfo, selectedCategory: e.target.value })}
         value={postInfo.selectedCategory || ''}
@@ -14,7 +15,7 @@ export default function CategoryDropdown({ categories, postInfo, setPostInfo }) 
 
       <select
         className="select my-1 mx-2 focus:outline-none select-bordered w-full max-w-sm"
-        disabled={!postInfo.selectedCategory}
+        disabled={!postInfo.selectedCategory || !authUser}
         onChange={(e) => setPostInfo({ ...postInfo, selectedSubCategory: e.target.value })}
         value={postInfo.selectedSubCategory || ''}
       >

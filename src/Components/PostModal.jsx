@@ -1,5 +1,5 @@
-import LikeButton from "./LikeButton";
-import ImageMap from "./ImageMap";
+import LikeButton from "./Reuseable/LikeButton";
+import ImageMap from "./Reuseable/ImageMap";
 import { useState, useRef } from "react";
 import { MessageSellerForm } from "./MessageSellerForm";
 

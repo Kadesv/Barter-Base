@@ -48,7 +48,7 @@ export default function SignInPage() {
     };
 
     return (
-        <div className="mt-24 md:mt-28  h-screen flex flex-col min-w-min items-center ">
+        <div className="pt-24  h-screen flex flex-col min-w-min items-center ">
             <h2 className="text-2xl text-base-300 rounded-lg mb-3 max-w-max">Sign In</h2>
             <>
                 <form

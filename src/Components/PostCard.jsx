@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import LikeButton from "./LikeButton";
+import LikeButton from "./Reuseable/LikeButton";
 import { PostModal } from "./PostModal";
 import { useState } from "react";
 import axios from "axios";

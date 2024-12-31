@@ -1,7 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useOutletContext } from "react-router-dom";
-import Footer from "../Components/Footer";
 import axios from 'axios';
 import FilterComponent from '../Components/FilterComponent';
 

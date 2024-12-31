@@ -2,7 +2,7 @@ import { memo } from 'react';
 function Footer() {
   return (
     <div>
-    <footer className="footer footer-center bg-base-200 w-full text-base-content ">
+    <footer className="footer footer-center bg-base-200 text-base w-full text-base-content pt-10">
       <nav className="grid grid-cols-3 ">
         <a href="#" onClick={(e) => e.preventDefault()}>About us</a>
         <a href="#" onClick={(e) => e.preventDefault()}>Contact</a>

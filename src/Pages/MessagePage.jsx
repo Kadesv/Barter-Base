@@ -156,11 +156,11 @@ export default function MessagePage() {
 
   return (
     <div className="flex flex-col w-full h-screen relative">
-      <div className={`flex-grow overflow-y-auto scroll-smooth p-4 mt-2 h-full ${isVisible ? "mb-8" : "mb-0"} `} ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
+      <div className={`flex-grow overflow-y-auto scroll-smooth p-4 mt-2 h-full  `} ref={chatContainerRef}> {/* Correct full-width and scrollable container */}
         {chatMap} {/* Render messages */}
       </div>
-      <form className={`z-10 w-full fixed bottom-2 bg-transparent transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`} onSubmit={handleNewChat}>
-        <label className={`flex input input-bordered items-center mx-3 `}>
+      <form className={`z-10 w-full sticky bottom-3 `} onSubmit={handleNewChat}>
+        <label className={`flex input input-bordered items-center ng-transparent mx-3 transition-all duration-200 mb-2 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           <input
             className="w-full"
             value={messageInput}
